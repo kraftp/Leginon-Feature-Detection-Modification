@@ -158,13 +158,15 @@ class SimCCDCamera(ccdcamera.CCDCamera):
 		else:
 			mean = dark_mean
 			sigma = 0.1 * mean
-		from scipy import misc
+		"""from scipy import misc
 		image = misc.imread('sim_images/test.png')
 		if self.exposure_type != 'dark':
-			"""row_offset = random.randint(-shape[0]/16, shape[0]/16) + shape[0]/4
+			row_offset = random.randint(-shape[0]/16, shape[0]/16) + shape[0]/4
 			column_offset = random.randint(-shape[1]/16, shape[1]/16) + shape[0]/4
 			image[row_offset:row_offset+shape[0]/2,
-				column_offset:column_offset+shape[1]/2] += 0.5 * mean"""
+				column_offset:column_offset+shape[1]/2] += 0.5 * mean
+		image = numpy.asarray(image, dtype=numpy.uint16)"""
+		image = mrc.read('sim_images/test.mrc')
 		image = numpy.asarray(image, dtype=numpy.uint16)
 		return image
 
