@@ -1,0 +1,143 @@
+(* Parameters for HIGH tilt series *)
+
+(* Units are pixels for real space quantities, or reciprocal pixels    *)
+(* for reciprocal space quantities, unless otherwise stated. The units *)
+(* refer to the sampled image. The spatial frequencies for filters are *)
+(* multiplied by the sampling factor and thus refer to the unsampled,  *)
+(* raw image.                                                          *)
+
+(* ====================================================================*)
+(* comments that start with AP are replaced with user defined values   *)
+(* if these                                                            *)
+(* ====================================================================*) 
+
+tiltseries {
+
+ W = { AP_windowsize_x, AP_windowsize_y } (* AP orig window *)
+
+ O = AP_thickness 	(* AP orig thickness *)
+
+ S = AP_sampling             (* AP sampling *)
+
+ N = W/S (* window size at sampling S *)
+
+ T = O/S           (* thickness at sampling S *)
+
+ F = AP_cos_alpha         (* AP cos( highest tilt angle ) *)
+
+ sampling: S
+
+ binning: true
+
+ preprocessing: true
+
+ preprocess {
+
+   logging: false
+
+   border: 100
+
+   clip: { 3.5, 3.5 }   (* specified as a multiple of the standard deviation *)
+
+   mask {
+     gradient: true
+     iter: true
+     filter: "median"
+     kernel: { 5, 5 }
+     clip: { 3.0, 3.0 }
+   }
+
+ }
+
+ window {
+
+   size: N
+
+   mask {
+     apodization: { 10, 10 }
+     width: N - 2.5 * apodization
+   }
+
+   lowpass {
+     diameter:    { AP_lp_diam_x, AP_lp_diam_y } * S (* AP lowpass diameter *)
+     apodization: { AP_lp_apod_x, AP_lp_apod_y } * S (* AP lowpass apodization *)
+   }
+
+   highpass {
+     diameter:    { AP_hp_diam_x, AP_hp_diam_y } * S (* AP highpass diameter *)
+     apodization: { AP_hp_apod_x, AP_hp_apod_y } * S (* AP highpass apodization *)
+   }
+
+ }
+
+
+ reference {
+
+   body: T / F
+
+ }
+
+
+ align {
+
+   estimate: false
+
+   maxcorrection: 0.3
+
+   mask {
+     apodization: { 10, 10 }
+     width: N - 2.5 * apodization
+   }
+
+   correlation {
+     mode: "AP_corr_mode"      (* AP corr mode *)
+     size: { 128, 128 } 
+   }
+
+   peaksearch {
+     radius: { 100, 100 }
+   }
+
+ }
+
+
+ fit {
+
+   orientation: true
+   azimuth: true
+   rotation: true
+
+   logging: true
+
+ }
+
+
+ map {
+
+   size: { 1024, 1024, 200 } 
+   body: T / F
+   sampling: S
+
+   lowpass {
+     diameter:    { 0.250, 0.250 } * S
+     apodization: { 0.02, 0.02 } * S
+   }
+
+   logging: true
+
+ }
+
+ suffix: ".mrc"
+
+ pathlist: 
+"AP_raw_path"  (* AP path to raw directory *)
+
+ cachedir: "cache"
+
+ outdir: "out"
+
+ logging: true
+
+ restart: false
+
+}

@@ -1,0 +1,26 @@
+INTRODUCTION
+Redux is a utility for running a pipeline of simple image processing routines.
+The main purpose is to produce display worthy images (JPEG, PNG, etc) from
+raw MRC images.  It includes a caching mechanism to reduce processing time at
+the expence of disk or memory usage.
+
+INSTALL:
+prerequisites: python, numpy, scipy, pyfilesystem, pyami, numextension, gdbm, fftw3 
+	Install using "python setup.py install" or just use a local sandbox and just
+make sure redux is in your pythonpath
+
+USING IT:
+There are two basic ways to use redux.  The first is to use it directly as a
+python package.  You import redux and do processing in your python script.
+The second is to start a redux server, which can be located elsewhere on your
+network.  You then make requests to the server using the client of your choice
+(python, php, etc.).
+
+TRY IT:
+	Run the stand-alone redux script (bin/redux).  Without any options or
+arguments, it will print out a help message.
+
+To Do:
+	cache management, clean up old files, etc.
+	server and client config scripts
+	security

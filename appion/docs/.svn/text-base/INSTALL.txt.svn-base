@@ -1,0 +1,1086 @@
+Appion-CentOS Install Manual: 
+by Neil Voss
+Compiled on %%date(%B %d, %Y)
+
+
+--------------------------------
+= Authors =
+
+Jonathan Brownell, Bridget Carragher, Anchi Cheng, Denis Fellmann, Christopher Irving, Gabe Lander, Pick-wei Lau, Dmitry Lyumkis, Anke Mulder, Sunita Nayak, Clint S. Potter, Jim Pulokas, Joel Quispe, Scott Stagg, Neil R. Voss, and Craig Yoshioka
+
+
+--------------------------------
+= Introduction =
+
+These are the Steps to install Appion on a CentOS machine
+
+
+== THIS IS INCOMPLETE ==
+
+As of %%date(%B %Y), this document is still incomplete.
+
+
+== Architecture ==
+
+Appion is built upon Leginon architecture. If you have installed Leginon before, you will find the same three parts of Leginon system installation also applies to Appion systerm.
+
+The three parts are:
+
+- **Python-side** (//pyappion//) that are are either processing programs themselves or wrappers to processing packages used by 3DEM community.
+- **MySQL-side** (//appiondata//) that is the set up of database server.
+- **PHP-side** (//appionweb//) that includes php and java scripts at the Web server you need to set up to serve as the graphical user interface to the command scripts. 
+
+In addition, Appion also need:
+
+- processing packages not distributed by us, obviously. 
+
+Fortunately, all 3 servers can run on the same machine. If you have many users, it is recommended that you separate the system into 3 computers with one serves the python-side and processing packages and the one for the database, and one for the web. In such a case, you can divide the package requirement by the three server sides as well. 
+
+
+== What you need ==
+
+You will need 3 servers:
+
+- MySQL database
+- Web server
+- processing machines (preferrably a PBS system)
+
+Fortunately, all 3 servers can run on the same machine
+
+
+== Other documentation ==
+Leginon Installation documentation
+
+http://ami.scripps.edu/documentation/leginon/bk02.php
+
+
+
+== Required software ==
+
+
+=== from AMI ===
+
+[NOTE]
+AMI software is available from two separate sites [our local servers http://ami.scripps.edu/software/]
+and [Google Code http://code.google.com/p/appion/]
+
+- **dbemtools**: web page interface to leginon and appion
+ - **dbem**: web interface to pyAppion
+ - **project**: for keeping separate projects and web logins
+- **leginon**: only for image viewer and polygon tool
+ - **pyami**, generic image processing
+ - **numextension**: numpy extension library
+ - **sinedon**: for MySQL interaction
+ - **leginon**: core gui libraries for manual pickers
+- **pyappion**: python processing pipeline
+ - includes ACE1, ACE2, radermacher module, DoG Picker, TiltPicker, and FindEM
+
+
+=== Additional external software needed ===
+
+
+==== Required ====
+
+ - **EMAN1** v1.9 cluster,
+  - [download binary http://ncmi.bcm.tmc.edu/ncmi/software/software_details?selected_software=eman]
+ - **UCSF Chimera** v1.3 or other,
+  - [download v1.2509 binary http://www.cgl.ucsf.edu/chimera/olddownload.html]
+  - [download newest binary http://www.cgl.ucsf.edu/chimera/download.html]
+  - Note: we use version 1.2509 from May 2008, because version 1.3 creates weird artifacts for the volumes.
+
+
+==== Recommended ====
+
+- **SPIDER** v15 is recommended, other versions are untested,
+  - [download binary http://www.wadsworth.org/spider_doc/spider/docs/spi-register.html]
+- **Xmipp** v2.2 or newer, for alignment, compile your own for openmpi support,
+  - [download source http://xmipp.cnb.csic.es/twiki/bin/view/Xmipp/InstallingTheSoftware]
+- **IMOD**, for tomography
+- **Grigorieff lab:**
+  - **ctftilt**, for tilted CTF estimation
+    - [download binary http://emlab.rose2.brandeis.edu/grigorieff/download_ctf.html]
+  - **frealign**, for reconstructions
+    - [download binary http://emlab.rose2.brandeis.edu/grigorieff/downloads.html]
+  - **rmeasure**, for resolution estimation
+    - [download binary http://emlab.rose2.brandeis.edu/grigorieff/download_r.html]
+
+
+==== Recommended, but costs money ====
+
+- **MATLAB**, for ACE1, not needed anymore with ACE2
+- **IMAGIC** v5, for alignment
+
+
+
+--------------------------------
+= Install CentOS operating system =
+
+[NOTE]
+CentOS vs. RHEL
+	//CentOS is the exact same as Red Hat Enterprise Linux (RHEL), except that it is free and supported by the community//
+
+The reason I mention CentOS is because I wanted to keep the guide really simple. Another student and I run appion on Fedora 10 and we've run appion on SuSe in the past. I know we gotten most bits working on MacOSX, but some of the python libraries contain ancient Fortran code that does not compile easily on a Mac. But CentOS is certainly not a requirement in general, it is just that the first iteration of the guide is written for CentOS.
+
+
+== Download the latest ISO disk of CentOS ==
+
++ ISO files are available at
+ - http://wiki.centos.org/Download
++ Click on i386 for 32bit machines or x86_64 for 64bit machines
++ Pick a mirror and download 'CentOS-5.3-x86_64-bin-DVD.iso' file
++
+
+
+== Burn ISO file to DVD disk ==
+
+Use dvdrecord in Linux to burn disk
+
+``` $ dvdrecord -v -dao gracetime=10 dev=/dev/dvd speed=16 CentOS-5.3-i386-bin-DVD.iso
+
+
+== Install CentOS 5 with default packages ==
+
+- Only "Desktop - GNOME" is assumed to be installed
+- More information available at [CentOS Documentation http://wiki.centos.org/Documentation]
+
+
+== Add yourself to the sudoers file ==
+
+Add this line below the root version:
+
+``` $ username ALL=(ALL)       ALL
+
+
+--------------------------------
+= Download additional software =
+
+
+== Install the additional package repositories ==
+
+[NOTE]
+There are several additional CentOS repositories that you can install.
+These repositories provide additional packages, such as patented software (MP3 players),
+closed source applications (Flash plugin, Adobe Acrobat Reader)
+and lesser used packages (python numpy, Gnu Scientific Library).
+But some repositories install packages over other packages,
+which can cause problems and conflicts (ATrpms is bad at this). So I recommend only installing
+EPEL and RPM Fusion. Read more here:
+[CentOS Additional Repositories http://wiki.centos.org/AdditionalResources/Repositories]
+
+
+=== Extra Packages for Enterprise Linux (EPEL) ===
+- http://fedoraproject.org/wiki/EPEL
+- contains a wealth of packages required for appion
+
+.Download repository rpm and install
+
+``` $ sudo rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/`uname -i`/epel-release-5-3.noarch.rpm
+
+
+=== RPM Fusion ===
+- http://rpmfusion.org/
+- good for mp3 and other patent limited software
+
+.Download repository rpms and install
+
+```
+$ sudo rpm -Uhv http://download1.rpmfusion.org/free/el/updates/testing/5/`uname -i`/rpmfusion-free-release-5-0.1.noarch.rpm
+$ sudo rpm -Uvh http://download1.rpmfusion.org/nonfree/el/updates/testing/5/`uname -i`/rpmfusion-nonfree-release-5-0.1.noarch.rpm
+
+```
+
+
+== Update current packages ==
+
+.Update the updater to make life easier
+
+``` $ sudo yum -y update yum
+.Update all packages
+
+``` $ sudo yum -y update
+
+[NOTE]
+Download was over 129 MB (in July 2009). If you have a slow internet connection you can setup presto/deltarpms, [see this email http://www.linux-archive.org/centos-development/222706-presto-deltarpm.html]
+
+.Install Complete list of additional packages:
+
+- **python tools**: python-tools python-devel
+- **general applications**: subversion ImageMagick grace gnuplot python-matplotlib
+- **Tilt Picker**: wxPython numpy scipy python-imaging
+- **FindEM**: gcc-gfortran compat-gcc-34-g77
+- **Ace 2**: gcc-objc fftw3-devel gsl-devel
+- **Sinedon**: mysql mysql-server MySQL-python
+- **DBEM**: httpd php php-mysql phpMyAdmin
+- **Xmipp MPI**: gcc-c++ openmpi-devel libtiff-devel
+- **MRC tools**: php-devel gd-devel re2c fftw2-devel php-gd
+- **UCSF Chimera imaging**: xorg-x11-server-Xvfb
+
+```
+$ sudo yum -y install \
+python-tools python-devel python-matplotlib \
+subversion ImageMagick grace gnuplot \
+wxPython numpy scipy python-imaging \
+gcc-gfortran compat-gcc-34-g77 \
+gcc-objc fftw3-devel gsl-devel \
+mysql mysql-server MySQL-python \
+httpd php php-mysql phpMyAdmin  \
+gcc-c++ openmpi-devel libtiff-devel \
+php-devel gd-devel re2c fftw2-devel php-gd \
+xorg-x11-server-Xvfb
+```
+
+If you have an nVidia video card and setup RPM fusion, install the nVidia binary, will speed things up especially for UCSF Chimera
+
+``` $ sudo yum -y install nvidia-x11-drv
+
+.Clean up packages to save drive space
+
+``` $ sudo yum clean all
+
+.Re-index the hard drive, this will come in handy later
+
+``` $ sudo updatedb
+
+.Enable servers on reboot
+
+``` $ sudo /sbin/chkconfig httpd on
+``` $ sudo /sbin/chkconfig mysqld on
+
+You can further configure this with the GUI and turn off unnecessary items
+
+``` $ system-config-services
+
+.Reboot the computer
+
+``` $ sudo reboot
+
+--------------------------------
+= Compile and setup python (pyappion) programs =
+
+
+== Compile FindEM ==
+
+- Goto pyappion/findem folder to make findem.exe
+
+- Compile the libraries and binary
+
+``` $ make
+
+- Test findem.exe to see if it runs
+
+``` $ make test
+
+[WARNING]
+Only if the first part fails, you must add the path to libg2c.so library file.
+Otherwise skip to next section.
+
+- locate libg2c.so library file
+
+``` $ ls /usr/lib/gcc/`uname -i`-redhat-linux/3.4.6/libg2c.so
+``` $ locate libg2c.so
+
+- Edit Makefile with location of libg2c.so
+
+``` $ nano Makefile
+
+- Example: EXLIBS=-L/usr/lib/gcc/i386-redhat-linux/3.4.6/ -lg2c
+- Re-compile
+
+
+== Compile Ace2 ==
+[WARNING]
+ace2 typically requires fftw 3.2 or greater, but you can remove the FFTW_WISDOM_ONLY flag in Image.m
+
+[NOTE]
+64 bit binaries are included with pyappion
+
+- Goto pyappion/ace2
+- compile the libraries and binary
+- test to see if program runs
+
+```
+$ make
+$ ./ace2.exe -h
+$ ./ace2correct.exe -h
+$ mv -v ./ace2*.exe ../bin
+```
+
+
+== Compile Radermacher module ==
+
+- Goto pyappion/radermacher
+
+- compile the libraries and binary
+
+``` $ python ./setup.py build
+
+- install module globally
+
+``` $ sudo python ./setup.py install
+
+- test installed module
+
+``` $ python
+
+
+```
+>>> import radermacher
+>>> <Ctrl-D>
+
+```
+
+
+== Compile Numextension module ==
+
+- Goto Leginon/numextension
+- compile the libraries and binary
+
+``` $ python ./setup.py build
+
+- install module globally
+
+``` $ sudo python ./setup.py install
+
+- test installed module
+
+``` $ python
+
+
+```
+>>> import numextension
+>>> <Ctrl-D>
+
+```
+
+
+== Globally install python programs ==
+
+- Go into directory with pyami, leginon and sinedon (from Leginon.tgz)
+- Setup main python site-packages, depends on ARCH and VERSION
+
+.select the appropriate site-packages folder
+
+```
+$ export SITEPKG=/usr/lib/python2.4/site-packages
+$ export SITEPKG=/usr/lib64/python2.4/site-packages
+$ export SITEPKG=/usr/lib64/python2.5/site-packages
+
+```
+
+- Install Leginon software to main site-packages
+
+``` 
+$ sudo svn co http://ami.scripps.edu/svn/leginon/branches/1.6/ $SITEPKG/leginon/
+$ sudo svn co http://ami.scripps.edu/svn/pyami/trunk/ $SITEPKG/pyami/
+$ sudo svn co http://ami.scripps.edu/svn/sinedon/trunk/ $SITEPKG/sinedon/
+$ sudo svn co http://ami.scripps.edu/svn/pyScope/trunk/ $SITEPKG/pyScope/
+$ sudo svn co http://ami.scripps.edu/svn/ImageViewer/trunk/ $SITEPKG/ImageViewer/
+``` 
+
+== Setup leginon.cfg file in your home directory ==
+
+- Copy leginon //default.cfg// to your home directory
+
+``` $ cp $SITEPKG/leginon/config/default.cfg ~/leginon.cfg
+
+- Create a directory for images
+
+``` $ mkdir -p ~/leginon/images/
+
+- Edit ~/leginon.cfg and add image path
+
+``` $ nano ~/leginon.cfg
+
+``` path: ~/leginon/images/
+
+
+== Test PyAppion ==
+
+- Go into pyappion directory
+- Add leginon to PYTHONPATH
+
+``` $ export PYTHONPATH="$SITEPKG/leginon:$PYTHONPATH"
+
+- Add pyappion lib to PYTHONPATH
+
+``` $ export PYTHONPATH="~/pyappion/lib:$PYTHONPATH"
+
+- Run the test script
+
+``` $ ./check.sh
+
+[NOTE]
+You can ignore EMAN, MATLAB, and UCSF Chimera errors at this point
+
+
+--------------------------------
+= Setup MySQL (appiondata) databases =
+
+The old leginon documentation may be of help:
+http://ami.scripps.edu/documentation/leginon/bk02ch04s06.php
+
+
+== Setup MySQL users and databases ==
+
+- Set a MySQL root password, by default it is blank
+
+``` $ mysqladmin -u root password NEWPASSWORD
+
+- Create a new user, database, and give user access to databases
+
+``` $ mysql -u root -p
+
+```
+mysql> CREATE USER 'appionuser';
+mysql> CREATE DATABASE leginondata;
+mysql> CREATE DATABASE projectdata;
+mysql> CREATE DATABASE appiondata;
+mysql> GRANT ALL PRIVILEGES ON leginondata.* TO appionuser@"%";
+mysql> GRANT ALL PRIVILEGES ON projectdata.* TO appionuser@"%";
+mysql> GRANT ALL PRIVILEGES ON appiondata.* TO appionuser@"%";
+mysql> <Ctrl-D>
+```
+
+
+== Setup Sinedon ==
+
+- Setup a sinedon.cfg in the home directory for all users
+
+``` $ nano ~/sinedon.cfg
+
+- add the following lines to //sinedon.cfg//
+
+```
+[global]
+host:	'server ip address'
+
+[leginondata]
+db:	leginondata
+user:	appionuser
+
+[appionData]
+db:	appiondata
+user:	appionuser
+
+[projectdata]
+db:	projectdata
+user:	appionuser
+```
+
+
+== Setup Database Tables using Sinedon ==
+
+- Fill databases with tables using maketables.py
+
+``` $ $SITEPKG/sinedon/maketables.py leginondata
+``` $ $SITEPKG/sinedon/maketables.py appionData
+
+- Check to make sure it worked:
+
+``` $ echo 'SHOW TABLES;' | mysql -u appionuser appiondata
+``` $ echo 'SHOW TABLES;' | mysql -u appionuser leginondata
+
+[NOTE]
+the leginon and appion folders need to be in your PYTHONPATH for this to work
+
+
+== Configure MySQL ==
+
+Edit the configuration file:
+
+``` $ sudo nano /etc/my.cnf
+
+Add or edit the following lines:
+
+```
+query_cache_type = 1
+query_cache_size = 100M
+query_cache_limit= 100M
+```
+
+Restart MySQL
+
+``` $ sudo /sbin/service mysqld restart
+
+
+== Configure phpMyAdmin ==
+
+Edit the phpMyAdmin config file:
+
+``` $ sudo nano /etc/phpMyAdmin/config.inc.php 
+
+and change the following lines:
+
+```
+$cfg['Servers'][$i]['AllowRoot']     = FALSE;
+```
+
+Edit the phpMyAdmin apache config file:
+
+``` $ sudo nano /etc/httpd/conf.d/phpMyAdmin.conf
+
+and change the following lines:
+
+```
+<Directory /usr/share/phpMyAdmin/>
+   order deny,allow
+   deny from all
+   allow from 127.0.0.1
+   allow from YOUR_IP_ADDRESS
+</Directory>
+
+```
+
+Create tables in mysql
+
+``` mysql -u root -p < /usr/share/phpMyAdmin/scripts/create_tables_mysql_4_1_2+.sql
+
+
+--------------------------------
+= Install webpages (appionweb) =
+
+There is some older documentation on how to install dbemtools here:
+
+http://nramm.scripps.edu/documentation/leginon/bk02ch04s07.php
+
+
+== Install MRC Tools ==
+
+
+=== Compile MRC tools ===
+
+- Go to your php devel directory and untar the archive
+
+```
+$ cd /usr/include/php/ext/
+$ sudo mkdir mrc
+$ sudo chmod 777 mrc
+$ sudo chown $USER mrc
+```
+
+- Unpackage MRC Tools from http://ami.scripps.edu/software/mrctools/
+
+```
+$ tar zxvf ~/php_mrc.tgz
+$ cd mrc/
+```
+
+- Compile and install the MRC module
+
+``` 
+$ phpize
+$ ./configure 
+$ make
+$ sudo make install
+``` 
+
+
+=== Configure PHP for MRC Tools ===
+
+- Edit your php configuration file php.ini to add "mrc.so" extension.
+
+``` $ sudo nano /etc/php.d/mrc.ini
+
+- add mrc.so to extensions
+
+```
+; Enable mrc extension module
+extension=mrc.so
+```
+
+- To test MRC tools, go to this website:
+http://ami.scripps.edu/software/mrctools/mrc_so.php
+
+
+== Configure PHP ==
+
+- increase the memory limit, EM images are big 64MB:
+
+``` memory_limit = 256M; Maximum amount of memory
+
+- Paths and Directories -- include_path should contain "." and phpami:
+
+``` include_path = ".:/usr/local/phpami"
+
+- Turn error display on:
+
+``` display_errors = On
+
+``` error_reporting = E_ALL & ~E_NOTICE
+
+
+- restart the webserver
+
+``` $ sudo /sbin/service httpd restart
+
+
+== Install DBEM source ==
+
+install appionweb
+
+``` 
+$ tar zxvf dbemtools_1_4.tgz
+$ sudo mv dbemtools_1_4 /var/www/html/appionweb
+$ svn co http://ami.scripps.edu/svn/dbem/trunk/ /var/www/html/appionweb/
+$ cd /var/www/html/appionweb
+``` 
+
+install php include modules
+
+```
+$ cd ~
+$ mkdir phpami
+$ sudo mv -v phpami /usr/share/
+$ svn co http://ami.scripps.edu/svn/phpami/trunk/ /usr/local/phpami/
+$ ln -s /usr/local/phpami/inc/mysql.inc.php /var/www/html/appionweb/inc/mysql.inc
+$ ln -s /usr/local/phpami/inc/session.inc.php /var/www/html/appionweb/inc/session.inc
+$ ln -s /usr/local/phpami/inc/ssh.inc.php /var/www/html/appionweb/inc/ssh.inc
+```
+
+add //auth.php// to appionweb/inc
+
+``` $ mv -v auth.php /var/www/html/appionweb/inc/auth.php
+
+In addition, you need to change the server_url in
+inc/dbemauth.php
+
+``` $ nano /var/www/html/appionweb/inc/dbemauth.php
+
+
+== Configuration ==
+
+
+=== configure apache ===
+- allow REMOTE_HOST lookups in apache
+
+``` $ sudo nano /etc/httpd/conf/httpd.conf
+
+- turn //HostnameLookups// to On
+
+``` HostnameLookups On
+
+- restart the webserver
+
+``` $ sudo /sbin/service httpd restart
+
+
+=== config.php ===
+
+- edit the file **config.php**
+
+``` $ cd /var/www/html/appionweb/processing
+``` $ cp config.php.template config.php
+``` $ nano config.php
+
+- set some default parameters:
+
+```
+define('ENABLE_LOGIN', false);
+define('ENABLE_CACHE', true);
+define('CACHE_PATH', '/srv/www/cache/');
+define('CACHE_SCRIPT', $_SERVER['DOCUMENT_ROOT'].'/'.BASE_URL.'/makejpg.php');
+```
+
+- set your MySQL parameters:
+
+```
+$DB_HOST	= "localhost";
+$DB_USER	= "appionuser";
+$DB_PASS	= "";
+$DB		= "leginondata";
+
+define("BASE_URL", "appionweb/");
+```
+
+- set the following for the project database
+
+```
+$PROJECT_URL = "localhost";
+$PROJECT_DB_HOST = "[server ip address]";
+$PROJECT_DB_USER = "appionuser";
+$PROJECT_DB_PASS = "";
+$PROJECT_DB = "projectdata";
+```
+
+
+=== config_processing.php ===
+
+- edit the file **config_processing.php**
+
+``` 
+$ cd /var/www/html/appionweb/processing
+$ cp config_processing.php.template config_processing.php
+$ nano config.php
+```
+
+```
+define("PROCESSING_BASE_URL", "appionweb/processing/");
+$PROCESSING_DB_HOST = "localhost";
+$PROCESSING_DB_USER = "appionuser";
+$PROCESSING_DB_PASS = "";
+$PROCESSING_DB = "";
+$PROCESSING_HOSTS[]="localhost";
+$DEFAULTCS = "2.0"; # in mm
+```
+
+
+=== Test appionweb ===
+Go to http://localhost/appionweb/info.php
+Go to http://localhost/appionweb/
+
+
+== Install project database interface ==
+
+
+=== Configure project database interface ===
+
+- Other install directions are available here:
+
+http://ami.scripps.edu/documentation/leginon/bk02ch04s07.php
+
+- Download project database interface (project_1_1.tgz) from here:
+
+http://ami.scripps.edu/software/dbemtools
+
+- Extract the tar ball
+
+``` $ tar zxvf project_1_1.tgz
+
+- Move files to the web directory:
+
+``` $ sudo mv -v project_1_1 /var/www/html/project
+
+- Edit project config file:
+
+``` $ nano /var/www/html/project/config.php
+
+```
+$DBEM_PATH = "../appionweb";
+
+$DB_HOST  = "localhost";
+$DB_USER  = "appionuser";
+$DB_PASS  = "";
+$DB       = "leginondata";
+
+$PROJECT_DB_HOST = "localhost";
+$PROJECT_DB_USER = "appionuser";
+$PROJECT_DB_PASS = "";
+$PROJECT_DB      = "projectdata";
+```
+
+- Modify //utilpj.inc.php// for a bug
+
+``` $ nano /var/www/html/project/inc/utilpj.inc.php
+
+- comment out the from_POST line
+
+```
+/*
+function from_POST() {
+       	$r = array();
+        $keys=array_keys($_POST);
+        foreach(func_get_args() as $arg) {
+                if (in_array($arg,$keys))
+                        $r[]=trim($_POST[$arg]);
+        }
+        return $r;
+}
+*/
+```
+
+
+=== Create a project ===
+
+- Go to the project webpage
+
+http://localhost/project/project.php
+
+- Fill out form, only the **Name** is required, and click **add**
+
+
+== Upload images ==
+
+Before images can be uploaded a microscope and camera need to be created
+
+
+
+--------------------------------
+= Install external packages =
+
+
+== Compile Xmipp for OpenMPI ==
+
+- For more info, see http://xmipp.cnb.csic.es/twiki/bin/view/Xmipp/InstallingTheSoftware
+- Go into Xmipp source directory
+- Find openmpi directory
+
+``` $ locate libmpi.so
+``` /usr/lib/openmpi/1.2.7-gcc/lib/libmpi.so
+
+- Setup Xmipp to use openmpi by changing three lines in SConstruct
+
+``` $ cp SConstruct SConstruct.orig
+``` $ nano SConstruct
+```
+opts.Add('MPI_INCLUDE', 'MPI headers dir ', '/usr/lib/openmpi/1.2.7-gcc/include/')
+opts.Add('MPI_LIBDIR', 'MPI libraries dir ', '/usr/lib/openmpi/1.2.7-gcc/lib/')
+opts.Add('MPI_LIB', 'MPI library', 'mpi')
+
+```
+
+- Compile
+
+``` $ sudo mpi-selector --yes --system --set `rpm --qf '%{NAME}-%{VERSION}-gcc-%{ARCH}\n' -q openmpi`
+``` $ export PATH=$PATH:/usr/lib/openmpi/1.2.7-gcc/bin
+``` $ ./scons.configure
+
+you should see the line:
+``` * Checking for MPI ... yes
+
+``` $ ./scons.compile
+
+
+== EMAN1 ==
+
+ - **EMAN1** v1.9 cluster,
+  - [download binary http://ncmi.bcm.tmc.edu/ncmi/software/software_details?selected_software=eman]
+
+
+== UCSF Chimera ==
+
+ - **UCSF Chimera** v1.2509 or other,
+  - [download v1.2509 binary http://www.cgl.ucsf.edu/chimera/olddownload.html]
+  - [download newest binary http://www.cgl.ucsf.edu/chimera/download.html]
+  - Note: we use version 1.2509 from May 2008, because version 1.3 creates weird artifacts for the volumes.
+
+
+== SPIDER ==
+
+- **SPIDER** v15 is recommended, other versions are untested,
+  - [download binary http://www.wadsworth.org/spider_doc/spider/docs/spi-register.html]
+
+
+== IMOD ==
+
+- **IMOD**, for tomography
+
+
+== Grigorieff programs ==
+
+- **Grigorieff lab:**
+  - **ctftilt**, for tilted CTF estimation
+    - [download binary http://emlab.rose2.brandeis.edu/grigorieff/download_ctf.html]
+  - **frealign**, for reconstructions
+    - [download binary http://emlab.rose2.brandeis.edu/grigorieff/downloads.html]
+  - **rmeasure**, for resolution estimation
+    - [download binary http://emlab.rose2.brandeis.edu/grigorieff/download_r.html]
+
+
+--------------------------------
+= Install a PBS job submission system =
+
+You'll need to install a [Portable Batch System http://en.wikipedia.org/wiki/Portable_Batch_System] for job submission, such as [TORQUE http://en.wikipedia.org/wiki/TORQUE_Resource_Manager]. I know Torque comes with Fedora 10, but not CentOS.
+
+- An RPM is available in the EPEL testing section
+
+``` $ sudo yum -y --enablerepo=epel-testing install torque
+
+or another way to get packages
+
+
+```
+$ wget http://centos.karan.org/el5/extras/testing/`uname -i`/RPMS/torque-2.1.9-1.el5.kb.`uname -i`.rpm
+$ sudo yum -y localinstall --nogpgcheck torque-2.1.9-1.el5.kb.`uname -i`.rpm
+$ #sudo rpm -Uhv torque-2.1.9-1.el5.kb.`uname -i`.rpm
+```
+
+After installing torque it needs to be configured. Sorry, we have no documentation for copnfiguring torque at this time. 
+
+--------------------------------
+= Setting environmental variables =
+
+
+== System variables ==
+
+There are three main system environmental variables to pay attension to:
+
+- PYTHONPATH
+- PATH
+- LD_LIBRARY_PATH -- this is controlled by /etc/ld.so.conf.d/appion.conf
+
+
+== External package variables ==
+- EMAN
+
+```
+export EMANDIR=/usr/local/EMAN
+export PYTHONPATH=${PYTHONPATH}:${EMANDIR}/lib:${EMANDIR}/python
+export PATH=${PATH}:${EMANDIR}/bin
+```
+
+- Xmipp
+
+```
+export XMIPP=/usr/local/Xmipp
+export PATH=${PATH}:${XMIPP}/bin
+```
+
+- SPIDER
+
+```
+export SPIDER=/usr/local/spider
+export SPMAN_DIR=${SPIDER}/man/
+export SPRGB_DIR=${SPIDER}/rgb/
+export SPPROC_DIR=${SPIDER}/proc/ 
+```
+
+- UCSF Chimera
+
+``` $ sudo ln -s /usr/local/chimera/bin/chimera /usr/bin/
+
+```
+export CHIMERA=/usr/local/chimera
+export CHIMERAPATH=${CHIMERA}/share
+```
+
+
+== Library paths ==
+In CentOS, it is preferred to place libraries paths in the conf file in the /etc/ld.so.conf.d folder
+
+``` $ sudo nano /etc/ld.so.conf.d/appion.conf
+
+Add these lines:
+
+```
+/usr/local/EMAN/lib
+/usr/local/chimera/lib
+/usr/local/Xmipp/lib
+```
+
+
+--------------------------------
+= Leginon Administration Tools =
+
+Main documentation is available here: http://ami.scripps.edu/documentation/leginon/bk02ch05.php
+
+== Create a simulated instrument ==
+
+- To create a simulated you need to enter MySQL and connect to the Leginon database
+
+``` mysql -u appionuser leginondata
+
+```
+ALTER TABLE `InstrumentData` ADD `type` TEXT NULL ;
+INSERT INTO `InstrumentData` (name, hostname) VALUES ('SimTEM',  'HOSTNAME');
+INSERT INTO `InstrumentData` (name, hostname) VALUES ('SimCCDCamera', 'HOSTNAME');
+SELECT * FROM `InstrumentData`;
+```
+
+	where HOSTNAME is replaced with your hostname, //e.g.// ami.scripps.edu
+
+``` mysql -u appionuser projectdata
+
+```
+CREATE TABLE `projectdata`.`processingdb` (
+  `id` INT( 20 ) NOT NULL AUTO_INCREMENT ,
+  `projectId` INT( 20 ) NULL ,
+  `db` VARCHAR( 50 ) NULL ,
+  PRIMARY KEY ( `id` )
+) ENGINE = MYISAM
+
+INSERT INTO `processingdb` (projectId, db) VALUES (1, 'appiondata');
+```
+
+
+== Upload an image ===
+
+- Go to the web page:
+
+http://localhost/appionweb/processing/uploadimage.php
+
+
+== Start leginon ==
+- Start leginon
+
+```
+$ cd $SITEPKG/leginon
+$ ./start.py
+```
+
+- Keep hitting **next** until you reach the final page and then hit **finish**
+
+
+
+= Potential problems =
+
+
+== Firewall settings ==
+
+You may need to configure your firewall to allow incoming HTTP (port 80) and MySQL (port 3306) traffic:
+``` $ system-config-securitylevel
+
+
+
+== Security-enhanced linux ==
+
+[Security-enhanced linux (SELinux) http://en.wikipedia.org/wiki/Security-Enhanced_Linux] may be preventing your files from loading. To fix this run the following command:
+
+For webpages PHP, HTML, etc.
+
+``` $ sudo /usr/bin/chcon -R -t httpd_sys_content_t /var/www/html/
+
+For program libraries: .SO files, etc.
+
+``` $ sudo /usr/bin/chcon -R -t texrel_shlib_t /usr/local/EMAN/lib/
+
+Or just disable SELinux entirely:
+
+``` $ sudo nano /etc/selinux/config
+
+``` SELINUX=disabled
+
+see [this website http://docs.fedoraproject.org/selinux-apache-fc3/sn-simple-setup.html] for more details on SELinux
+
+
+== Scipy crashes ==
+
+On some machines the scipy binary has problems. The best way to test this is to open a python shell:
+
+``` $ python
+
+And then run Scipy test suite
+
+``` 
+>>> import scipy
+>>> scipy.test()
+``` 
+
+Lots of output, but look at the last lines. On one machine I got:
+
+``` 
+Ran 3393 tests in 35.175s
+
+OK (KNOWNFAIL=3, SKIP=17)
+<nose.result.TextTestResult run=3393 errors=0 failures=0>
+```
+
+On another I got:
+
+```
+Ran 1728 tests in 6.057s
+
+FAILED (errors=5)
+<unittest._TextTestResult run=1728 errors=5 failures=0>
+```
+
+Should provide a good summary, if something is going wrong.
+
+
+--------------------------------
+= THIS IS INCOMPLETE =
+
+Sorry this document is NOT complete
+
+Compiled on %%date(%B %d, %Y)
+
+

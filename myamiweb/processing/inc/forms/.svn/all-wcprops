@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms
+END
+autoMaskForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/autoMaskForm.inc
+END
+clusterParamsForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/clusterParamsForm.inc
+END
+xmippRefineForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/xmippRefineForm.inc
+END
+runParametersForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/runParametersForm.inc
+END
+stackPrepForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/stackPrepForm.inc
+END
+simpleParamsForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/simpleParamsForm.inc
+END
+stackPrepFormFrealign.inc
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/stackPrepFormFrealign.inc
+END
+stackPrepFormRelion.inc
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/stackPrepFormRelion.inc
+END
+xmippML3DRefineForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/xmippML3DRefineForm.inc
+END
+emanRefineForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/emanRefineForm.inc
+END
+basicRefineForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/basicRefineForm.inc
+END
+makeDDStackForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/makeDDStackForm.inc
+END
+frealignRefineForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/frealignRefineForm.inc
+END
+relionRefineForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/relionRefineForm.inc
+END
+basicForm.inc
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/processing/inc/forms/basicForm.inc
+END

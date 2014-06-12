@@ -1,0 +1,1090 @@
+<?php
+/**
+ *  The Leginon software is Copyright 2003 
+ *  The Scripps Research Institute, La Jolla, CA
+ *  For terms of the license agreement
+ *  see  http://ami.scripps.edu/software/leginon-license
+ *
+ *	summary tables for common appion objects
+ */
+
+require_once "inc/particledata.inc";
+require_once "inc/leginon.inc";
+require_once "inc/project.inc";
+require_once "inc/viewer.inc";
+require_once "inc/processing.inc";
+
+$jmol = false;
+
+/****************************************
+****************************************/
+function pickingsummarytable($selectionid, $mini=false) {
+	$expId = $_GET['expId'];
+	$particle = new particledata();
+	$selectiontype = $particle->getSelectionParams($selectionid, true);
+	$selectiondatas = $particle->getSelectionParams($selectionid);
+	$selectiondata = $selectiondatas[0];
+	$selectionstats = $particle->getStats($selectionid);
+	$preset = $selectionstats['preset'];
+	//echo print_r($selectionstats)."<br/>\n";
+	//echo print_r($selectiondata)."<br/>\n";
+
+	if ($_POST['hideItem'.$selectionid] == 'hide') {
+		$particle->updateHide('ApSelectionRunData', $selectionid, '1');
+		$selectiondata['hidden'] = 1;
+	} elseif ($_POST['unhideItem'.$selectionid] == 'unhide') {
+		$particle->updateHide('ApSelectionRunData', $selectionid, '0');
+		$selectiondata['hidden'] = 0;
+	}
+
+	$j = "Particle Selection Info: <span class='aptitle' >"
+		."<a href='particlerunreport.php?expId=$expId&rId=$selectionid'>"
+		.$selectiondata['name']."</a></span> (ID: $selectionid)\n";
+	if ($selectiondata['hidden'] == 1) {
+		$j.= " <font color='#cc0000'>HIDDEN</font>\n";
+		$j.= " <input class='edit' type='submit' name='unhideItem".$selectionid."' value='unhide'>\n";
+		$display_keys['hidden']="<font color='#cc0000'>HIDDEN</font>\n";
+	} else $j.= " <input class='edit' type='submit' name='hideItem".$selectionid."' value='hide'>\n";
+
+	$selectiontable.= apdivtitle($j);
+	//echo $j."<br/>\n";
+
+	$selectiontable.= "<table border='0'>\n";
+
+	// Need to get the date/time from the SelectionRunDataTable rather than the params table. refs #1171
+	$selectionRunData = $particle->getSelectionRunData($selectionid);
+	$display_keys['date time'] = $selectionRunData['DEF_timestamp'];
+
+	// may be different than $expId
+	$selectsessionid = $selectiondata['REF|leginondata|SessionData|session'];
+	if($selectsessionid != $expId) {
+		$selectsessiondata = $particle->getSessionData($selectsessionid);
+		//echo print_r($selectsessiondata)."<br/>\n";
+		$display_keys['session'] = $selectsessiondata['name']." (id: $selectsessionid)";
+	}
+	$display_keys['method'] = $selectiontype;
+	if ($preset)
+		$display_keys['preset'] = $preset;
+	if ($selectiondata['path'])
+		$display_keys['path'] = $selectiondata['path'];
+
+	// Show number of particles
+	if ($selectionstats['totparticles'] > 0) {
+		$dlink .= "(<font size='-2'><a href='downloadparticledata.php?expId=$expId&pSelectionId=$selectionid&preset=$preset'>\n";
+		$dlink .= "  <img style='vertical-align:middle' src='img/download_arrow.png' border='0' width='16' height='17' alt='download coordinates'>";
+		$dlink .= "  &nbsp;download coordinates\n";
+		$dlink .= "</a></font>)\n";
+	}
+	$display_keys['# particles'] = commafy($selectionstats['totparticles'])." $dlink";
+	if ($selectionstats['totparticles'] > 0) {
+		$display_keys['# images'] = commafy($selectionstats['num'])." ("
+			.round($selectionstats['totparticles']/$selectionstats['num'],1)." part/img)";
+		$display_keys['view picks'] = ""
+			."<a href='multiimgassessor.php?expId=$expId&pickId=$selectionid'>"
+			."view picks in multi-assessor</a>";
+	}
+	if ($selectiondata['trace']) {
+		if ($selectionstats['total_object_traced'] > 0) {
+			$dlink .= "<a href='analyzeTracedObject.php?expId=$expId&selectionId=$selectionid'>\n";
+			$dlink .= "  &nbsp;Analyze traced objects\n";
+			$dlink .= "</a>\n";
+		}
+		$display_keys['# traced objects'] = commafy($selectionstats['total_object_traced'])." $dlink";
+	}
+	if (!$mini) {
+		if ($selectiondata['diam'])
+			$display_keys['particle diam'] = $selectiondata['diam'];
+		if ($selectiondata['bin'])
+			$display_keys['binning'] = $selectiondata['bin'];
+		if ($selectiondata['threshold']) {
+			$display_keys['threshold'] = $selectiondata['manual_thresh'];
+			if ($selectiondata['max_threshold'])
+				$display_keys['threshold'] .= " (".$selectiondata['max_threshold'].")";
+		}
+		if ($selectiondata['lp_filt']) {
+			$display_keys['filters'] = $selectiondata['lp_filt']." &Aring; &ndash; ".$selectiondata['hp_filt']." &Aring;";
+			if ($selectiondata['median'])
+				$display_keys['filters'] .= " (".$selectiondata['median']." median)";
+		}
+		$display_keys['thresh range'] = sprintf("%.4f &ndash; %.4f", $selectionstats['min'], $selectionstats['max']);
+		$display_keys['thresh mean'] = sprintf("%.4f &plusmn; %.4f", $selectionstats['avg'], $selectionstats['stddev']);
+	}
+
+	foreach($display_keys as $k=>$v) {
+	        $selectiontable.= formatHtmlRow($k,$v);
+	}
+	$selectiontable.= "</table>\n";
+	$selectiontable.= "<p>\n";
+	return $selectiontable;
+}
+
+
+/****************************************
+****************************************/
+function stacksummarytable($stackid, $mini=false, $tiny=false, $showOptions=True) {
+	$particle = new particledata();
+	$selectdata = $particle->getStackSelectionRun($stackid);
+	$expId = $selectdata[0]['sessionId'];
+
+	//synthetic data do not come from a particle selection run
+	if (!$expId) $expId = $_SESSION['expId'];
+
+	$stackdata = $particle->getStackParams($stackid);
+
+	if ($_POST['updateDesc'.$stackid])
+		updateDescription('ApStackData', $stackid, $_POST['newdescription'.$stackid]);
+
+	if ($_POST['hideItem'.$stackid] == 'hide') {
+		$particle->updateHide('ApStackData', $stackid, '1');
+		$stackdata['hidden']=1;
+	} elseif ($_POST['unhideItem'.$stackid] == 'unhide') {
+		$particle->updateHide('ApStackData', $stackid, '0');
+		$stackdata['hidden']='0';
+	}
+
+	$numpart = $particle->getNumStackParticles($stackid);
+	if ($numpart == 0) return;
+
+	$stackname = $stackdata['shownstackname'];
+	$stackfile = $stackdata['path']."/".$stackdata['name'];
+	$j = "Stack Info: <a class='aptitle' href='stackreport.php?expId=$expId&sId=$stackid'>"
+		.$stackname."</a> (ID: $stackid)\n";
+	if ($stackdata['hidden'] == 1) {
+		$j.= " <font color='#cc0000'>HIDDEN</font>\n";
+		if ($showOptions) $j.= " <input class='edit' type='submit' name='unhideItem".$stackid."' value='unhide'>\n";
+		$display_keys['hidden']="<font color='#cc0000'>HIDDEN</font>\n";
+	}
+	elseif ($showOptions) $j.= " <input class='edit' type='submit' name='hideItem".$stackid."' value='hide'>\n";
+	if ($showOptions) $j.="<input class='edit' type='button' onClick='parent.location=\"dropstack.php?expId=$expId&sId=$stackid\"' value='delete'>\n";
+	
+	$downloadLink = "(<font size='-2'><a href='downloadStackParticles.php?expId=$expId&stackId=$stackid'>\n";
+	$downloadLink .= "  <img style='vertical-align:middle' src='img/download_arrow.png' border='0' width='16' height='17' alt='download coordinates'>";
+	$downloadLink .= "  &nbsp;download particles data\n";
+	$downloadLink .= "</a></font>)\n";
+	$j.= $downloadLink;
+	## link to list ctf values
+	if ($particle->hasCtfData($expId))
+		$j.= "<input class='edit' type='button' onClick='window.open(\"listCTFvalues.php?expId=$expId&sId=$stackid\")' value = 'list per-particle CTF info'>\n";
+	$stacktable.= apdivtitle($j);
+	
+	if ($tiny)
+		return $stacktable;
+
+
+	// if particles were centered, set centered variable
+	if ($stackdata['centered'] == 1) {
+		$centered = True;
+	}
+
+	// if particles were junk sorted, set junk sorted variable
+	if ($stackdata['junksorted'] == 1) {
+		$junksorted = True;
+	}
+
+	// if particles were masked, set mask variable
+	if ($stackdata['mask']) {
+		$mask = True;
+	}
+	$stacktable.= "<table border='0' width='700' >\n";
+	$stackavg = $stackdata['path']."/average.mrc";
+	$badstackavg = $stackdata['path']."/badaverage.mrc";
+	$montage = $stackdata['path']."/montage".$stackdata['DEF_id'].".png";
+	if (!$mini && file_exists($stackavg)) {
+		$stacktable.= "<tr>\n";
+		$stacktable.= "<td  align='left' rowspan='30' align='center' valign='top'>\n";
+		$stacktable.= "<img src='loadimg.php?filename=$stackavg&s=150&coff=1' height='150'><br/>\n";
+		$stacktable.= "<i>averaged stack image</i>\n";
+		if ($showOptions) {
+			if (!$centered) $stacktable.= "<br /><a href='centerStack.php?expId=$expId&sId=$stackid'>[Center Particles]</a>\n";
+			if (!$junksorted) $stacktable.= "<br /><a href='sortJunk.php?expId=$expId&sId=$stackid&junksort=1'>[Sort Junk]</a>\n";
+			if ($junksorted) $stacktable.= "<br /><a href='viewstack.php?file=$stackfile&expId=$expId&stackId=$stackid&junksort=1'>[Apply Junk Cutoff]</a>\n";
+			$stacktable.= "<br/><a href='subStack.php?expId=$expId&sId=$stackid'>[Create Substack]</a>\n";
+			if (!$mask) $stacktable.= "<br/><a href='boxmask.php?expId=$expId&sId=$stackid&vert=True'>[Mask Particles with Box]</a>\n";
+		}
+		$stacktable.= "</td>\n";
+		if ($centered && file_exists($badstackavg)) {
+			$stacktable.= "<td  align='left' rowspan='30' align='center' valign='top'>\n";
+			$stacktable.= "<img src='loadimg.php?filename=$badstackavg&s=150' height='150'><br/>\n";
+			$stacktable.= "<i>averaged bad stack</i><br/>\n";
+			$stacktable.= "</td>\n";
+		} elseif (file_exists($montage)) {
+			$stacktable.= "<td align='left' rowspan='30' align='center' valign='top'>\n";
+			$stacktable.= "<a href='loadimg.php?filename=$montage'>\n";
+			$stacktable.= "<img border=0 src='loadimg.php?filename=$montage&s=150' height='150'></a><br/>\n";
+			$stacktable.= "<i>mean/stdev montage</i><br/>\n";
+			if ($showOptions) $stacktable.= "<a href='subStack.php?expId=$expId&sId=$stackid&mean=1'>[Filter by Mean/Stdev]</a>\n";
+			$stacktable.= "</td>\n";
+		}
+		$stacktable.= "</tr>\n\n";
+	} elseif (file_exists($stackavg)) {
+		// mini version
+		$stacktable.= "<tr >\n";
+		$stacktable.= "<td align='center' rowspan='30' align='center' valign='top'>\n";
+		$stacktable.= "<img src='loadimg.php?filename=$stackavg&s=80' height='80'><br/>\n";
+		$stacktable.= "<i>average</i>\n";
+		if ($showOptions) {
+			if (!$junksorted)
+				$stacktable.= "<br/><font size='-2'><a href='sortJunk.php?expId=$expId&sId=$stackid&junksort=1'>[Sort Junk]</a></font>\n";
+			if ($junksorted)
+				$stacktable.= "<br/><font size='-2'><a href='viewstack.php?file=$stackfile&expId=$expId&stackId=$stackid&junksort=1'>[Apply Junk Cutoff]</a></font>\n";
+		}
+		$stacktable.= "</td></tr>\n\n";
+	} #endif
+
+	// get pixel size of stack
+	$mpix = ($stackdata['pixelsize']) ? $stackdata['pixelsize'] : $particle->getStackPixelSizeFromStackId($stackid);
+	$apix=format_angstrom_number($mpix)."/pixel";
+
+	// get box size
+	$boxsz= $stackdata['boxsize']." pixels";
+
+	$display_keys['date time'] = $stackdata['DEF_timestamp'];
+
+	// this no longer works
+	$sessiondata = $particle->getSessionData($expId);
+	if ($sessiondata)
+		$display_keys['session id'].="<a href='index.php?expId=".$sessiondata['DEF_id']."'>"
+			.$sessiondata['name']."</a>&nbsp;\n";
+
+	// break up really long descriptions
+	$descBreaks = addSpaces($stackdata['description'],50);
+	// add edit button to description if logged in
+	$descDiv = ($_SESSION['username'] && $showOptions) ? editButton($stackid,$stackdata['description']) : $descBreaks;
+	if (!$mini) 
+		$display_keys['description']=$descDiv;
+	else
+		$display_keys['descript']="<font size='-2'>$descDiv</font>\n";
+
+	// Show number of particles
+	$oldnumpart = $particle->getNumStackParticles($stackdata['REF|ApStackData|oldstack']);
+	if ($mini)
+		$display_keys['size']= commafy($numpart)." / ".getStackSize($stackdata);
+	elseif ($oldnumpart > $numpart) {
+		$display_keys['# particles']= commafy($numpart)." (".commafy($oldnumpart-$numpart)." bad)";
+	} else 
+		$display_keys['# particles'] = commafy($numpart);
+
+	if (!$mini) {
+		// Number images used to make stack
+		$display_keys['# images used']=$particle->getNumStackImages($stackid);
+		// Get filesize
+		$display_keys['file size'] = getStackSize($stackdata);
+	}
+
+
+	// provide a link to download a stack
+	if (substr($stackdata['name'], -4) == ".hed") {
+		$imgfile = $stackdata['path']."/".substr($stackdata['name'], 0, -4).".img";
+		$hedfile = $stackdata['path']."/".substr($stackdata['name'], 0, -4).".hed";
+		$stacklink .= "<font size='-2'><a href='download.php?expId=$expId&file=$hedfile'>\n";
+		$stacklink .= "  <img style='vertical-align:middle' src='img/download_arrow.png' border='0' width='16' height='17' alt='download hed file'>hed\n";
+		$stacklink .= "</a>\n";
+		$stacklink .= "&nbsp;<a href='download.php?expId=$expId&file=$imgfile'>\n";
+		$stacklink .= "  <img style='vertical-align:middle' src='img/download_arrow.png' border='0' width='16' height='17' alt='download img file'>img\n";
+		$stacklink .= "</a></font>\n";
+	} else {
+		$ext = substr($stackdata['name'], -3);
+		$stacklink .= "<font size='-2'><a href='download.php?expId=$expId&file=$stackfile'>\n";
+		$stacklink .= "  <img style='vertical-align:middle' src='img/download_arrow.png' border='0' width='16' height='17' alt='download stack'>$ext\n";
+		$stacklink .= "</a></font>\n";
+	}
+
+	if ($mini) {
+		$display_keys['path'] = "<font size='-2'>".$stackdata['path']
+			."/<a href='viewstack.php?file=$stackfile&expId=$expId&stackId=$stackid&ps=$mpix'>"
+			.$stackdata['name']."</a></font>&nbsp;$stacklink\n";
+		$display_keys['box/apix'] = $boxsz." / ".$apix;
+	} else {
+		$display_keys['path']=$stackdata['path'];
+		$display_keys['stack file']= "<a target='stackview' HREF='viewstack.php?file="
+			."$stackfile&expId=$expId&stackId=$stackid&ps=$mpix'>".$stackdata['name']."</A>&nbsp;$stacklink\n";
+		# if stack was created by cenalignint, also view avg & bad stacks
+		if ($centered) {
+			$display_keys['iterative avgs']="<a target='stackview' HREF='viewstack.php?file=".$stackdata['path']
+				."/avg.hed&expId=$expId'>avg.hed</A>\n";
+		}
+		// if bad.hed exists provide a link
+		if (file_exists($stackdata['path']."/bad.hed")) {
+			$display_keys['stack file'].=" &nbsp;(<a target='stackview' HREF='viewstack.php?file=".$stackdata['path']
+				."/bad.hed&expId=$expId'>bad.hed</A>)";
+		}
+		$display_keys['box size']=$boxsz;
+		$display_keys['pixel size']=$apix;
+	}
+
+	if (!$mini) {
+		# use values from first of the combined run, if any for now	
+		$pflip = ($stackdata['phaseFlipped']==1) ? "yes" : "no";
+		if ($stackdata['fliptype']) $pflip.= ", ".$stackdata['fliptype'];
+		if ($stackdata['aceCutoff']) $pflip.=" (CTF conf > $stackdata[aceCutoff])";
+		
+		$display_keys['ctf correct']=$pflip;
+		//$display_keys['raw data'] = print_r($stackdata);
+
+		if ($stackdata['correlationMin']) $display_keys['correlation min']=$stackdata['correlationMin'];
+		if ($stackdata['correlationMax']) $display_keys['correlation max']=$stackdata['correlationMax'];
+		if ($stackdata['minDefocus']) $display_keys['min defocus']=$stackdata['minDefocus'];
+		if ($stackdata['maxDefocus']) $display_keys['max defocus']=$stackdata['maxDefocus'];
+		#$display_keys['density']=($stackdata['inverted']==1) ? 'inverted' : 'not inverted';
+		#$display_keys['normalization']=($stackdata['normalized']==1) ? 'no' : 'yes';
+		if ($stackdata['tiltangle'] && $stackdata['tiltangle']!='all') $display_keys['tilt angle'] = $stackdata['tiltangle'];
+		//$partruns = $particle->getParticleRunsFromStack($stackid);
+		//print_r($partruns);
+		$partrun = $particle->getStackSelectionRun($stackid);
+		//print_r($partrun);
+		if($partrun) {
+			$parturl = "particlerunreport.php?expId=$expId&rId=".$partrun[0]['selectionid'];
+			$display_keys['selection run'] = "<a href='$parturl'>".$partrun[0]['name']."</a> (".$partrun[0]['selectionid'].")";;
+		}
+	}
+	//echo print_r($stackdata)."<br/><br/>\n";
+	//$display_keys['file type']=$stackdata['fileType'];
+	foreach($display_keys as $k=>$v) {
+	        $stacktable.= formatHtmlRow($k,$v);
+	}
+	$stacktable.= "</table>\n";
+	$stacktable.= "<p>\n";
+	return $stacktable;
+}
+
+/****************************************
+****************************************/
+function ministacksummarytable($stackid) {
+	return stacksummarytable($stackid, true);
+}
+
+/****************************************
+****************************************/
+function alignstacksummarytable($alignstackid, $mini=false, $showOptions=True) {
+	$expId = $_GET['expId'];
+	$particle = new particledata();
+	$stackdata = $particle->getAlignStackParams($alignstackid);
+	//echo print_r($stackdata)."<br/>\n";
+
+	if ($stackdata['REF|ApSpiderNoRefRunData|norefrun'])
+		$type = 'none';
+	elseif ($stackdata['REF|ApRefBasedRunData|refbasedrun'])
+		$type = 'score';
+	elseif ($stackdata['REF|ApEdIterRunData|editerrun'])
+		$type = 'score';
+	elseif ($stackdata['REF|ApMaxLikeRunData|maxlikerun'])
+		$type = 'spread';
+	elseif ($stackdata['REF|ApMultiRefAlignRunData|imagicMRA'])
+		$type = 'correlation';
+	elseif ($stackdata['REF|ApTopolRepRunData|topreprun'])
+		$type = 'correlation';
+	else
+		$type = 'score';
+
+	if ($_POST['updateDesc'.$alignstackid])
+		updateDescription('ApAlignStackData', $alignstackid, $_POST['newdescription'.$alignstackid]);
+
+	if ($_POST['hideItem'.$alignstackid] == 'hide') {
+		$particle->updateHide('ApAlignStackData', $alignstackid, '1');
+		$stackdata['hidden']='1';
+	} elseif ($_POST['unhideItem'.$alignstackid] == 'unhide') {
+		$particle->updateHide('ApAlignStackData', $alignstackid, '0');
+		$stackdata['hidden']='0';
+	}
+
+	$numpart = $particle->getNumAlignStackParticles($alignstackid);
+	//echo $numpart."<br/>\n";
+
+	$j = "Align Stack Info: <span class='aptitle' >"
+		.$stackdata['runname']."</span> (ID: $alignstackid)\n";
+	if ($stackdata['hidden'] == 1) {
+		$j.= " <font color='#cc0000'>HIDDEN</font>\n";
+		if ($showOptions) $j.= " <input class='edit' type='submit' name='unhideItem".$alignstackid."' value='unhide'>\n";
+		$display_keys['hidden']="<font color='#cc0000'>HIDDEN</font>\n";
+	}
+	elseif ($showOptions) $j.= " <input class='edit' type='submit' name='hideItem".$alignstackid."' value='hide'>\n";
+
+	if ($showOptions) $j.="<input class='edit' type='button' onClick='parent.location=\"dropstack.php?expId=$expId&alignId=$alignstackid\"' value='delete'>\n";
+	$stacktable.= apdivtitle($j);
+	//echo $j."<br/>\n";
+
+
+	$stacktable.= "<table border='0'>\n";
+	$stackavg = $stackdata['path']."/average.mrc";
+	$origstackid = $stackdata['REF|ApStackData|stack'];
+	if (file_exists($stackavg)) {
+		$stacktable.= "<tr>\n";
+		$stacktable.= "<td rowspan='30' align='center' valign='top'>\n";
+		$stacktable.= "<table border='0'>\n";
+		$stacktable.= "<tr><td>\n";
+		if ($mini) {
+			$stacktable.= "<img src='loadimg.php?filename=$stackavg&h=60' height='60'><br/>\n";
+			$stacktable.= "<i>avg image</i>\n";
+		} else {
+			$stacktable.= "<img src='loadimg.php?filename=$stackavg&h=120' height='120'><br/>\n";
+			$stacktable.= "<i>averaged stack image</i>\n";
+		}
+		$stacktable.= "</td>\n";
+
+		if ($type != "none") {
+			$stacktable.= "<td>\n";
+			$stacktable.= "<a href='aligngraph.php?expId=$expId&alignid=$alignstackid&type=$type'>\n";
+			if ($mini && $numpart < 1000)
+				$stacktable.= "<img border='0' src='aligngraph.php?expId=$expId"
+					."&alignid=$alignstackid&h=60&type=$type' height='60'>\n";
+			elseif ($numpart < 500)
+				$stacktable.= "<img border='0' src='aligngraph.php?expId=$expId"
+					."&alignid=$alignstackid&h=120&type=$type' height='120'>\n";
+			else
+				$stacktable.= "<i>display<br/>plot</i>\n";
+			$stacktable.= "<br/></a><i>$type distribution</i>\n";
+			$stacktable.= "</td>\n";
+		}
+
+		if ($showOptions) {
+			$stacktable.= "</tr>\n";
+			$stacktable.= "<tr><td colspan='2'>\n";
+			$stacktable.="<br><a href='boxmask.php?expId=$expId&sId=$origstackid&aId=$alignstackid'>[mask particles with box]</a>\n";
+			$stacktable.= "</td>\n";
+		}
+		$stacktable.= "</tr></table>\n";
+		$stacktable.= "</td></tr>\n";
+	} #endif
+
+	// break up really long descriptions
+	$descBreaks = addSpaces($stackdata['description'],50);
+	// add edit button to description if logged in
+	$descDiv = ($_SESSION['username']) ? editButton($alignstackid, $stackdata['description']) : $descBreaks;
+
+	$display_keys['date time'] = $stackdata['DEF_timestamp'];
+	$display_keys['description']=$descDiv;
+
+	// Show number of particles
+
+
+	// Get filesize
+	$stackdata['name'] = $stackdata['imagicfile'];
+	$filesize = getStackSize($stackdata);
+	if ($mini) {
+		$display_keys['size']=commafy($numpart)." particles";
+		$display_keys['size'].= ($filesize) ? " (".$filesize.")" : "";
+	}
+	else {
+		$display_keys['# particles']=commafy($numpart);
+		$display_keys['file size'] = $filesize;
+	}
+
+	// get pixel size
+	$apix = $stackdata['pixelsize']; // --- in Angstroms
+	$mpix = $apix * 1e-10; // --- in meters
+	$display_keys['original stack'] = "<a href='stackreport.php?expId=$expId&sId=$origstackid'>$origstackid</a>\n";
+	$refstack = $stackdata['path']."/".$stackdata['refstackfile'];
+	$numrefs = $particle->getNumAlignStackReferences($alignstackid);
+	$display_keys['# of classes']=$numrefs;
+	if ($stackdata['refstackfile'] && file_exists($refstack))
+		$display_keys['reference stack'] = "<a target='stackview' HREF='viewstack.php?"
+			."file=$refstack&expId=$expId&ps=$mpix&alignId=$alignstackid&refs=1'>".$stackdata['refstackfile']."</a>\n";
+	// if toplogy run, show links to last node file
+	if ($stackdata['REF|ApTopolRepRunData|topreprun']) {
+		$nodefiles = glob($stackdata['path']."/classes*.hed");
+		$numiters=-1;
+		// count # of node classes: 1 for each iteration
+		foreach ($nodefiles as $nodefile)
+			if (preg_match('/classes\d\d\.hed/',$nodefile)) $numiters++;
+		// if reference stack is from imagic, show eigenimgs
+		if ($stackdata['refstackfile']=='classes_avg.hed') {
+			// create link to last node file
+			$lastnode=sprintf("classes%02d.hed",$numiters);
+			$display_keys['last node file'] = "<a target='stackview' href='viewstack.php?"
+				."file=".$stackdata['path']."/$lastnode&expId=$expId&ps=$mpix&alignId=$alignstackid'>$lastnode</a>\n";
+		}
+		else {
+			// otherwise show eigenimg
+			$iterdir = sprintf("iter%02d",$numiters);
+			$eigenfile = $stackdata['path']."/".$iterdir."/eigenim.hed";
+			$display_keys['eigen images'] = "<a target='stackview' href='viewstack.php?"
+				."file=$eigenfile&expId=$expId&ps=$mpix'>eigenim.hed</a>\n";
+		}
+	}
+	$stackfile = $stackdata['path']."/".$stackdata['imagicfile'];
+
+	if ($mini) {
+		$display_keys['pixel / box size']=round($apix,2)." &Aring;/pixel and ".$stackdata['boxsize']." pixels";
+		$display_keys['stack file']=$stackdata['path']."/<a target='stackview' HREF='viewstack.php?file=$stackfile&expId=$expId&ps=$mpix'>"
+			.$stackdata['imagicfile']."</a>\n";
+	} else {
+		// get box size
+		$display_keys['box size']=$stackdata['boxsize']." pixels";
+		// get pixel size of stack
+		$display_keys['pixel size']=round($apix,2)." &Aring;/pixel";
+		$display_keys['filter']=$stackdata['lp_filt']." and ".$stackdata['hp_filt']." &Aring;";
+		//$display_keys['run time']=round($stackdata['run_seconds']/60.0,2)." minutes";
+		$display_keys['path']=$stackdata['path'];
+		$display_keys['stack file']="<a target='stackview' HREF='viewstack.php?file=$stackfile&expId=$expId&ps=$mpix'>"
+			.$stackdata['imagicfile']."</A>\n";
+	}
+
+	//$display_keys['file type']=$stackdata['fileType'];
+	foreach($display_keys as $k=>$v) {
+	        $stacktable.= formatHtmlRow($k,$v);
+	}
+	$stacktable.= "</table>\n";
+	$stacktable.= "<p>\n";
+	return $stacktable;
+}
+
+/****************************************
+****************************************/
+function analysissummarytable($analysisid, $mini=false) {
+	$expId = $_GET['expId'];
+	$particle = new particledata();
+	$analysisdata = $particle->getAnalysisParams($analysisid);
+	if ($analysisdata['REF|ApImagicAlignAnalysisData|imagicMSArun']) {
+	        $imagicrun = $particle->getImagicAnalysisParams($analysisid);
+	}
+
+	if ($_POST['updateDesc'.$analysisid])
+		updateDescription('ApAlignAnalysisRunData', $analysisid, $_POST['newdescription'.$analysisid]);
+
+	if ($_POST['hideAnalysis'.$analysisid] == 'hide') {
+		$particle->updateHide('ApAlignAnalysisRunData', $analysisid, '1');
+		$analysisdata['hidden']='1';
+	} elseif ($_POST['unhideAnalysis'.$analysisid] == 'unhide') {
+		$particle->updateHide('ApAlignAnalysisRunData', $analysisid, '0');
+		$analysisdata['hidden']='0';
+	}
+
+	$j = "Analysis Info: <span class='aptitle'>"
+		.$analysisdata['runname']."</span> (ID: $analysisid)\n";
+	if ($analysisdata['hidden'] == 1) {
+		$j.= " <font color='#cc0000'>HIDDEN</font>\n";
+		$j.= " <input class='edit' type='submit' name='unhideAnalysis".$analysisid."' value='unhide'>\n";
+		$display_keys['hidden']="<font color='#cc0000'>HIDDEN</font>\n";
+	} else $j.= " <input class='edit' type='submit' name='hideAnalysis".$analysisid."' value='hide'>\n";
+
+	$analysistable.= apdivtitle($j);
+	//echo $j."<br/>\n";
+
+	$analysistable.= "<table border='0' align='center' valign='top'>\n";
+	// open table row
+	$analysistable.= "<tr>\n";
+
+	$dendrogram = $analysisdata['path']."/dendrogram.png";
+	if (file_exists($dendrogram)) {
+
+		$analysistable.= "<td rowspan='30' align='center' valign='top'>\n";
+		$analysistable.= "<a href='loadimg.php?filename=$dendrogram'>\n";
+		if ($mini)
+			$analysistable.= "<img src='loadimg.php?filename=$dendrogram&s=60' height='60' border='1'></a><br/>\n";
+		else
+			$analysistable.= "<img src='loadimg.php?filename=$dendrogram&s=160' height='160' border='1'></a><br/>\n";
+		$analysistable.= "<i>dendrogram</i>\n";
+		$analysistable.= "</td>\n";
+
+	} #endif
+
+	// eigen images
+	$eigendata = $particle->getCoranEigenDataFromAnalysis($analysisid);
+	if(!$mini && $eigendata) {
+		$analysistable.= "<td rowspan='30' align='center' valign='top'>\n";
+		$analysistable.= "<table class='tablebg' border='0' cellpadding='2'>\n";
+		$analysistable.= "<tr>\n";
+		foreach ($eigendata as $edata) {
+			$analysistable.= "<td>\n";
+			$index = (int) $edata['num'];
+			$efile = $edata['path']."/".$edata['name'];
+			$contrib = round($edata['contrib'],1);
+			$level = dechex($contrib/$eigendata[0]['contrib']*239 + 16);
+			$analysistable.=  "<a href='loadimg.php?filename=$efile' target='eigenimage'>\n"
+				."<img src='loadimg.php?filename=$efile&s=48' width='48' height='48' border='0'></a><br />\n";
+			$imgname = 'eigenimg'.$index;
+			$analysistable.=  "<center>$index ";
+			// when first loading page select first 3
+			// eigenimgs, otherwise reload selected
+			$analysistable.=  "<font color='#".$level."2222' size='-2'>($contrib %)</font></center>\n";
+			$analysistable.=  "</td>\n";
+			if ($index % 3 == 0) $analysistable.= "</tr>\n";
+			if ($index >= 9) break;
+		}
+		if ($index % 3 != 0) $analysistable.= "</tr>\n";
+		$analysistable.=  "</table>\n";
+	}
+
+	// close table row
+	$analysistable.= "</tr>\n\n";
+
+	// break up really long descriptions
+	$descBreaks = addSpaces($analysisdata['description'],50);
+
+	// add edit button to description if logged in
+	$descDiv = ($_SESSION['username']) ? editButton($analysisid, $analysisdata['description']) : $descBreaks;
+
+	$display_keys['date time'] = $analysisdata['DEF_timestamp'];
+	$display_keys['description']=$descDiv;
+	$display_keys['path']=$analysisdata['path'];
+	if ($imagicrun) {
+		$eigenimages = $analysisdata['path']."/eigenimages.hed";
+		$display_keys['Eigenimages'] = "<a target='Eigenimages' href='viewstack.php?expId=$expId&file=$eigenimages'> eigenimages.hed </a>\n";
+	}	
+	if (!$mini) {
+		if ($analysisdata['REF|ApCoranRunData|coranrun']) {
+			$display_keys['number of factors']=$analysisdata['num_factors'];
+		}
+		elseif ($imagicrun) {
+			$display_keys['number of factors']="69 IMAGIC eigenimages";
+		}
+	}
+	if (!$mini) $display_keys['run time']=round($analysisdata['run_seconds']/60.0,2)." minutes";
+	if (!$mini && $imagicrun) {
+		$eigenimages = $analysisdata['path']."/eigenimages.hed";
+		$display_keys['Eigenimages'] = "<a target='Eigenimages' href='viewstack.php?expId=$expId&file=$eigenimages'> eigenimages.hed </a>\n";
+	}
+	if (!$mini) {
+		if ($analysisdata['REF|ApCoranRunData|coranrun']) {
+			$display_keys['mask diam']=$analysisdata['mask_diam']." &Aring;ngstroms";
+		}
+		elseif ($imagicrun) {
+			$display_keys['mask radius']=$imagicrun['mask_radius']." (fraction of inner radius)";
+		}
+	}
+	// imagic-specific parameters
+	if (!$mini && $imagicrun) {
+		$display_keys['mask dropoff'] = $imagicrun['mask_dropoff'];
+		$display_keys['hp filt'] = $imagicrun['highpass']. " &Aring;ngstroms";
+		$display_keys['lp filt'] = $imagicrun['lowpass']." &Aring;ngstroms";
+		$display_keys['bin'] = $imagicrun['bin'];
+		$display_keys['overcorrection factor'] = $imagicrun['overcorrection'];
+		$display_keys['MSA method'] = $imagicrun['MSAmethod'];
+	}
+
+	// show data
+	foreach($display_keys as $k=>$v) {
+		$analysistable.= formatHtmlRow($k,$v);
+	}
+
+	$analysistable.= "</table>\n";
+	$analysistable.= "<p>\n";
+	return $analysistable;
+}
+
+/****************************************
+****************************************/
+function clustersummarytable($clusterrunid, $mini=false) {
+	$clustertable = "";
+	$expId = $_GET['expId'];
+	$particle = new particledata();
+	$clusterrun = $particle->getClusteringRunParams($clusterrunid);
+	$clusterrunname = $clusterrun['runname'];
+	$clusterdatas = $particle->getClusteringStacksForClusteringRun($clusterrunid, false);
+	if ($clusterdatas) {
+		$clustertable .= apdivtitle("Clustering Info: <span class='aptitle'>$clusterrunname</span>"
+			." (ID: $clusterrunid) with ".count($clusterdatas)." clusters\n");
+		$clustertable .= "<br/>\n";
+		if ($clusterrun['REF|ApImagicAlignAnalysisData|imagicMSArun']) {
+			$clustertable .= "<b>Type:</b> <i>Imagic MSA</i><br/>\n";
+			$clustertable .= "<ul>\n";
+		} elseif ($clusterrun['REF|ApSpiderClusteringParamsData|spiderparams']) {
+			$clustertable .= "<b>Type:</b> <i>SPIDER Coran</i><br/>\n";
+			$clustertable .= "<b>Method:</b> <i>".$clusterrun['method']."</i><br/>\n";
+			$clustertable .= "<b>Factor list:</b> <i>".$clusterrun['factor_list']."</i>\n";
+			$clustertable .= "<ul>\n";
+		} elseif ($clusterrun['REF|ApCL2DRunData|cl2dparams']) {
+			$clustertable .= "<b>Type:</b> <i>Xmipp CL2D</i><br/>\n";
+			$clustertable .= "<ul>\n";
+		} elseif ($clusterrun['REF|ApSIMPLEClusterRunData|simpleparams']) {
+			$clustertable .= "<b>Type:</b> <i>SIMPLE alignment and clustering</i><br/>\n";
+			$clustertable .= "<ul>\n";
+		} elseif ($clusterrun['REF|ApKerDenSOMParamsData|kerdenparams']) {
+			// KerDen only has one cluster data
+			$clusterdata = $clusterdatas[0];
+			$clusterid = $clusterdata['clusterid'];
+			$clusterpixelsize = $clusterdata['pixelsize'] * 1e-10; // Angstrom ????
+			$clustertable .= "<b>Type:</b> <i>Xmipp KerDen SOM</i><br/><br/>\n";
+
+			$montagefile = $clusterdata['path']."/"."montage.png";
+			$clustertable .= "<a href='loadimg.php?filename=$montagefile' target='snapshot'>\n"
+				."<img src='loadimg.php?h=120&filename=$montagefile' height='120'></a><br/>\n";
+
+			$clustertable .= "<ul>\n";
+			$clustertable .= "<li><a target='snapshot' href='loadimg.php?filename=$montagefile'>View montage of self-organizing map</a>\n";
+			$clusteravgfile = $clusterdata['path']."/".$clusterdata['avg_imagicfile'];
+			$clustertable .= "<li><a href='viewstack.php?expId=$expId&clusterId=$clusterid&file=$clusteravgfile&ps=$clusterpixelsize' target='stackview'>"
+				."View montage as a stack for further processing</a> (ID $clusterid)<br/>\n";
+			$clustertable .= "</ul>\n";
+		} elseif ($clusterrun['REF|ApRotKerDenSOMParamsData|rotkerdenparams']) {
+			// Rot KerDen only has one cluster data
+			$clusterdata = $clusterdatas[0];
+			$clusterid = $clusterdata['clusterid'];
+			$clustertable .= "<b>Type:</b> <i>Xmipp Rot KerDen SOM</i><br/><br/>\n";
+
+			$montagefile = $clusterdata['path']."/"."montage.png";
+			$clustertable .= "<a href='loadimg.php?filename=$montagefile' target='snapshot'>\n"
+				."<img src='loadimg.php?h=120&filename=$montagefile' height='120'></a><br/>\n";
+
+			$clustertable .= "<ul>\n";
+			$clustertable .= "<li><a target='snapshot' href='loadimg.php?filename=$montagefile'>View montage of self-organizing map</a>\n";
+			$clusteravgfile = $clusterdata['path']."/".$clusterdata['avg_imagicfile'];
+			$clustertable .= "<li><a href='viewstack.php?expId=$expId&clusterId=$clusterid&file=$clusteravgfile' target='stackview'>"
+				."View montage as a stack for further processing</a> (ID $clusterid)<br/>\n";
+			$clustertable .= "</ul>\n";
+		} elseif ($clusterrun['REF|ApAffinityPropagationClusterParamsData|affpropparams']) {
+			// Affinity Propagation only has one cluster data
+			$clusterdata = $clusterdatas[0];
+			$clusterid = $clusterdata['clusterid'];
+			$clustertable .= "<b>Type:</b> <i>Affinity Propagation Cluster</i><br/><br/>\n";
+
+			$clustertable .= "<ul>\n";
+			$clusteravgfile = $clusterdata['path']."/".$clusterdata['avg_imagicfile'];
+			$clustertable .= "<li><a href='viewstack.php?expId=$expId&clusterId=$clusterid&file=$clusteravgfile' target='stackview'>"
+				."View class averages</a> (ID $clusterid)<br/>\n";
+			$clustertable .= "</ul>\n";
+		} else {
+			$clustertable .= "<b>Type:</b> <i>Unknown type of clustering</i><br/>\n";
+			$clustertable .= "<ul>\n";
+		}
+		foreach ($clusterdatas as $clusterdata) {
+			$clusterid = $clusterdata['clusterid'];
+			$clusteravgfile = $clusterdata['path']."/".$clusterdata['avg_imagicfile'];
+			$clustervarfile = $clusterdata['path']."/".$clusterdata['var_imagicfile'];
+			if ($clusterdata['REF|ApImagicAlignAnalysisData|imagicMSArun']) {
+				$clustertable .= "<li><span>"
+					."<a target='stackview' href='viewstack.php?expId=$expId&clusterId=$clusterid&file=$clusteravgfile'>"
+					.$clusterdata['num_classes']." Class Averages</a> (ID $clusterid)&nbsp;"
+					."</span></li>\n";
+			} elseif ($clusterdata['REF|ApCL2DRunData|cl2dparams']) {
+				if (preg_match("/level_[0-9][0-9]/i", $clusteravgfile, $matches)){
+					$level = substr($matches[0],-2,2);
+				}
+				$clustertable .= "<li><span>"
+					."<a target='stackview' href='viewstack.php?expId=$expId&clusterId=$clusterid&file=$clusteravgfile'>"
+					.$clusterdata['num_classes']." Class Averages, level ".$level.":</a> (ID $clusterid)&nbsp;"
+					."</span></li>\n";
+			} elseif ($clusterdata['REF|ApSIMPLEClusterRunData|simpleparams']) {
+				$clustertable .= "<li><span>"
+					."<a target='stackview' href='viewstack.php?expId=$expId&clusterId=$clusterid&file=$clusteravgfile'>"
+					.$clusterdata['num_classes']." Class Averages</a> (ID $clusterid)&nbsp;"
+					."</span></li>\n";
+
+			} elseif ($clusterdata['REF|ApSpiderClusteringParamsData|spiderparams']) {
+				$clustertable .= "<li><span>"
+					."<a target='stackview' href='viewstack.php?expId=$expId&clusterId=$clusterid&file=$clusteravgfile'>"
+					.$clusterdata['num_classes']." Class Averages</a>&nbsp;"
+					."<a target='stackview' href='viewstack.php?expId=$expId&clusterId=$clusterid&file=$clustervarfile'>"
+					."[variance]</a>&nbsp;(ID $clusterid) "
+					."</span></li>\n";
+			}
+		}
+		$clustertable .= "</ul>\n";
+	}
+	return $clustertable;
+}
+
+/****************************************
+****************************************/
+function modelsummarytable($modelid, $mini=false) {
+	// initialization
+	$modeltable = "";
+	$expId = $_GET['expId'];
+	$particle = new particledata();
+	$modeldata = $particle->getInitModelInfo($modelid);
+	$modelname = $modeldata['name'];
+	$symdata = $particle->getSymInfo($modeldata['REF|ApSymmetryData|symmetry']);
+
+	if ($_POST['hideItem'.$modelid] == 'hide') {
+		$particle->updateHide('ApInitialModelData', $modelid, '1');
+		$modeldata['hidden']=1;
+	} elseif ($_POST['unhideItem'.$modelid] == 'unhide') {
+		$particle->updateHide('ApInitialModelData', $modelid, '0');
+		$modeldata['hidden']='0';
+	}
+
+	if ($modeldata['hidden'] == 1) {
+		$j.= " <font color='#cc0000'>HIDDEN</font>\n";
+		$j.= " <input class='edit' type='submit' name='unhideItem".$modelid."' value='unhide'>\n";
+		$display_keys['hidden']="<font color='#cc0000'>HIDDEN</font>\n";
+	} else $j.= " <input class='edit' type='submit' name='hideItem".$modelid."' value='hide'>\n";
+
+	// start table
+	$modeltable .= apdivtitle("Initial model: <span class='aptitle'>$modelname</span> (ID: $modelid) $j\n");
+	//$display_keys['id'] = "<b>".$modeldata['DEF_id']."</b> [<a href='viewmodels.php?expId=$expId'>show all</a>]";
+	$display_keys['date time'] = $modeldata['DEF_timestamp'];
+	$display_keys['description'] = $modeldata['description'];
+	$modelfile = $modeldata['path']."/".$modelname;
+	$modellink .= "&nbsp;(<font size='-2'><a href='download.php?expId=$expId&file=$modelfile'>\n";
+	$modellink .= "  <img style='vertical-align:middle' src='img/download_arrow.png' border='0' width='16' height='17' alt='download model'>";
+	$modellink .= "  &nbsp;download model\n";
+	$modellink .= "</a></font>)\n";
+	$display_keys['path'] = $modeldata['path'];
+	$display_keys['filename'] = $modelname.$modellink;
+	$display_keys['symmetry'] = "".$symdata['symmetry'].": <i>".$symdata['description']."</i>\n";
+	$display_keys['pixel size'] = format_angstrom_number($modeldata['pixelsize']/1e10)."/pix";
+	$display_keys['box size'] = $modeldata['boxsize']." pixels";
+
+	$modeltable .= "<table border='0'>\n";
+	// get first image
+
+	$modeltable .= "<tr><td rowspan='15'>\n";
+	$jmolscript = false; //JmolJavaScript($modeldata);
+	if ($jmolscript) {
+		$modeltable .= $jmolscript;
+	} else {
+		$allpngs = glob($modeldata['path']."/$modelname*.png");
+		if (count($allpngs) > 4) {
+			$modeltable .= "<table>\n";
+			$modeltable .= "<tr><td>\n";
+			$modeltable .= "<a href='loadimg.php?filename=$allpngs[0]'>\n";
+			$modeltable .= "<img src='loadimg.php?filename=$allpngs[0]&s=40' height='40' border='0'></a>\n";
+			$modeltable .= "</td><td rowspan='2'>\n";
+			$modeltable .= "<a href='loadimg.php?filename=$allpngs[1]'>\n";
+			$modeltable .= "<img src='loadimg.php?filename=$allpngs[1]&s=100' height='100' border='0'></a>\n";
+			$modeltable .= "</td><td>\n";
+			$modeltable .= "<a href='loadimg.php?filename=$allpngs[2]'>\n";
+			$modeltable .= "<img src='loadimg.php?filename=$allpngs[2]&s=40' height='40' border='0'></a>\n";
+			$modeltable .= "</td></tr><tr><td>\n";
+			$modeltable .= "<a href='loadimg.php?filename=$allpngs[3]'>\n";
+			$modeltable .= "<img src='loadimg.php?filename=$allpngs[3]&s=40' height='40' border='0'></a>\n";
+			$modeltable .= "</td><td>\n";
+			$modeltable .= "<a href='loadimg.php?filename=$allpngs[4]'>\n";
+			$modeltable .= "<img src='loadimg.php?filename=$allpngs[4]&s=40' height='40' border='0'></a>\n";
+			$modeltable .= "</td></tr></table>\n";
+		} elseif (count($allpngs) > 2) {
+			$modeltable .= "<table>\n";
+			$modeltable .= "<tr><td rowspan='2'>\n";
+			$modeltable .= "<a href='loadimg.php?filename=$allpngs[0]'>\n";
+			$modeltable .= "<img src='loadimg.php?filename=$allpngs[0]&s=100' height='100' border='0'></a>\n";
+			$modeltable .= "</td><td>\n";
+			$modeltable .= "<a href='loadimg.php?filename=$allpngs[1]'>\n";
+			$modeltable .= "<img src='loadimg.php?filename=$allpngs[1]&s=40' height='40' border='0'></a>\n";
+			$modeltable .= "</td></tr><tr><td>\n";
+			$modeltable .= "<a href='loadimg.php?filename=$allpngs[2]'>\n";
+			$modeltable .= "<img src='loadimg.php?filename=$allpngs[2]&s=40' height='40' border='0'></a>\n";
+			$modeltable .= "</td></tr></table>\n";
+		} else {
+			$modeltable .= "<img src='loadimg.php?filename=$allpngs[0]&s=120' height='120' border='0'></a>\n";
+		}
+	}
+
+	$modeltable .= "</td></tr>\n";
+	// show data
+	foreach($display_keys as $k=>$v) {
+		$modeltable .= formatHtmlRow($k,$v);
+	}
+	$modeltable .= "</table>\n";
+	return $modeltable;
+}
+
+/****************************************
+****************************************/
+function JmolJavaScript($modeldata) {
+	global $jmol;
+	if ($jmol) {
+		return false;
+	}
+	$modelroot = substr($modeldata['name'], 0, -4);
+	$objfile = $modeldata['path']."/".$modelroot.".obj";
+	echo "$objfile<br/><br/>\n";
+	if (!file_exists($objfile)) {
+		//return false;
+	}
+	$jmol = true;
+	$java .= "<!-- START Jmol Scripting -->\n";
+	$java .= "<script src='js/Jmol.js' type='text/javascript'></script>\n";
+	$java .= "<script type='text/javascript'>\n";
+	$java .= "  jmolInitialize('jmol', 'JmolAppletSigned.jar');\n"; //signed applet
+	//$java .= "  jmolInitialize('jmol');\n"; //unsigned applet
+	//$java .= "  jmolDebugAlert();\n"; // annoying pop-up messages that say nothing
+	$java .= "  jmolSetLogLevel(5);\n"; // show all errors
+	$java .= "  jmolSetAppletColor('#ffffff');\n"; //white background
+	$java .= "  jmolApplet([480, 320], 'zoom 5');\n"; //create window of 128 pixels and zoom out
+
+	// load files -- absolute paths are not working
+	//$java .= "  jmolScriptWait('isosurface ccp4 \"groel.mrc.gz\"')\n"; //read test MRC file
+	$java .= "  jmolScript('isosurface obj \"groel.obj.gz\"');\n"; //load test OBJ file
+	//$java .= "  jmolScriptWait('load 1grm.pdb');\n"; //load test pdb file
+	//$java .= "  jmolScriptWait('isosurface obj \"file://$objfile\"');\n"; // read obj file
+
+	$java .= "</script>\n";
+	$java .= "<!-- END Jmol Scripting -->\n";
+	return $java;
+};
+
+/****************************************
+****************************************/
+function templateStackEntry($stackInfo, $hidden=False, $mini=False){
+        $templateId=$stackInfo['DEF_id'];
+        $expId = (int) $_GET['expId'];
+	if (!$mini) {
+	        if ($_POST['updateDesc'.$templateId]) {
+	                updateDescription('ApTemplateImageData', $templateId, $_POST['newdescription'.$templateId]);
+	                $stackInfo['description']=$_POST['newdescription'.$templateId];
+	        }
+	}
+        $filename = $stackInfo['path'] ."/".$stackInfo['templatename'];
+
+        // create the image template table
+        $j = "Template ID: $templateId";
+	
+	if (!$mini) {
+	        if ($hidden) $j.= " <input class='edit' type='submit' name='unhideTemplate".$templateId."' value='unhide'>\n";
+        	else $j.= " <input class='edit' type='submit' name='hideTemplate".$templateId."' value='hide'>\n";
+	}
+        $templatetable.= apdivtitle($j);
+        $templatetable.="<table border='0' cellpadding='5'>\n";
+        $templatetable.="<tr><td valign='top'>\n";
+        $templatetable.="<img src='loadimg.php?filename=$filename&s=100' width='100'></td>\n";
+        $templatetable.="<td>\n";
+        $templatetable.="<B>Pixel Size:</B>  $stackInfo[apix]<br>\n";
+        $templatetable.="<B>Box Size: </B> $stackInfo[boxsize]<br>\n";
+        $templatetable.="<B>File: </B>\n";
+        $templatetable.=$filename;
+        $templatetable.="<br />\n";
+        $templatetable.="<b>Description: </b>\n";
+
+        # add edit button to description if logged in
+	if (!$mini) {
+        	$descDiv = ($_SESSION['username']) ? editButton($templateId,$stackInfo['description']) : $stackInfo['description'];
+        	$templatetable.=$descDiv;
+	}
+	else $templatetable.=$stackInfo['description']."<br>\n";
+        $templatetable.="<a target=tsview href='viewstack.php?file=$filename&expId=$expId"
+				."&templateStackId=$templateId'><b>View Template Stack</b></a>\n";
+        $templatetable.="</td></tr>\n";
+        $templatetable.="</table>\n";
+        return $templatetable;
+}
+
+/*
+******************************************
+*/
+// TODO: this function may be removed when we complete the refine refactor #1324
+function frealigntable($frealignprepid) {
+	// initialization
+	$table = "";
+
+	$expId = $_GET['expId'];
+	$particle = new particledata();
+
+	$datas = $particle->getPreparedFrealignJobs($frealignprepid);
+	if (!$datas)
+		return;
+	$data = $datas[0];
+	//echo print_r($data)."<br/><br/>\n";
+
+	// start table
+	$name = $data['name'];
+	$id = $data['DEF_id'];
+
+	if ($_POST['hideItem'.$id] == 'hide') {
+		$particle->updateHide('ApFrealignPrepareData', $id, '1');
+		$particle->abortClusterJob($data['jobid']);
+		$data['hidden']=1;
+	} elseif ($_POST['unhideItem'.$id] == 'unhide') {
+		$particle->updateHide('ApFrealignPrepareData', $id, '0');
+		$particle->updateClusterJobStatus($data['jobid'], "D");
+		$data['hidden']='0';
+	}
+
+	if ($data['hidden'] == 1) {
+		$j.= " <font color='#cc0000'>HIDDEN</font>\n";
+		$j.= " <input class='edit' type='submit' name='unhideItem".$id."' value='unhide'>\n";
+		$display_keys['hidden']="<font color='#cc0000'>HIDDEN</font>\n";
+	} else $j.= " <input class='edit' type='submit' name='hideItem".$id."' value='hide'>\n";
+
+	$table .= apdivtitle("Frealign Job: <span class='aptitle'>$name</span> (ID: $id) $j\n");
+	if ($data['hidden'] == 1)
+		return $table;
+
+	$display_keys['date time'] = $data['DEF_timestamp'];
+	$display_keys['path'] = $data['path'];
+	$display_keys['model'] = modelsummarytable($data['REF|ApInitialModelData|model'], true);
+	$display_keys['stack'] = stacksummarytable($data['REF|ApStackData|stack'], true);
+
+	$table .= "<table border='0'>\n";
+	// show data
+	foreach($display_keys as $k=>$v) {
+		$table .= formatHtmlRow($k,$v);
+	}
+
+	$table .= "</table>\n";
+	return $table;
+};
+
+function addSpaces($text,$len=60) {
+	## take a long string and add spaces
+	## only after commas
+	$fragment = 1;
+	$newtext = '';
+	for ($i=0; $i < strlen($text); $i++) {
+		$fragment++;
+		$newtext.=$text[$i];
+		if ($fragment < $len) continue;
+		if ($text[$i]==' ') $fragment = 1;
+		elseif ($text[$i]==',') {
+			$newtext.=" ";
+			$fragment=1;
+		}
+	}
+	return $newtext;
+}
+
+function prepRefineTable($jobid) {
+	// initialization
+	$table = "";
+
+	$expId = $_GET['expId'];
+	$particle = new particledata();
+
+	$datas = $particle->getPreparedRefineJobs($jobid);
+	if (!$datas)
+		return;
+	$data = $datas[0];
+	//echo print_r($data)."<br/><br/>\n";
+
+	// start table
+	$name = $data['name'];
+	$id = $data['DEF_id'];	
+
+	if ($_POST['hideItem'.$id] == 'hide') {
+		$particle->updateHide('ApPrepRefineData', $id, '1');
+		$particle->abortClusterJob($data['jobid']);
+		$data['hidden']=1;
+	} elseif ($_POST['unhideItem'.$id] == 'unhide') {
+		$particle->updateHide('ApPrepRefineData', $id, '0');
+		$particle->updateClusterJobStatus($data['jobid'], "D");
+		$data['hidden']='0';
+	}
+
+	if ($data['hidden'] == 1) {
+		$j.= " <font color='#cc0000'>HIDDEN</font>\n";
+		$j.= " <input class='edit' type='submit' name='unhideItem".$id."' value='unhide'>\n";
+		$display_keys['hidden']="<font color='#cc0000'>HIDDEN</font>\n";
+	} else $j.= " <input class='edit' type='submit' name='hideItem".$id."' value='hide'>\n";
+
+	$table .= apdivtitle("Refine Job: <span class='aptitle'>$name</span> (ID: $id) $j\n");
+	if ($data['hidden'] == 1)
+		return $table;
+
+	$display_keys['date time'] = $data['DEF_timestamp'];
+	$display_keys['path'] = $data['path'];
+	$display_keys['description'] = $data['description'];
+	
+	// Add each model to the table
+	$models = $particle->getModelsFromRefineID( $id );
+	
+	foreach( $models as $model ) {
+		$modelIds .= $model['DEF_id'].",";
+	}
+	$modelIds = trim($modelIds, ",");
+	$models = explode(",", $modelIds);
+	foreach ($models as $modelid) {
+		$display_keys['model'] .= modelsummarytable($modelid, true);
+	}
+	
+	$display_keys['stack'] = stacksummarytable($data['REF|ApStackData|stack'], true);
+
+	$table .= "<table border='0'>\n";
+	// show data
+	foreach($display_keys as $k=>$v) {
+		$table .= formatHtmlRow($k,$v);
+	}
+
+	$table .= "</table>\n";
+	return $table;
+};
+
+?>

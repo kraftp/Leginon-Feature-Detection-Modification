@@ -1,0 +1,1151 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/myami/!svn/ver/18253/branches/myami-3.0/appion/bin
+END
+hideRejects.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/hideRejects.py
+END
+centerParticleStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/centerParticleStack.py
+END
+uploadXmippRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadXmippRefine.py
+END
+makeSnapshot.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/makeSnapshot.py
+END
+contouranalysis.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/contouranalysis.py
+END
+focalPairSync.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/focalPairSync.py
+END
+newPicksFromRecon.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/newPicksFromRecon.py
+END
+uploadMaxlikeAlignment.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadMaxlikeAlignment.py
+END
+findem32.exe
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/findem32.exe
+END
+webcaller.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/webcaller.py
+END
+makegoodaverages.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/makegoodaverages.py
+END
+clstoaligned.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/clstoaligned.py
+END
+ctfestimate.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/ctfestimate.py
+END
+templateCorrelator.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/templateCorrelator.py
+END
+cleanRecon.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/cleanRecon.py
+END
+fakeTwoStacks.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/bin/fakeTwoStacks.py
+END
+maskmaker.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/maskmaker.py
+END
+stackFilter.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/stackFilter.py
+END
+runFrealign.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/runFrealign.py
+END
+radonAlign.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/radonAlign.py
+END
+subStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/subStack.py
+END
+templateCorrelatorG.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/templateCorrelatorG.py
+END
+tomoaligner.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/tomoaligner.py
+END
+protomo2aligner.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/protomo2aligner.py
+END
+uploadTomo.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadTomo.py
+END
+makestack2.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/makestack2.py
+END
+ace2correct.exe
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/ace2correct.exe
+END
+equalViewsSubStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/equalViewsSubStack.py
+END
+uploadFrealignRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadFrealignRefine.py
+END
+contourpicker.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/contourpicker.py
+END
+protomorefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/protomorefine.py
+END
+phasorCtf.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/phasorCtf.py
+END
+ApTiltPicker.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/ApTiltPicker.py
+END
+spiderNoRefAlign.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/spiderNoRefAlign.py
+END
+imagicMSAcluster.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/imagicMSAcluster.py
+END
+test_zz07jul25b.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/test_zz07jul25b.py
+END
+prepRefineEman.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/prepRefineEman.py
+END
+relaxSym.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/relaxSym.py
+END
+prepRefineFrealign.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/prepRefineFrealign.py
+END
+maxlikeRefinement.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/bin/maxlikeRefinement.py
+END
+alignDefocalPairs.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/alignDefocalPairs.py
+END
+prepRefineRelion.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/prepRefineRelion.py
+END
+subtomomaker.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/subtomomaker.py
+END
+testRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/testRefine.py
+END
+postProc.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/postProc.py
+END
+etomo_recon.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/etomo_recon.py
+END
+catchUpDDAlign.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/catchUpDDAlign.py
+END
+modelFromEMDB.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/modelFromEMDB.py
+END
+getRes.pl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/getRes.pl
+END
+freeHandTest.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/freeHandTest.py
+END
+checkdrives.sh
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/checkdrives.sh
+END
+protomo2reconstruct.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/protomo2reconstruct.py
+END
+prepFrealign.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/prepFrealign.py
+END
+edCenterStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/edCenterStack.py
+END
+imagicMultiReferenceAlignment.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/imagicMultiReferenceAlignment.py
+END
+rejectUnpairedTilts.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/rejectUnpairedTilts.py
+END
+edIterAlign.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/edIterAlign.py
+END
+frealignParamStats.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/frealignParamStats.py
+END
+runXmippCL2D.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/runXmippCL2D.py
+END
+maxlikeAlignment.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/bin/maxlikeAlignment.py
+END
+manualmask.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/manualmask.py
+END
+getRes.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/getRes.py
+END
+oldfindem.exe
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/oldfindem.exe
+END
+alignSubStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/alignSubStack.py
+END
+apcluster.exe
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/apcluster.exe
+END
+makeDDParticleGIFMovie.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/makeDDParticleGIFMovie.py
+END
+moveData.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/bin/moveData.py
+END
+combinestack.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/combinestack.py
+END
+taskStatusLogger.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/taskStatusLogger.py
+END
+tomoraptor.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/tomoraptor.py
+END
+uploadTemplateStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadTemplateStack.py
+END
+tiltAutoAligner.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/tiltAutoAligner.py
+END
+coran_for_cls.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/coran_for_cls.py
+END
+imgRejector.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/imgRejector.py
+END
+automasker.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/automasker.py
+END
+uploadExternalRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadExternalRefine.py
+END
+splitstack.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/splitstack.py
+END
+xmipp_multimodel_control.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/xmipp_multimodel_control.py
+END
+assembleBestCTFImages.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/assembleBestCTFImages.py
+END
+runJob.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/runJob.py
+END
+updateAppionDB.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/bin/updateAppionDB.py
+END
+pyace.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/pyace.py
+END
+dbStackDownload.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/dbStackDownload.py
+END
+clusterCoran.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/clusterCoran.py
+END
+affPropSubClassify.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/affPropSubClassify.py
+END
+ctfRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/ctfRefine.py
+END
+modelFromPDB.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/modelFromPDB.py
+END
+interactiveCtf.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/interactiveCtf.py
+END
+taskMonitor.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/taskMonitor.py
+END
+combineQualityMetrics.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/combineQualityMetrics.py
+END
+prepRefineXmipp.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/prepRefineXmipp.py
+END
+ApTiltPickerHelical.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/ApTiltPickerHelical.py
+END
+dbStackUpload.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/dbStackUpload.py
+END
+makeDDParticleFLVMovie.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/makeDDParticleFLVMovie.py
+END
+satAverage.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/satAverage.py
+END
+stackIntoPicks.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/stackIntoPicks.py
+END
+protomoreconstruct.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/protomoreconstruct.py
+END
+tiltStackSync.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/bin/tiltStackSync.py
+END
+makeTiltStackFromPair.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17993/branches/myami-3.0/appion/bin/makeTiltStackFromPair.py
+END
+uploadMisc.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadMisc.py
+END
+ace2.exe
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/ace2.exe
+END
+contourpickerTextFileGenerator.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/contourpickerTextFileGenerator.py
+END
+dogPicker.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/dogPicker.py
+END
+protomoprep2.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/protomoprep2.py
+END
+flattenSolvent.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/flattenSolvent.py
+END
+runrmeasure.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/runrmeasure.py
+END
+imageloader.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/18253/branches/myami-3.0/appion/bin/imageloader.py
+END
+uploadstack.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadstack.py
+END
+ccStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/ccStack.py
+END
+OptiMod.py
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/OptiMod.py
+END
+pyace2.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/pyace2.py
+END
+createModel.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/createModel.py
+END
+satEuler.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/bin/satEuler.py
+END
+protomo2upload.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/protomo2upload.py
+END
+getProjEulers.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/getProjEulers.py
+END
+boxMaskStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/boxMaskStack.py
+END
+xmippCtf.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/xmippCtf.py
+END
+uploadFrealign.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadFrealign.py
+END
+signaturePicker.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/signaturePicker.py
+END
+spiderRecon_PWL.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/spiderRecon_PWL.py
+END
+makeDDRawFrameStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/makeDDRawFrameStack.py
+END
+jpgmaker.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/jpgmaker.py
+END
+refBasedMaxlikeAlign.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/bin/refBasedMaxlikeAlign.py
+END
+sortJunkStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/sortJunkStack.py
+END
+uploadModel.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadModel.py
+END
+protomo2prep.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/protomo2prep.py
+END
+pcount.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/pcount.py
+END
+imagic3dRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/imagic3dRefine.py
+END
+uploadImages.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadImages.py
+END
+etomo_samplerecon.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/etomo_samplerecon.py
+END
+runSimpleClusterAndOrigami.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/runSimpleClusterAndOrigami.py
+END
+topologyAlignment.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/topologyAlignment.py
+END
+uploadRecon.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadRecon.py
+END
+powerSpectra.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/powerSpectra.py
+END
+appion.templ
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/appion.templ
+END
+createFakeStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/bin/createFakeStack.py
+END
+maxlikeCenterStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/maxlikeCenterStack.py
+END
+refBasedAlignmentGPU.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/refBasedAlignmentGPU.py
+END
+protomoprep.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/protomoprep.py
+END
+kerdenSOM.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/kerdenSOM.py
+END
+imod_wbprecon.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/imod_wbprecon.py
+END
+ApDogPicker.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/ApDogPicker.py
+END
+imagicMSA.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/imagicMSA.py
+END
+hideSquare.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/bin/hideSquare.py
+END
+refBasedAlignment2.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/refBasedAlignment2.py
+END
+prepRefineXmippML3D.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/prepRefineXmippML3D.py
+END
+convert2Dto1D.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/convert2Dto1D.py
+END
+tomoautorecon.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/tomoautorecon.py
+END
+tomomoviemaker.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/tomomoviemaker.py
+END
+can32.exe
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/can32.exe
+END
+can64_mp.exe
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/can64_mp.exe
+END
+taskSender.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/taskSender.py
+END
+createSyntheticDataset.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/createSyntheticDataset.py
+END
+contourpickerTubeCircleTextFileGenerator.py
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/contourpickerTubeCircleTextFileGenerator.py
+END
+uploadXmippCL2D.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadXmippCL2D.py
+END
+tomoaverage.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/tomoaverage.py
+END
+manualpicker.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/manualpicker.py
+END
+uploadXmippML3DRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadXmippML3DRefine.py
+END
+rotKerdenSOM.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/rotKerdenSOM.py
+END
+uploadTemplate.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadTemplate.py
+END
+apmqRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/apmqRefine.py
+END
+xmipp_protocol_multimodel_for_remote_control.py
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/xmipp_protocol_multimodel_for_remote_control.py
+END
+otrVolume.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/otrVolume.py
+END
+uploadEMANParticles.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadEMANParticles.py
+END
+alignModels.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/alignModels.py
+END
+countparticles.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/countparticles.py
+END
+emanRefine2d.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/emanRefine2d.py
+END
+coranClassify.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/coranClassify.py
+END
+jumperSubStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/jumperSubStack.py
+END
+coranSubStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/coranSubStack.py
+END
+uploadAppionParticles.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadAppionParticles.py
+END
+cleanddraw.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/18030/branches/myami-3.0/appion/bin/cleanddraw.py
+END
+findem64.exe
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/findem64.exe
+END
+hippostProc.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/hippostProc.py
+END
+makeDDParticleMRCMovie.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/makeDDParticleMRCMovie.py
+END
+numberParticlesInStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/numberParticlesInStack.py
+END
+affinityPropCluster.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/bin/affinityPropCluster.py
+END
+apChimAlign.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/apChimAlign.py
+END
+scalestack.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/scalestack.py
+END
+testStackFormat.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/testStackFormat.py
+END
+tiltaligner.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/tiltaligner.py
+END
+uploadEMANRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/uploadEMANRefine.py
+END
+rctVolume.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/rctVolume.py
+END
+HIP.py
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/HIP.py
+END
+wrappertest.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/wrappertest.py
+END
+fixMrcMachineStamp.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/fixMrcMachineStamp.py
+END
+etomo_subrecon.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/etomo_subrecon.py
+END
+ApTiltAutoPicker.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/ApTiltAutoPicker.py
+END
+appionScript.py.template
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/appionScript.py.template
+END
+plotcorr2.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/plotcorr2.py
+END
+tomo2pdb.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/bin/tomo2pdb.py
+END

@@ -1,0 +1,665 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/myami/!svn/ver/18256/branches/myami-3.0/appion/appionlib
+END
+apViewIt.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apViewIt.py
+END
+apChimera.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apChimera.py
+END
+apTemplateCorrelator.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTemplateCorrelator.py
+END
+apDog.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apDog.py
+END
+apTaskMonitor.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTaskMonitor.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/__init__.py
+END
+apTomo.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTomo.py
+END
+basicAgent.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/basicAgent.py
+END
+genScriptSumm.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/genScriptSumm.py
+END
+appionLoop2.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/appionLoop2.py
+END
+apDenoise.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apDenoise.py
+END
+apFrealign.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/appionlib/apFrealign.py
+END
+apImagicFile.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apImagicFile.py
+END
+apFrealignMRC.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apFrealignMRC.py
+END
+appiondata.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/appiondata.py
+END
+apModel.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apModel.py
+END
+apMatlab.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/appionlib/apMatlab.py
+END
+apChimSnapshot.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apChimSnapshot.py
+END
+apBeamTilt.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apBeamTilt.py
+END
+apRefineJobXmippML3D.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apRefineJobXmippML3D.py
+END
+apParallelTasks.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apParallelTasks.py
+END
+apDisplay.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/18038/branches/myami-3.0/appion/appionlib/apDisplay.py
+END
+apStackMeanPlot.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apStackMeanPlot.py
+END
+apTaskLogEman.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTaskLogEman.py
+END
+apRecon.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/appionlib/apRecon.py
+END
+apGenericJob.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apGenericJob.py
+END
+apThread.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apThread.py
+END
+apProTomo2Prep.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apProTomo2Prep.py
+END
+apInstrument.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apInstrument.py
+END
+apEulerJump.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/appionlib/apEulerJump.py
+END
+pymagic.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/pymagic.py
+END
+apPrepXmipp3D.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apPrepXmipp3D.py
+END
+apFourier.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apFourier.py
+END
+apFreeHand.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apFreeHand.py
+END
+apRefineJobRelion.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apRefineJobRelion.py
+END
+apTaskLogFrealign.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTaskLogFrealign.py
+END
+apTomoSubRecon.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTomoSubRecon.py
+END
+apCorrelate.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apCorrelate.py
+END
+apEMAN.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apEMAN.py
+END
+apCommonLines.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apCommonLines.py
+END
+testScript.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/testScript.py
+END
+spyder.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/spyder.py
+END
+apDDprocess.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/18127/branches/myami-3.0/appion/appionlib/apDDprocess.py
+END
+apConvexHull.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apConvexHull.py
+END
+apTomoFullRecon.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/18010/branches/myami-3.0/appion/appionlib/apTomoFullRecon.py
+END
+apSymmetry.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/appionlib/apSymmetry.py
+END
+apTomoMakerBase.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTomoMakerBase.py
+END
+jobtest.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/jobtest.py
+END
+version.txt
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17974/branches/myami-3.0/appion/appionlib/version.txt
+END
+apDefocalPairs.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apDefocalPairs.py
+END
+apAgent.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/appionlib/apAgent.py
+END
+filterLoop.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/filterLoop.py
+END
+particleLoop2.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/particleLoop2.py
+END
+apProTomo.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apProTomo.py
+END
+apAmpCorrect.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apAmpCorrect.py
+END
+apRadon.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apRadon.py
+END
+apParticle.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apParticle.py
+END
+apRefineJob.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/18101/branches/myami-3.0/appion/appionlib/apRefineJob.py
+END
+apSizing.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSizing.py
+END
+apRaptor.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apRaptor.py
+END
+apVolume.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apVolume.py
+END
+appionTiltSeriesLoop.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/myami/!svn/ver/17984/branches/myami-3.0/appion/appionlib/appionTiltSeriesLoop.py
+END
+selexonFunctions2.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/selexonFunctions2.py
+END
+apK2process.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/18127/branches/myami-3.0/appion/appionlib/apK2process.py
+END
+apTemplate.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTemplate.py
+END
+apXmippProtocolsProjMatchBasic.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apXmippProtocolsProjMatchBasic.py
+END
+apAlignment.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apAlignment.py
+END
+apStackFormat.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apStackFormat.py
+END
+apMovie.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apMovie.py
+END
+apBoxer.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/18038/branches/myami-3.0/appion/appionlib/apBoxer.py
+END
+apProTomo2.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apProTomo2.py
+END
+apRefineJobXmipp.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apRefineJobXmipp.py
+END
+basicScript.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/basicScript.py
+END
+apImod.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apImod.py
+END
+apDBImage.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apDBImage.py
+END
+processingHost.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/processingHost.py
+END
+apEulerDraw.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/appionlib/apEulerDraw.py
+END
+torqueHost.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/torqueHost.py
+END
+apParticleExtractor.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/myami/!svn/ver/18030/branches/myami-3.0/appion/appionlib/apParticleExtractor.py
+END
+apEulerCalc.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apEulerCalc.py
+END
+apParam.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apParam.py
+END
+apSignature.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSignature.py
+END
+apEMAN2.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apEMAN2.py
+END
+apRefineJobEman.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apRefineJobEman.py
+END
+apHelicalParams.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apHelicalParams.py
+END
+apStack.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apStack.py
+END
+apProject.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apProject.py
+END
+apScriptLog.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apScriptLog.py
+END
+apFindEMG.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apFindEMG.py
+END
+apDDParticleMovie.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/myami/!svn/ver/18030/branches/myami-3.0/appion/appionlib/apDDParticleMovie.py
+END
+apRefineJobFrealign.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apRefineJobFrealign.py
+END
+apPrepParallelRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apPrepParallelRefine.py
+END
+apFile.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apFile.py
+END
+apTomoSample.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTomoSample.py
+END
+reconUploader.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/reconUploader.py
+END
+apDEprocess.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/18127/branches/myami-3.0/appion/appionlib/apDEprocess.py
+END
+apIMAGIC.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apIMAGIC.py
+END
+appionScript.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/appionScript.py
+END
+apMask.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apMask.py
+END
+apCrud.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17993/branches/myami-3.0/appion/appionlib/apCrud.py
+END
+apXmipp.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apXmipp.py
+END
+apPrepRefine.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apPrepRefine.py
+END
+apXml.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apXml.py
+END
+apCoranPlot.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apCoranPlot.py
+END
+apFindEM.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apFindEM.py
+END
+apWebScript.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/18210/branches/myami-3.0/appion/appionlib/apWebScript.py
+END
+apPeaks.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apPeaks.py
+END
+apDatabase.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apDatabase.py
+END
+apTaskLog.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTaskLog.py
+END
+apConfig.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apConfig.py
+END

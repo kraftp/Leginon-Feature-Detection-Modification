@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/myami/!svn/ver/18030/branches/myami-3.0/myamiweb/test
+END
+ex1.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/test/ex1.php
+END
+ex2.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17999/branches/myami-3.0/myamiweb/test/ex2.php
+END
+viewconfig.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/test/viewconfig.php
+END
+checkwebserver.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/18030/branches/myami-3.0/myamiweb/test/checkwebserver.php
+END
+viewerdata.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/test/viewerdata.xml
+END

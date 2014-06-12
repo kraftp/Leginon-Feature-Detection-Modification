@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/myami/!svn/ver/17973/branches/myami-3.0/comarray/py2.5
+END
+NumpySafeArrayTIA.pyd
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/comarray/py2.5/NumpySafeArrayTIA.pyd
+END
+NumpySafeArray.pyd
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/comarray/py2.5/NumpySafeArray.pyd
+END
+NumpySafeArraySlow.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/comarray/py2.5/NumpySafeArraySlow.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/comarray/py2.5/__init__.py
+END
+setup.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/comarray/py2.5/setup.py
+END

@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/myami/!svn/ver/18015/branches/myami-3.0/redux/pipes
+END
+format.py
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/format.py
+END
+sqrt.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/sqrt.py
+END
+mask.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/mask.py
+END
+read.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/read.py
+END
+power.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/power.py
+END
+histogram.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/histogram.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/18015/branches/myami-3.0/redux/pipes/__init__.py
+END
+shape.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/shape.py
+END
+lpf.py
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/lpf.py
+END
+simulate.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/simulate.py
+END
+pad.py
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/pad.py
+END
+leginonread.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/leginonread.py
+END
+scale.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipes/scale.py
+END

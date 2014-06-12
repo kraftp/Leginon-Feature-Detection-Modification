@@ -1,0 +1,167 @@
+/* style sheet for appionweb pages */
+
+body {     
+	margin:0;
+	padding:0 0 15px 0;
+	color:#000;
+	background:#fff;
+	font-size: 10pt;
+}
+
+input {
+	border: 1px solid #aabbcc;
+}
+
+input[type="submit"]:hover {
+	background: #ffe88d;
+}
+
+input[type="button"]:hover {
+	background: #ffe88d;
+}
+
+textarea {
+	 border: 1px solid #aabbcc;
+}
+
+input.edit {
+      font-size: 9px;
+      padding: 1px 1px 1px 1px;
+}
+
+.tablebubble
+{
+	border:		 solid;
+	border-color:    #D4D0C8;
+}
+
+/* Header */
+#apheader hr {display:none;}
+#apheader ul {
+	margin:     0;
+	padding:    0;
+	list-style: none inside;
+}
+
+#apheader {
+	  font-size: 9pt;
+	  color:#eee;
+	  border-bottom:1px solid #fff;
+}
+
+#apheader a {
+	  color:#ffe88d;
+	  text-decoration:none;
+}	  
+
+#apheader a:hover {
+	  color:#ffcc00;
+	  text-decoration:underline;
+}  
+
+/* Accessibility bar and login */
+#apheader .aptopbar ,.apbottombar {
+	  background-color:#386F8F;
+	  border-bottom:1px solid #fff;
+	  padding:4px 0 5px 0;
+}
+
+#apheader .aplogin , .aplogged {
+	  text-decoration:none;
+	  padding-left:25px;
+	  text-align:left;
+}
+
+#apheader .aplogged {float:left;}
+
+#apheader .aplogout {
+	  padding-right:10px;
+	  text-align:right;	  
+}
+
+#apheader .middlebar {
+	  background-color:#004e6f;
+	  border-bottom:1px solid #fff;
+}
+
+#apheader .aptitle {
+	  height: 60px;
+	  padding-left: 20px;
+	  text-align: left;
+}
+
+#apheader .aptitle td {
+	  color:#fff;
+	  font-size: 15pt;
+}
+
+#apheader .apbottomcontent {
+	  text-align:left;
+	  padding-left:20px;
+	  color:#fff;
+}
+
+#apheader .apbottomcontent td{
+	  color:#fff;
+}
+
+#apheader .apshadow {
+	  background: #fff;
+	  background-image:  url(../img/appionshadow.jpg);
+}
+
+/* for floating help documentation */
+
+.aphelpdoc {
+	   position: absolute;
+	   background-color:#ffffdd;
+	   font-size: 10pt;
+	   color: black;
+	   border: 1px solid black;
+	   visibility: hidden;
+	   z-index: +1;
+	   text-align: left;
+}
+
+.expandcontract {
+		font-size:10pt;
+		padding-left:5px;
+}
+
+/* for link to look like button */
+A.btp1 {
+	border: 1px solid #aabbcc;
+	padding: 2px 6px 2px 6px;
+	background: #e0dfe3;
+	color: #000;
+	text-decoration: none;
+}
+
+A.btp1:hover {
+	background: #ffe88d;
+}
+
+A.btp1blue {
+	border: 1px solid #6b98b3;
+	padding: 2px 6px 2px 6px;
+	background: #d5e6f0;
+	color: #093d5a;
+	text-decoration: none;
+}
+
+A.btp1blue:hover {
+	background: #ffe88d;
+}
+
+A.btp1white {
+	border: 1px solid #aabbcc;
+	padding: 2px 6px 2px 6px;
+	background: #fff;
+	color: #000;
+	text-decoration: none;
+}
+
+A.btp1white:hover {
+	background: #ffe88d;
+}
+

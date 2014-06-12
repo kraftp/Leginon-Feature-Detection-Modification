@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/myami/!svn/ver/18210/branches/myami-3.0/myamiweb/setup
+END
+initDataReport.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/initDataReport.php
+END
+initTablesReport.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/initTablesReport.php
+END
+setupBase.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/setupBase.php
+END
+template.inc
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/template.inc
+END
+wizard.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/wizard.php
+END
+review.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/review.php
+END
+setupUtils.inc
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/setupUtils.inc
+END
+initDBTables.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/initDBTables.php
+END
+index.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/index.php
+END
+updateDataReport.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/updateDataReport.php
+END
+setupEmail.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/18003/branches/myami-3.0/myamiweb/setup/setupEmail.php
+END
+setupProcessingHosts.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/myami/!svn/ver/18210/branches/myami-3.0/myamiweb/setup/setupProcessingHosts.php
+END
+autoInstallSetup.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/18058/branches/myami-3.0/myamiweb/setup/autoInstallSetup.php
+END
+insertInitData.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/insertInitData.php
+END
+confirmConfig.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/confirmConfig.php
+END
+setupOthers.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/setupOthers.php
+END
+setupDatabase.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/setup/setupDatabase.php
+END

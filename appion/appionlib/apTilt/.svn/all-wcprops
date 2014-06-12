@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTilt
+END
+apTiltPair.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTilt/apTiltPair.py
+END
+apTiltTransform.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTilt/apTiltTransform.py
+END
+testTiltShift.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTilt/testTiltShift.py
+END
+apTiltShift.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTilt/apTiltShift.py
+END
+tiltDialog.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTilt/tiltDialog.py
+END
+tiltfile.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTilt/tiltfile.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTilt/__init__.py
+END
+slowmacher.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTilt/slowmacher.py
+END
+autotilt.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apTilt/autotilt.py
+END

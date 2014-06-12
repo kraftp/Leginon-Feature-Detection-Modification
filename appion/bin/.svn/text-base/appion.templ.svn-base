@@ -1,0 +1,219 @@
+#!/usr/bin/env python
+
+#Env_Override: 
+#Indicates that you want user defined environment variables to override the
+#values set in this file.
+Env_Override = False
+
+#Appion_Bin_Dir:  Appion scripts directory
+#Set the path to the directory containing the appion scripts. The default
+#instalation places them in  /usr/bin.
+Appion_Bin_Dir = ''
+
+#Appion_Lib_Dir: Appion Python libraries location
+# Usually these are installed in the Python site-packages directory. If you
+#installed them someplace else set this variable to the directory cotaining 
+#the appionlib directory 
+Appion_Lib_Dir = ''
+
+#Appion_Ace_Dir: Ace 1 .m file location
+#If you installed the ACE 1 matlab files in a different directory than the 
+#directory which cotains the appion scripts (Appion_Bin_Dir) set this variable.
+Appion_Ace_Dir = ''
+
+#Matlab_Dir: Matab installation directory
+#To use ACE you must indicate the MatLab installation directory.  This is
+#only needed for ACE 1, it does not need to be set if you're only using ACE2.
+Matlab_Dir = ''
+
+
+#This next section sets the installation directories for the tools used by
+#Appion.  For any these tools you would like to use it with appion set this
+#configuration parameter to the directory where you installed it.
+
+#Eman_Dir: Eman root installation directory
+Eman_Dir = ''
+
+#Xmipp_Dir: Xmipp's root installation directory. 
+Xmipp_Dir = ''
+
+
+#Spider_Dir: Spider's root installation directory.
+Spider_Dir = ''
+
+# em_hole_finder_dir: em_hole_finder root installation directory.
+em_hole_finder_dir = ''
+
+#Imod_Dir: Imod's root installation directory.
+Imod_Dir = ''
+
+#If you wish to have python search additional directories for module files,
+#specify the full path to the directory here.  Separate multiple directories
+#by a colon ":".
+Python_Path = ''
+
+#You can change the path to the standard python libraries.  Only change this
+#if you know what you are doing
+Python_Home = ''
+
+#If you'd like to prepend any directories to the PATH environment variable
+#add them here separated by a colon ':'.
+Path = ''
+
+
+##################### End of Configuration section. ########################
+################ Do not alter anything below this line.#####################
+import os
+import sys
+import subprocess
+import glob
+
+##Two useful functions for appending and prepending to environment
+##variables
+
+##prependToEnv ();
+## 
+def prependToEnv (envVar, newString):
+
+    if (not os.environ.has_key(envVar) or os.environ[envVar] == ''):
+        os.environ[envVar] = newString
+
+    else:
+        os.environ[envVar] = newString + ':' + os.environ[envVar]
+
+
+def appendToEnv (envVar, newString):
+
+    if (not os.environ.has_key(envVar) or os.environ[envVar] == ''):
+        os.environ[envVar] = newString
+
+    else:
+        os.environ[envVar] = os.environ[envVar] + ':'+ newString
+
+#Check if wrapper was called with min number of arguments
+if ( 2 > len(sys.argv)):
+    sys.stderr.write("Usage: %s <COMMAND> [options]\n" %  os.path.basename(sys.argv[0]))
+    sys.exit (1)
+    
+
+##Set up the runtime environment base on configuration parameters provided
+## above
+
+#If Env_Override is enabled change any configuration paramters for which
+#an environment variable has been set.
+if (Env_Override):
+
+    if (os.environ.has_key('APPION')):
+         Appion_Dir = os.environ['APPION']
+         Appion_Bin_Dir = os.path.join (Appion_Dir,'bin')
+         Appion_Lib_Dir = Appion_Dir
+         Appion_Ace_Dir = os.path.join (Appion_Dir, 'ace')
+         
+    if (os.environ.has_key('EMANDIR')):
+        Eman_Dir = os.environ['EMANDIR']
+
+    if (os.environ.has_key('SPIDER')):
+        Spider_Dir = os.environ['SPIDER']
+
+    if (os.environ.has_key('IMOD')):
+        Imod_Dir = os.environ['IMOD']
+
+    if (os.environ.has_key('XMIPP')):
+        Xmipp_Dir = os.environ['XMIPP']
+	
+
+if (Python_Path != ''):
+    prependToEnv('PYTHONPATH', Python_Path)
+        
+#Appion_Dir needs to been defined otherwise nothing will work.  So if 
+#it hasn't been set somewhere above, try to determine it.
+if (Appion_Bin_Dir == '' or (not os.path.exists(Appion_Bin_Dir))):
+    #find the real absolute path to this wrapper even if it was started via a sim link
+    #or using a relative path.
+    Appion_Bin_Dir = os.path.dirname(os.path.realpath(sys.argv[0]))
+
+prependToEnv('PATH', Appion_Bin_Dir)
+
+if (Appion_Lib_Dir != ''):
+    prependToEnv('PYTHONPATH', Appion_Lib_Dir)
+
+if (Appion_Ace_Dir != ''):
+    appendToEnv('MATLABPATH', Appion_Ace_Dir)
+else:
+    appendToEnv('MATLABPATH', Appion_Bin_Dir)
+
+if (Matlab_Dir != ''):
+    prependToEnv('PATH', os.path.join(Matlab_Dir, 'bin'))
+    appendToEnv('LD_LIBRARY_PATH', os.path.join(Matlab_Dir, 'bin', 'glnxa64')) 
+
+if (Eman_Dir != ''):
+    prependToEnv('LD_LIBRARY_PATH', os.path.join(Eman_Dir, 'lib'))
+    prependToEnv('PATH', os.path.join(Eman_Dir, 'bin'))
+    prependToEnv('PYTHONPATH', os.path.join(Eman_Dir, 'lib'))
+    
+if (Xmipp_Dir != ''):
+    prependToEnv('LD_LIBRARY_PATH', os.path.join(Xmipp_Dir, 'lib'))
+    prependToEnv('PATH', os.path.join(Xmipp_Dir, 'bin'))
+                 
+if (Spider_Dir != ''):
+    os.environ['SPPROC_DIR'] = os.path.join(Spider_Dir, 'proc')
+    os.environ['SPRGB_DIR'] =  os.path.join(Spider_Dir,'rgb')
+    os.environ['SPMAN_DIR'] =  os.path.join(Spider_Dir,'man')
+
+if (em_hole_finder_dir != ''):
+    prependToEnv('PATH', em_hole_finder_dir)
+    os.environ['HOLE_FIND_ACTIVATE'] = os.path.join(em_hole_finder_dir, 'env','bin')
+
+if (Imod_Dir != ''):
+    os.environ['IMOD_DIR'] = os.path.join(Imod_Dir)
+    if (os.environ.has_key('JAVA_HOME')):
+       os.environ['IMOD_JAVADIR'] = os.environ['JAVA_HOME']
+    else:
+        os.environ['IMOD_JAVADIR'] = '/usr/java/latest'
+    os.environ['IMOD_PLUGIN_DIR'] =  os.path.join(Imod_Dir,'lib','imodplug')
+    prependToEnv('LD_LIBRARY_PATH', os.path.join(Imod_Dir, 'lib')) 
+    prependToEnv('PATH', os.path.join(Imod_Dir, 'bin'))
+
+if (Path != ''):
+    prependToEnv('PATH', Path)
+    
+if (Python_Home != ''):
+    os.environ['PYTHONHOME'] = Python_Home
+
+## End Environment set up section ###
+
+#Anything in the Appion bin directory that ends in .py can be called
+#can be run via this wrapper.  Find all those functions
+globString = os.path.join(Appion_Bin_Dir, '*.py')
+functionList = glob.glob(globString)
+
+#The first argument to this wrapper should be the command (or function)
+#the user wants to execute.  If it doesn't end in .py add it.
+if ('py' == sys.argv[1].split('.').pop()):
+    command = sys.argv[1].lower()
+
+else:
+    command = sys.argv[1].lower() + '.py'
+
+
+
+for func in functionList:
+    f = os.path.basename(func)
+    if (command == f.lower()):
+        AppionProg = func
+        break
+
+
+try:
+    commandLine = [AppionProg] + sys.argv[2:]
+    rcode = subprocess.call(commandLine)
+    sys.exit(rcode)
+
+except OSError:
+    sys.stderr.write("Could not run command %s\n" % sys.argv[1])
+    sys.exit(2)
+
+
+except NameError:
+    sys.stderr.write("Error: Unknown Command %s.\n" % sys.argv[1])
+    sys.exit(1)

@@ -1,0 +1,215 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/myami/!svn/ver/18204/branches/myami-3.0/dbschema
+END
+schemabase.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17984/branches/myami-3.0/dbschema/schemabase.py
+END
+scan-ctfdate.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/18023/branches/myami-3.0/dbschema/scan-ctfdate.py
+END
+schema-r15251.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r15251.py
+END
+schema-r17035.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r17035.py
+END
+schema-r16182.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r16182.py
+END
+schema-r14077.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r14077.py
+END
+schema-r15526.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r15526.py
+END
+schema_update.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema_update.py
+END
+schema-r17813.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r17813.py
+END
+schema-r16607.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r16607.py
+END
+schema-r15293.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r15293.py
+END
+schema-r15653.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r15653.py
+END
+schema-r17562.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r17562.py
+END
+revertDBinstall.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/revertDBinstall.py
+END
+schema-r15069.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r15069.py
+END
+schema-r17617.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r17617.py
+END
+schema-r12857.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r12857.py
+END
+schema-r14891.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r14891.py
+END
+schema-r17916.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r17916.py
+END
+schema-r17982.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17984/branches/myami-3.0/dbschema/schema-r17982.py
+END
+schema-r18000.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/18077/branches/myami-3.0/dbschema/schema-r18000.py
+END
+schema-r17111.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r17111.py
+END
+scandb.py
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/scandb.py
+END
+schema-r17311.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r17311.py
+END
+schema-r16412.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r16412.py
+END
+schema-r13713.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r13713.py
+END
+schema-r18034.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/18204/branches/myami-3.0/dbschema/schema-r18034.py
+END
+schema-r17224.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r17224.py
+END
+schema-r17812.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r17812.py
+END
+schema-r17561.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r17561.py
+END
+schema-r15248.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r15248.py
+END
+schema-r16446.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r16446.py
+END
+schema-r15961.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/schema-r15961.py
+END
+updatelib.py
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/18199/branches/myami-3.0/dbschema/updatelib.py
+END
+log_package_revision.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/17973/branches/myami-3.0/dbschema/log_package_revision.py
+END

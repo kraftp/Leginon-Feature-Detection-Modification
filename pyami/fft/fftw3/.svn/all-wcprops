@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/myami/!svn/ver/17973/branches/myami-3.0/pyami/fft/fftw3
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/pyami/fft/fftw3/__init__.py
+END
+wisdom.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/pyami/fft/fftw3/wisdom.py
+END
+lib.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/pyami/fft/fftw3/lib.py
+END
+planning.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/pyami/fft/fftw3/planning.py
+END

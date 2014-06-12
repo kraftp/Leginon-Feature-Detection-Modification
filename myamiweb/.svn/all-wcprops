@@ -1,0 +1,647 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/myami/!svn/ver/18262/branches/myami-3.0/myamiweb
+END
+addapp.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/addapp.php
+END
+autofocusgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/autofocusgraph.php
+END
+info.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/info.php
+END
+blob2img.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/blob2img.php
+END
+confirm.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/confirm.php
+END
+queuecount.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/queuecount.php
+END
+summary.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/summary.php
+END
+dddriftgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/dddriftgraph.php
+END
+removequeue.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/removequeue.php
+END
+imageviewer.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/imageviewer.php
+END
+addgroup.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/addgroup.php
+END
+getiframeimage.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getiframeimage.php
+END
+download.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/download.php
+END
+addcal.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/addcal.php
+END
+totalimagegraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/totalimagegraph.php
+END
+densityreport.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/densityreport.php
+END
+simpleviewer.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/simpleviewer.php
+END
+getimgfile.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getimgfile.php
+END
+reduxTester.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/reduxTester.php
+END
+config.php.template
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/config.php.template
+END
+loadtxt.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/loadtxt.php
+END
+prefs.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/prefs.php
+END
+dualview.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/dualview.php
+END
+dbemls
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/dbemls
+END
+statsgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/statsgraph.php
+END
+addinstrument.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/addinstrument.php
+END
+getaceimg.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getaceimg.php
+END
+timing.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/timing.php
+END
+adduser.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/adduser.php
+END
+getflv.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getflv.php
+END
+admin.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/admin.php
+END
+mrc2string.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/mrc2string.php
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/ChangeLog
+END
+getpreset.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getpreset.php
+END
+getdddriftgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getdddriftgraph.php
+END
+countrows.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/countrows.php
+END
+driftreport.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/driftreport.php
+END
+2wayviewer.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/2wayviewer.php
+END
+index.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/index.php
+END
+goniometer.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/goniometer.php
+END
+admin_settings.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/admin_settings.php
+END
+getqcount.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getqcount.php
+END
+getdata.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getdata.php
+END
+drifttimegraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/drifttimegraph.php
+END
+rctviewer.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/rctviewer.php
+END
+getacepreset.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getacepreset.php
+END
+template.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/template.php
+END
+pixelsize.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/pixelsize.php
+END
+querybuilder.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/querybuilder.php
+END
+getgrad.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getgrad.php
+END
+user.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/user.php
+END
+getlastfileid.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getlastfileid.php
+END
+accessdeny.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/accessdeny.php
+END
+classinfo.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/classinfo.php
+END
+icegraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/icegraph.php
+END
+getpresetxml.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getpresetxml.php
+END
+beamtiltgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/beamtiltgraph.php
+END
+zheightgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/zheightgraph.php
+END
+register.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/register.php
+END
+clitools.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/clitools.php
+END
+adjust.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/adjust.php
+END
+getimgxml.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getimgxml.php
+END
+deletionlist.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/deletionlist.php
+END
+getsessioninfo.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getsessioninfo.php
+END
+check.sh
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/check.sh
+END
+imagehistogram.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/imagehistogram.php
+END
+showinspectdata.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/showinspectdata.php
+END
+getpresetfile.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getpresetfile.php
+END
+getcomment.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getcomment.php
+END
+getfilenames.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getfilenames.php
+END
+file2exclude.txt
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/file2exclude.txt
+END
+fields.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/fields.php
+END
+login.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/login.php
+END
+logout.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/logout.php
+END
+3wviewer.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/3wviewer.php
+END
+imageshiftreport.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/imageshiftreport.php
+END
+map.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/map.php
+END
+getimagestat.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getimagestat.php
+END
+makejpg.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/makejpg.php
+END
+temperaturegraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/temperaturegraph.php
+END
+INSTALL
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/INSTALL
+END
+updateimagelist.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/updateimagelist.php
+END
+getimgtarget.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getimgtarget.php
+END
+imagestatsgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/imagestatsgraph.php
+END
+loi.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/loi.php
+END
+nw.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/nw.php
+END
+siteMaintenance.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/siteMaintenance.html
+END
+revertsettings.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/myami/!svn/ver/17993/branches/myami-3.0/myamiweb/revertsettings.php
+END
+temperaturereport.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/temperaturereport.php
+END
+goniometergraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/goniometergraph.php
+END
+getparentimgtarget.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getparentimgtarget.php
+END
+imagestatsreport.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/imagestatsreport.php
+END
+imageshiftgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/imageshiftgraph.php
+END
+imgreport.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/imgreport.php
+END
+lostpass.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/lostpass.php
+END
+defocusgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/defocusgraph.php
+END
+addcomment.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/addcomment.php
+END
+nojsdetected.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/nojsdetected.php
+END
+getimg.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getimg.php
+END
+simpleviewer.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/simpleviewer.py
+END
+viewerxml.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/viewerxml.php
+END
+imgangle.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/imgangle.php
+END
+getparentimg.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getparentimg.php
+END
+stackviewer.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/stackviewer.php
+END
+getrct.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/getrct.php
+END
+avgdriftgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/avgdriftgraph.php
+END
+timingstatsgraph.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/timingstatsgraph.php
+END

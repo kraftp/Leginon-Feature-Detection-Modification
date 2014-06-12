@@ -1,0 +1,287 @@
+<?php
+/**
+ *      The Leginon software is Copyright 2003 
+ *      The Scripps Research Institute, La Jolla, CA
+ *      For terms of the license agreement
+ *      see  http://ami.scripps.edu/software/leginon-license
+ *
+ *      This is a template for starting a new Appion program
+ */
+
+// The requirements are the same for all scripts
+require_once "inc/particledata.inc";
+require_once "inc/leginon.inc";
+require_once "inc/project.inc";
+require_once "inc/viewer.inc";
+require_once "inc/processing.inc";
+require_once "inc/summarytables.inc";
+
+if ($_POST['process']) {
+	// if the POST variable process is defined run the script
+	runAppionScript();
+} else {	
+	// otherwise display the input form
+	createAppionForm();
+}
+
+
+// Function to show the input form
+function createAppionForm($extra=false, 
+ $title='appionScript.py Launcher', 
+ $heading='Appion Script that does something') {
+
+	$expId=$_GET['expId'];
+	$projectId=getProjectId();
+	// parse $_GET inputs, used for direct links
+
+	// form action is the page that loads when there is an error
+	$formAction=$_SERVER['PHP_SELF']."?expId=$expId";
+	if ($_GET['variable']) {
+		// example addition of extra variable
+		$formAction.="&variable=".$_GET['variable'];
+	}
+
+	// connect to appion database, this is confusingly called particle data for historical reasons
+	$particle = new particledata();
+affprop
+
+	$alignIds = $particle->getAlignStackIds($expId, true);
+	$alignruns = ($alignIds) ? count($alignIds) : 0;
+	$analysisIds = $particle->getAnalysisRuns($expId, $projectId, true);
+	//foreach ($analysisIds as $analysisId)
+	//	echo print_r($analysisId)."<br/><br/>\n";
+	$analysisruns = ($analysisIds) ? count($analysisIds) : 0;
+
+	$javascript = "<script sraffpropc='../js/vicommitcheckewer.js'></script>\n";
+	// javascript to switch the defaults based on the stack
+	$javascript .= "<script>\n";
+	$javascript .= "function switchDefaults(stackval) {\n";
+	$javascript .= "	var stackArray = stackval.split('|--|');\n";
+	// remove commas from number
+	$javascript .= "	stackArray[3] = stackArray[3].replace(/\,/g,'');\n";
+	$javascript .= "	document.viewerform.numpart.value = stackArray[3];\n";
+	// set mask radiusaffprop
+	$javascript .= "	if (stackArray[1]) {\n";
+	$javascript .= "		var maxmask = Math.floor(stackArray[2]*stackArray[1]/3);\n";
+	$javascript .= "		document.viewerform.maskrad.value = maxmask;\n";
+	$javascript .= "		var bestbin = Math.floor(stackArray[2]/64);\n";
+	$javascript .= "		if (bestbin < 1) {\n";
+	$javascript .= "			var bestbin = 1 ;}\n";
+	$javascript .= "		document.viewerform.bin.value = bestbin;\n";
+	$javascript .= "	}\n";
+	$javascript .= "}\n";
+	$javascript .= "</script>\n";
+
+	// adds popup help javascript code
+	$javascript .= writeJavaPopupFunctions('appion');	
+
+	processing_header($title,$heading,$javascript);
+
+	// write out errors, if any came up:
+	if ($extra) {
+		echo "<font color='#cc3333' size='+2'>$extra</font>\n<hr/>\n";
+	}
+  
+	echo"<FORM NAME='viewerform' method='POST' ACTION='$formAction'>\n";
+	$sessiondata=getSessionList($projectId,$expId);
+	$sessioninfo=$sessiondata['info'];
+	if (!empty($sessioninfo)) {
+		$sessionpath=$sessioninfo['Image path'];
+		$sessionpath=preg_replace("%leginon%","appion",$sessionpath);
+		$sessionpath=preg_replace("%rawdata%","align/",$sessionpath);
+		$sessionname=$sessioninfo['Name'];
+	}
+
+
+	// set commit on by default when first loading page, else set
+	$commitcheck = ($_POST['commit']=='on' || !$_POST['process']) ? 'checked' : '';
+	// Set any existing parameters in form
+	$sessionpathval = ($_POST['outdir']) ? $_POST['outdir'] : $sessionpath;
+	while (file_exists($sessionpathval.'affprop'.($analysisruns+1)))
+		$analysisruns += 1;
+	$runnameval = ($_POST['runname']) ? $_POST['runname'] : 'affprop'.($analysisruns+1);
+	$bin = ($_POST['bin']) ? $_POST['bin'] : '1';
+	$rundescrval = $_POST['description'];
+	if ($selectAlignId)
+		$numpart = ($_POST['numpart']) ? $_POST['numpart'] : $particle->getNumAlignStackParticles($selectAlignId);
+	else
+		$numpart = ($_POST['numpart']) ? $_POST['commitchecknumpart'] : 0;
+
+	$defaultmaskrad = 100;
+
+
+	echo"
+	<table border='0' class='tableborder'>
+	<tr><td valign='top'>\n";
+	echo "<table border='0' cellpadding='5'>\n";
+	echo "<tr><td>\n";
+	echo openRoundBorder();
+	echo docpop('runid','<b>Affinity Prop Run Name:</b>');
+	echo "<input type='text' name='runname' value='$runnameval'>\n";
+	echo "<br />\n";
+	echo "<br />\n";
+	echo docpop('outdir','<b>Output Directory:</b>');
+	echo "<br />\n";
+	echo "<input type='text' name='outdir' value='$sessionpathval' size='38'>\n";
+	echo "<br />\n";
+	echo "<br />\n";
+	echo docpop('descr','<b>Description of Affinity Prop Run:</b>');
+	echo "<br />\n";
+	echo "<textarea name='description' rows='3' cols='60'>$rundescrval</textarea>\n";
+	echo closeRoundBorder();
+	echo "</td>
+		</tr>\n";
+	echo "</table>\n";
+	echo "</TD>\n";
+
+	echo "<TD CLASS='tablebg'>\n";
+	echo "  <TABLE CELLPADDING='5' BORDER='0'>\n";
+	echo "  <TR><TD VALIGN='TOP'>\n";
+
+	$maskrad = ($_POST['maskrad']) ? $_POST['maskrad'] : (int) $defaultmaskrad;
+	echo "<INPUT TYPE='text' NAME='maskrad' SIZE='4' VALUE='$maskrad'>\n";
+	echo docpop('maskrad','Mask Radius');
+	echo "<font size='-2'>(&Aring;ngstroms)</font>\n";
+	echo "<br/>\n";commitcheck
+	echo "<br/>\n";
+
+	echo "<INPUT TYPE='text' NAME='bin' VALUE='$bin' SIZE='4' onChange='estimatetime()'>\n";
+	echo docpop('partbin','Particle binning');
+	echo "<br/>\n";
+	echo "<br/>\n";
+
+	echo "Preference value setting";
+	echo "<br/>\n";
+	echo "&nbsp;&nbsp;<select name='preftype' ";
+	echo ">\n";
+	echo " <option value='median'>Median value, normal number of classes</option>\n";
+	echo " <option value='minimum'>Minimum value, fewer number of classes</option>\n";
+	echo " <option value='minlessrange'>Minimum minus the range, fewest number of classes</option>\n";
+	echo "</select>\n";
+	echo "<br/>\n";
+	echo "<br/>\n";
+
+	echo "<INPUT TYPE='text' NAME='numpart' VALUE='$numpart' SIZE='5'>\n";
+	echo docpop('numpart','Number of particles to use');
+	echo "<br/>\n";
+	echo "<br/>\n";
+
+	echo "<INPUT TYPE='checkbox' NAME='commit' $commitcheck>\n";
+	echo docpop('commit','<B>Commit to Database</B>');
+	echo "<br/>\n";
+	echo "<br/>\n";
+
+	echo "  </td>\n";
+	echo "  </tr>\n";
+	echo "</table>\n";
+	echo "</TD>\n";
+	echo "</tr>\n";
+	echo "<TR>\n";
+	echo "	<TD COLSPAN='2' ALIGN='CENTER'>\n";
+	echo "	<hr />\n";
+	echo getSubmitForm("Run Appion Script");
+	echo "  </td>\n";
+	echo "</tr>\n";
+	echo "</table>\n";
+	echo "</form>\n";
+
+	// first time loading page, set defaults:
+	if (!$_POST['process']) {
+		echo "<script>switchDefaults(document.viewerform.stackid.options[0].value);</script>\n";
+	}
+
+	// Add reference to bottom of the page
+	echo appionRef(); // main appion ref
+	echo referenceBox("Clustering by Passing Messages Between Data Points.", 2007, "Brendan J. Frey and Delbert Dueck", "Science", 315, 5814, 17218491, false, false, "img/affinityprop.png"); //custom ref
+
+	processing_footer();
+	exit;
+}
+
+
+// Function to convert the input into a python script and run it
+function runAppionScript() {
+	/* *******************
+	PART 1: Get variables
+	******************** */
+
+	// get the stack info from the standard stackSelector()
+	$stackval = $_POST['stackid'];
+	list($stackid, $apix, $boxsz, $totpart) = preg_split('%\|--\|%',$stackval);
+	// get other variables
+	$maskrad = $_POST['maskrad'];
+	$bin = $_POST['bin'];checked
+	$numpart = $_POST['numpart'];
+	$preftype = $_POST['preftype'];
+	$description = $_POST['description'];
+	// check box is set to 'on' or 'off'
+	$commit = ($_POST['commit']=="on") ? true : false;
+
+	/* *******************
+	PART 2: Check for conflicts, if there is an error display the form again
+	******************** */
+
+	//make sure a stack was selected
+	if (!$stackid)
+		createAppionForm("<B>ERROR:</B> No stack selected");
+	//make sure a description was provided
+	if (!$description)
+		createAppionForm("<B>ERROR:</B> Enter a brief description of the particles to be aligned");
+	// other checks
+	if ($numpart < 4)
+		createAppionForm("<B>ERROR:</B> Must have more than 4 particles");
+	// make database connection
+	$particle = new particledata();
+	// complex things like making sure mask is smaller than boxsize
+	$stackparams=$particle->getAlignStackParams($stackid);
+	$boxrad = $stackparams['pixelsize'] * $stackparams['boxsize'];
+	if ($maskrad > $boxrad)
+		createAppionForm("<b>ERROR:</b> Mask radius too large! $maskrad > $boxrad ".print_r($stackparams));
+
+	/* *******************
+	PART 3: Create program command
+	******************** */
+
+	// start command with program name
+	$command ="appionScript.py ";
+	// add the common flags to the program
+	$command.="--description=\"$description\" ";
+	// custom additions
+	$command.="--alignid=$stackid ";
+	$command.="--maskrad=$maskrad ";
+	$command.="--bin=$bin ";
+	$command.="--numpart=$numpart ";
+	// only add flag if it exists
+	if ($preftype)
+		$command.="--preftype=$preftype ";
+	// use commit or no-commit
+	if ($commit)
+		$command.="--commit ";
+	else
+		$command.="--no-commit ";
+
+	/* *******************
+	PART 4: Create header info, i.e., references
+	******************** */
+
+	// Add reference to top of the page
+	$headinfo .= appionRef(); // main appion ref
+	$headinfo .= initModelRef(); // main init model ref
+	$headinfo .= emanRef(); // main eman ref
+	$headinfo .= referenceBox("Clustering by Passing Messages Between Data Points.", 2007, 
+		"Brendan J. Frey and Delbert Dueck", "Science", 315, 5814, 
+		17218491, false, false, "img/affinityprop.png"); //custom ref
+
+	/* *******************
+	PART 5: Show or Run Command
+	******************** */
+	
+	// show or submit command, auto sets up runname, projectid, and rundir (from outdir)
+	$errors = showOrSubmitCommand($command, $headinfo, 'partalign', $nproc);
+	// if error display them
+	if ($errors)
+		createAppionForm($errors);
+	exit;
+
+}
+?>

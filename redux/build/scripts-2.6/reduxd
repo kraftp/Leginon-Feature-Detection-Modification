@@ -1,0 +1,4 @@
+#!/usr/bin/python
+
+import redux.server
+redux.server.main()

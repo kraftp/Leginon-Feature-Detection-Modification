@@ -1,0 +1,77 @@
+.lvmenu {
+		width: 190px;
+    font-family: Sans-Serif;
+    font-size: 10px;
+    padding-bottom: 5px;
+    background: #eee url(../img/lvmenu/bottom.gif) no-repeat  right bottom;
+    color: #FFF;
+}
+
+.lvmenu a {
+	color: #ffe88d;
+	text-decoration:none;
+}
+
+.lvmenu a:hover {
+	color: #ffcc00;
+	text-decoration:underline;
+}
+
+.lvmenu ul {
+	margin:     0;
+	padding:    0;
+	list-style: none inside;
+}
+
+.lvmenu .title, .lvmenu .titlehidden{
+    display: block;
+    padding: 5px 4px 5px 0;
+    font-weight: bold;
+    color: white;
+    background: #FFF url(../processing/img/aptitle.gif) repeat-x;
+}
+
+.lvmenu .title {
+    border-bottom: 1px solid #DDD;
+}
+
+.lvmenu .arrow {
+		margin-left: 10px;
+    margin-right: 7px;
+}
+
+.lvmenu .titlehidden {
+    border-bottom: none;
+}
+
+.lvmenu .submenu {
+    overflow: hidden;
+}
+
+.lvmenu .submenu li {
+    padding: 4px 0;
+    text-indent: 10px;
+    background: #EEE;
+    display: block;
+    border-top: 1px solid #DDD;
+    color: #066;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.lvmenu .submenu li.sub1 {
+	text-indent: 20px;
+	border-top: none;
+	font-weight: normal;
+}
+
+.lvmenu .submenu a {
+    background: #EEE;
+    color: #066;
+    text-decoration: none;
+}
+
+.lvmenu .submenu a:hover {
+    background : #386F8F;
+    color: #FFF;
+}

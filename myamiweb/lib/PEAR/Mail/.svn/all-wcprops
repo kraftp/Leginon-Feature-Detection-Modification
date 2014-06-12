@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/lib/PEAR/Mail
+END
+mock.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/lib/PEAR/Mail/mock.php
+END
+null.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/lib/PEAR/Mail/null.php
+END
+sendmail.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/lib/PEAR/Mail/sendmail.php
+END
+mail.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/lib/PEAR/Mail/mail.php
+END
+smtp.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/lib/PEAR/Mail/smtp.php
+END
+RFC822.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/lib/PEAR/Mail/RFC822.php
+END
+smtpmx.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/lib/PEAR/Mail/smtpmx.php
+END

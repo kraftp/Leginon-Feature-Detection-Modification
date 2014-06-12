@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/myami/!svn/ver/18015/branches/myami-3.0/redux
+END
+reduxlog.py
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/reduxlog.py
+END
+cachefs.py
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/cachefs.py
+END
+pipe.py
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipe.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/__init__.py
+END
+setup.py
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/setup.py
+END
+cache.py
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/cache.py
+END
+utility.py
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/utility.py
+END
+reduxcherry.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/reduxcherry.py
+END
+pipeline.py
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/pipeline.py
+END
+server.py
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/server.py
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/README
+END
+redux.cfg.template
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/redux.cfg.template
+END
+reduxconfig.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/reduxconfig.py
+END
+client.py
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/client.py
+END
+exceptions.py
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/myami/!svn/ver/17973/branches/myami-3.0/redux/exceptions.py
+END

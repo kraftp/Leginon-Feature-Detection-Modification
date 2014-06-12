@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider
+END
+filters.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider/filters.py
+END
+refine.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider/refine.py
+END
+volFun.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider/volFun.py
+END
+classification.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider/classification.py
+END
+alignment.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider/alignment.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider/__init__.py
+END
+commonlines.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider/commonlines.py
+END
+emancoran.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider/emancoran.py
+END
+operations.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider/operations.py
+END
+backproject.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/myami/!svn/ver/17973/branches/myami-3.0/appion/appionlib/apSpider/backproject.py
+END

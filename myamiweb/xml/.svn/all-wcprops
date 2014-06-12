@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/myami/!svn/ver/18262/branches/myami-3.0/myamiweb/xml
+END
+leginonDefaultValues.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/xml/leginonDefaultValues.xml
+END
+leginonDBSchema.xml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/18262/branches/myami-3.0/myamiweb/xml/leginonDBSchema.xml
+END
+appion_extra.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/myami/!svn/ver/18038/branches/myami-3.0/myamiweb/xml/appion_extra.xml
+END
+projectUpdateValues.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/xml/projectUpdateValues.xml
+END
+convert.sh
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/xml/convert.sh
+END
+projectProcessingAddonSchema.xml
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/xml/projectProcessingAddonSchema.xml
+END
+projectUpdateSchema.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/xml/projectUpdateSchema.xml
+END
+convert.sed
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/xml/convert.sed
+END
+projectDefaultValues.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/myami/!svn/ver/17974/branches/myami-3.0/myamiweb/xml/projectDefaultValues.xml
+END
+projectDBSchema.xml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/myami/!svn/ver/18038/branches/myami-3.0/myamiweb/xml/projectDBSchema.xml
+END
+leginonUpdateValues.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/myami/!svn/ver/17973/branches/myami-3.0/myamiweb/xml/leginonUpdateValues.xml
+END
