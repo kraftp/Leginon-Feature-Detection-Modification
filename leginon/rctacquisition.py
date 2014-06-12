@@ -611,11 +611,12 @@ class RCTAcquisition(acquisition.Acquisition):
 		# find regions
 		minsize = self.settings['minsize']
 		maxsize = self.settings['maxsize']
-		timeout = 300
+		timeout = 100000
 		#regions, image  = libCVwrapper.FindRegions(im, minsize, maxsize)
 		self.logger.info('running libCV.FindRegions, timeout = %d' % (timeout,))
 		try:
-			regions,image = pyami.timedproc.call('leginon.libCVwrapper', 'FindRegions', args=(im,minsize,maxsize), timeout=timeout)
+			#regions,image = pyami.timedproc.call('leginon.libCVwrapper', 'FindRegions', args=(im,minsize,maxsize), timeout=timeout)
+			regions, image = libCVwrapper.FindRegions(im, minsize, maxsize)
 		except:
 			self.logger.error('libCV.FindRegions failed')
 			regions = []
