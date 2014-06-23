@@ -16,6 +16,7 @@ import math
 import pyami.quietscipy
 from scipy import ndimage
 from leginon import transformregistration
+import openCVcaller
 #from apTilt import apTiltShift
 pi = numpy.pi
 
@@ -325,50 +326,37 @@ class RCTAcquisition(acquisition.Acquisition):
 			#print 'acquire intertilt'
 			imagenew = self.acquireCorrectedCameraImageData()
 			arraynew = numpy.asarray(imagenew['image'], dtype=numpy.float32)
-			if is_small_tilt_diff:
-				# Don't filter if phase correlation will be used
-				medfilt = 0
-				lowfilt = 0
-			if medfilt > 1:
-				arraynew = ndimage.median_filter(arraynew, size=medfilt)
-			if lowfilt > 0:
-				arraynew = ndimage.gaussian_filter(arraynew, lowfilt)
+			## if is_small_tilt_diff:
+			## 	# Don't filter if phase correlation will be used
+			## 	medfilt = 0
+			## 	lowfilt = 0
+			## if medfilt > 1:
+			## 	arraynew = ndimage.median_filter(arraynew, size=medfilt)
+			## if lowfilt > 0:
+			## 	arraynew = ndimage.gaussian_filter(arraynew, lowfilt)
 			self.setImage(arraynew, 'Image')
 
 			if is_small_tilt_diff:
 				self.logger.info('Use phase correlation on small tilt')
 				result = numpy.array(self.shiftmatrix_maker.register(arrayold, arraynew))
 			else:
-
-				print '============ Craig stuff ============'
-
-				self.logger.info('Craig\'s libCV stuff')
-				minsize = self.settings['minsize']
-				maxsize = self.settings['maxsize']
+				self.logger.info('Peter\'s openCV stuff')
 				libCVwrapper.checkArrayMinMax(self, arrayold, arraynew)
-
+                
 				print 'tilt', tilts[i]*180/3.14159
-
-				timeout = 300
-				#result = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
 				try:
-					result = pyami.timedproc.call('leginon.libCVwrapper', 'MatchImages', args=(arrayold, arraynew, minsize, maxsize), timeout=timeout)
+					result = openCVcaller.matchImages(arrayold, arraynew)
 					self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
 				except:
-					self.logger.error('libCV MatchImages failed')
+					self.logger.error('openCV MatchImages failed')
 					return None,None
-					
-				#difftilt = degrees(abs(tilts[int(i)])-abs(tilts[int(i-1)]))
-				#result = self.apTiltShiftMethod(arrayold, arraynew, difftilt)
-
+				## REWRITE THIS PART LATER?
 				check = libCVwrapper.checkLibCVResult(self, result)
 				if check is False:
 					self.logger.warning("libCV failed: redoing tilt %.2f"%(tilt,))
 					### redo this tilt; becomes an infinite loop if the image goes black
 					retries += 1
 					if retries <= 2:
-						### reduce minsize and try again
-						self.settings['minsize'] *= 0.95
 						if i == len(tilts)-1:
 							### maybe the tilt angle is too high, reduce max angle by 5 percent
 							tilts[len(tilts)-1] *= 0.95
@@ -381,7 +369,6 @@ class RCTAcquisition(acquisition.Acquisition):
 					continue
 				else:
 					retries = 0			
-				print '============ Craig stuff done ============'
 
 			self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
 			self.logger.info( "Inter Matrix: "+libCVwrapper.affineToText(result) )
