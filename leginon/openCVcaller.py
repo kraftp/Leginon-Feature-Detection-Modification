@@ -48,7 +48,7 @@ def MatchImages(image1, image2, blur=3):
     Output:
         3x3 Affine Matrix
     """
-    image1, image2 = convertImage(image1, image2)
+    image1, image2 = convertImage(image1), convertImage(image2)
     if blur > 0:
         image1=cv2.GaussianBlur(image1, (blur, blur), 0)
         image2=cv2.GaussianBlur(image2, (blur, blur), 0)
@@ -107,7 +107,7 @@ def MatchImages(image1, image2, blur=3):
     return M
 
 #-----------------------
-def convertImage(image1, image2):
+def convertImage(image1):
     """
     Inputs:
         numpy image1 array, dtype=float32
@@ -118,17 +118,87 @@ def convertImage(image1, image2):
         numpy image2 array, dtype=uint8   
     """
     max1 = np.amax(image1)
-    max2 = np.amax(image2)
+
     min1 = np.amin(image1)
-    min2 = np.amin(image2)
+  
 
     image1 = image1*256/(max1-min1)
-    image2 = image2*256/(max2-min2)
+
 
     image1 = np.asarray(image1, dtype=np.uint8)
-    image2 = np.asarray(image2, dtype=np.uint8)
 
-    return image1, image2
+
+    return image1
+
+#-----------------------
+def checkOpenCVResult(self, result):
+	"""
+	Tests whether the openCV resulting affine matrix is reasonable for tilting
+	"""
+	if abs(result[0][0]) < 0.5 or abs(result[1][1]) < 0.5:
+		#max tilt angle of 60 degrees
+		self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
+		print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
+		return False
+	elif abs(result[0][0]) > 1.5 or abs(result[1][1]) > 1.5:
+		#only allow 25 degrees of expansion
+		self.logger.warning("Bad openCV result: image expansion: "+affineToText(result))
+		print ("Bad openCV result: image expansion: "+affineToText(result))
+		return False
+	elif abs(result[0][1]) > 0.7071 or abs(result[1][0]) > 0.7071:
+		#max rotation angle of 45 degrees
+		self.logger.warning("Bad openCV result: too much rotation: "+affineToText(result))
+		print ("Bad openCV result: too much rotation: "+affineToText(result))
+		return False
+	return True
+
+#-----------------------
+def affineToText(matrix):
+	"""
+	Extracts useful paramters from an affine homography matrix
+	"""
+	tiltv = matrix[0,0] * matrix[1,1]
+	rotv = (matrix[0,1] - matrix[1,0]) / 2.0
+	if abs(tiltv) > 1:
+		tilt = degrees(math.acos(1.0/tiltv))
+	else:
+		tilt = degrees(math.acos(tiltv))
+	if tilt > 90.0:
+		tilt = tilt - 180.0
+	if abs(rotv) < 1:
+		rot = degrees(math.asin(rotv))
+	else:
+		rot = 180.0
+	mystr = ( "tiltang = %.2f, rotation = %.2f, shift = %.2f,%.2f" %
+		(tilt, rot, matrix[2,0], matrix[2,1]) )
+	return mystr
+
+#-----------------------
+def FindFeatures(image, blur=3):
+    """
+    Given an image find regions
+    
+    Inputs:
+    numpy image array, dtype=float32
+    Blur the image by blur pixels (default=3)
+        
+    Output:
+    List of lists of coordinates of features
+    """
+    image = convertImage(image)
+    if blur > 0:
+        image1=cv2.GaussianBlur(image, (blur, blur), 0)
+
+    detector = cv2.FeatureDetector_create("SIFT")
+    descriptor = cv2.DescriptorExtractor_create("BRIEF")
+
+    kp1=detector.detect(image)
+    k1, d1 = descriptor.compute(image, kp1)
+
+    feature_pts = [ feature.pt for feature in k1]
+    return feature_pts 
+
+
 
 
 ## image1=cv2.imread('sim_images/test1.jpg')

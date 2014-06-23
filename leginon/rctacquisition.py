@@ -8,7 +8,6 @@
 from leginon import leginondata
 import acquisition
 import gui.wx.RCTAcquisition
-import libCVwrapper
 import pyami.timedproc
 import numpy
 import time
@@ -341,7 +340,6 @@ class RCTAcquisition(acquisition.Acquisition):
 				result = numpy.array(self.shiftmatrix_maker.register(arrayold, arraynew))
 			else:
 				self.logger.info('Peter\'s openCV stuff')
-				libCVwrapper.checkArrayMinMax(self, arrayold, arraynew)
                 
 				print 'tilt', tilts[i]*180/3.14159
 				try:
@@ -351,9 +349,9 @@ class RCTAcquisition(acquisition.Acquisition):
 					self.logger.error('openCV MatchImages failed')
 					return None,None
 				## REWRITE THIS PART LATER?
-				check = libCVwrapper.checkLibCVResult(self, result)
+				check = openCVcaller.checkOpenCVResult(self, result)
 				if check is False:
-					self.logger.warning("libCV failed: redoing tilt %.2f"%(tilt,))
+					self.logger.warning("openCV failed: redoing tilt %.2f"%(tilt,))
 					### redo this tilt; becomes an infinite loop if the image goes black
 					retries += 1
 					if retries <= 2:
@@ -363,20 +361,20 @@ class RCTAcquisition(acquisition.Acquisition):
 						i -= 1
 					else:
 						retries = 0
-						print "Tilt libCV FAILED"
-						self.logger.error("libCV failed: giving up")
+						print "Tilt openCV FAILED"
+						self.logger.error("openCV failed: giving up")
 						return None, None
 					continue
 				else:
 					retries = 0			
 
 			self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
-			self.logger.info( "Inter Matrix: "+libCVwrapper.affineToText(result) )
+			self.logger.info( "Inter Matrix: "+openCVcaller.affineToText(result) )
 
 			runningresult = numpy.dot(runningresult, result)
 			# transformTargets for display purposes only
 			self.transformTargets(runningresult, tilt0targets)
-			self.logger.info( "Running Matrix: "+libCVwrapper.affineToText(runningresult) )
+			self.logger.info( "Running Matrix: "+openCVcaller.affineToText(runningresult) )
 			self.logger.info("running result matrix= "+str(numpy.asarray(runningresult*100, dtype=numpy.int8).ravel()))
 			imageold = imagenew
 			arrayold = arraynew
@@ -396,7 +394,7 @@ class RCTAcquisition(acquisition.Acquisition):
 		self.setTargets([], 'Peak')
 		self.publishDisplayWait(imagedata)
 
-		self.logger.info( "FINAL Matrix: "+libCVwrapper.affineToText(runningresult) )
+		self.logger.info( "FINAL Matrix: "+openCVcaller.affineToText(runningresult) )
 		#self.logger.info('Final Matrix: %s' % (runningresult,))
 		return (runningresult, imagedata)
 
@@ -596,34 +594,26 @@ class RCTAcquisition(acquisition.Acquisition):
 		self.setImage(im)
 
 		# find regions
-		minsize = self.settings['minsize']
-		maxsize = self.settings['maxsize']
-		timeout = 100000
-		#regions, image  = libCVwrapper.FindRegions(im, minsize, maxsize)
-		self.logger.info('running libCV.FindRegions, timeout = %d' % (timeout,))
-		try:
-			#regions,image = pyami.timedproc.call('leginon.libCVwrapper', 'FindRegions', args=(im,minsize,maxsize), timeout=timeout)
-			regions, image = libCVwrapper.FindRegions(im, minsize, maxsize)
-		except:
-			self.logger.error('libCV.FindRegions failed')
-			regions = []
-			image = None
+		self.logger.info('running openCVcaller.FindFeatures')
+		#try:
+		features = openCVcaller.FindFeatures(im)
+		#except:
+		#	self.logger.error('openCVcaller.FindFeatures failed')
+		#	features = []
 
-		# this is copied from targetfinder:
-		#regions,image = libCVwrapper.FindRegions(self.mosaicimage, minsize, maxsize)
-		n = len(regions)
-		self.logger.info('Regions found: %s' % (n,))
-		self.displayRegions(regions)
+		n = len(features)
+		self.logger.info('Features found: %s' % (n,))
+		self.displayRegions(features)
 
 	#====================
-	def displayRegions(self, regions):
+	def displayRegions(self, features):
 		targets = []
 		limit = 1500
-		for i,region in enumerate(regions):
+		for i,feature in enumerate(features):
 			if i > limit:
 				break
-			r,c = region['regionEllipse'][:2]
-			targets.append((c,r))
+			x,y = feature
+			targets.append((x,y))
 		self.setTargets(targets, 'Peak')
 
 	#====================
