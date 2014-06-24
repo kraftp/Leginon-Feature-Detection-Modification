@@ -163,10 +163,11 @@ class SimCCDCamera(ccdcamera.CCDCamera):
 		if self.exposure_type != 'dark':
 			row_offset = random.randint(-shape[0]/16, shape[0]/16) + shape[0]/4
 			column_offset = random.randint(-shape[1]/16, shape[1]/16) + shape[0]/4
-			image[row_offset:row_offset+shape[0]/2,
-				column_offset:column_offset+shape[1]/2] += 0.5 * mean
-		image = numpy.asarray(image, dtype=numpy.uint16)"""
-		image = mrc.read('sim_images/test.mrc')
+            image[row_offset:row_offset+shape[0]/2,
+                column_offset:column_offset+shape[1]/2] += 0.5 * mean
+        image = numpy.asarray(image, dtype=numpy.uint16)"""
+		imagepath = os.path.join(os.path.dirname(__file__), 'sim_images/test.mrc')
+		image = mrc.read(imagepath)
 		image = numpy.asarray(image, dtype=numpy.uint16)
 		return image
 
