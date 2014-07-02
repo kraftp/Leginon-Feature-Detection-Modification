@@ -68,7 +68,7 @@ def MatchImages(image1, image2, blur=3):
     distances = [m.distance for m in matches]
     print "%d matches" % (len(distances))
 
-    mean_dist = sum(distances)/len(distances)
+    mean_dist = (sum(distances)/len(distances))
     sel_matches = [m for m in matches if m.distance < mean_dist*0.6]
     ys = yshift(k1, k2, sel_matches)
     sel_matches = [m for m in sel_matches if math.fabs(int(k2[m.trainIdx].pt[1])-int(k1[m.queryIdx].pt[1])-ys)<10]
@@ -89,20 +89,65 @@ def MatchImages(image1, image2, blur=3):
     affineM=cv2.estimateRigidTransform(src_pts, dst_pts, fullAffine=True)
     if affineM==None:
         print "affine matrix could not be calculated"
-        return numpy.zeros([3,3], dtype=numpy.float32)        
+        return np.zeros([3,3], dtype=np.float32)        
 
     M=np.eye(3, dtype=float)
     for i in range(2):
         for j in range(3):
             M[i][j]=affineM[i][j]
+    print M
+
+
+
+
+    h1, w1 = image1.shape[:2]
+    h2, w2 = image2.shape[:2]
+    print h1, w1, h2, w2
+
+    view = sp.zeros((max(h1, h2), w1 + w2), sp.uint8)
+    view[:h1, :w1] = image1
+    view[:h2, w1:] = image2
+    print view
+    cv2.imwrite('sift_orig.jpg', view)
+
+    hview=copy.copy(view)
+    for i in xrange(h1):
+        for j in xrange(w1):
+            vec=np.dot(M, [j, i, 1])
+            if 0<int(round(vec[0]))<w2 and 0<int(round(vec[1]))<h2:
+                hview[int(round(vec[1]))][int(round(vec[0]))+w1]/=2
+
+    cv2.imwrite('sift_projection.jpg', hview)
+
+
+    for m in sel_matches:
+        color = tuple([sp.random.randint(0, 255) for _ in xrange(3)])
+        cv2.line(view, (int(k1[m.queryIdx].pt[0]), int(k1[m.queryIdx].pt[1])) , (int(k2[m.trainIdx].pt[0] + w1), int(k2[m.trainIdx].pt[1])), color)
+    cv2.imwrite('sift_comparison.jpg', view)
+
 
     if math.fabs(M[0][0]*M[1][1])>1:
         print "affine matrix impossible"
         return np.zeros([3,3], dtype=np.float32)
     
-    if math.fabs(math.degrees(math.acos(M[0][0]*M[1][1]))-50.)>4:
+    """if math.fabs(math.degrees(math.acos(M[0][0]*M[1][1]))-50.)>4:
         print "affine matrix highly inaccurate"
-        return np.zeros([3,3], dtype=np.float32)
+        return np.zeros([3,3], dtype=np.float32)"""
+
+    #TESTFORCOMPATIBILITY
+    compat=copy.copy(M)
+    M[0][0]=compat[1][1]
+    M[2][0]=compat[1][2]
+    M[1][1]=compat[0][0]
+    M[2][1]=compat[0][2]
+    M[0][2]=0.0
+    M[1][2]=0.0
+    print M
+
+
+
+
+
 
     return M
 

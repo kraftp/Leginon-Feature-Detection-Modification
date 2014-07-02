@@ -8,14 +8,15 @@
 from leginon import leginondata
 import acquisition
 import gui.wx.RCTAcquisition
+import libCVwrapper
 import pyami.timedproc
 import numpy
 import time
+import openCVcaller
 import math
 import pyami.quietscipy
 from scipy import ndimage
 from leginon import transformregistration
-import openCVcaller
 #from apTilt import apTiltShift
 pi = numpy.pi
 
@@ -176,8 +177,9 @@ class RCTAcquisition(acquisition.Acquisition):
 	def avoidTargetAdjustment(self,target_to_adjust,recent_target):
 		'''
 		RCT should not adjust targets.  StageTracking is doing it.
-		The way transformmanager looks for recent target can give wrong
-		result after change for issue #2526
+		The way imagehandler getLastParentImage looks for last version
+		give wrong results since tilt number is not part of the query
+		and stage tracked image version is reset to 0.
 		The drift after stage tilt and focus will not be adjusted this way.
 		However, since the targets are moved by iterative navigator move,
 		this should be o.k.
@@ -292,6 +294,11 @@ class RCTAcquisition(acquisition.Acquisition):
 		### calculate tilt steps
 		maxstepsize = radians(self.settings['stepsize'])
 		tilts = self.calculateTiltSteps(tilt0, tilt, maxstepsize)
+		if len(tilts)>2:
+			tilts=[tilts[0], tilts[2]]
+			print tilts
+		else:
+			print "SHORT TILTS", tilts            
 		self.logger.info('Tilts: %s' % ([("%.1f"%degrees(t)) for t in tilts],))
 
 		## filter image
@@ -325,56 +332,74 @@ class RCTAcquisition(acquisition.Acquisition):
 			#print 'acquire intertilt'
 			imagenew = self.acquireCorrectedCameraImageData()
 			arraynew = numpy.asarray(imagenew['image'], dtype=numpy.float32)
-			## if is_small_tilt_diff:
-			## 	# Don't filter if phase correlation will be used
-			## 	medfilt = 0
-			## 	lowfilt = 0
-			## if medfilt > 1:
-			## 	arraynew = ndimage.median_filter(arraynew, size=medfilt)
-			## if lowfilt > 0:
-			## 	arraynew = ndimage.gaussian_filter(arraynew, lowfilt)
+			if is_small_tilt_diff:
+				# Don't filter if phase correlation will be used
+				medfilt = 0
+				lowfilt = 0
+			if medfilt > 1:
+				arraynew = ndimage.median_filter(arraynew, size=medfilt)
+			if lowfilt > 0:
+				arraynew = ndimage.gaussian_filter(arraynew, lowfilt)
 			self.setImage(arraynew, 'Image')
 
 			if is_small_tilt_diff:
 				self.logger.info('Use phase correlation on small tilt')
 				result = numpy.array(self.shiftmatrix_maker.register(arrayold, arraynew))
 			else:
-				self.logger.info('Peter\'s openCV stuff')
-                
+
+				print '============ Craig stuff ============'
+
+				self.logger.info('Craig\'s libCV stuff')
+				minsize = self.settings['minsize']
+				maxsize = self.settings['maxsize']
+				libCVwrapper.checkArrayMinMax(self, arrayold, arraynew)
+
 				print 'tilt', tilts[i]*180/3.14159
+
+				timeout = 300
+				resultorig = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
+				result = openCVcaller.MatchImages(arrayold, arraynew)
+				print "RESULT", result
+				print "RESULTORIG", resultorig
 				try:
-					result = openCVcaller.matchImages(arrayold, arraynew)
+					#result = pyami.timedproc.call('leginon.libCVwrapper', 'MatchImages', args=(arrayold, arraynew, minsize, maxsize), timeout=timeout)
 					self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
 				except:
-					self.logger.error('openCV MatchImages failed')
+					self.logger.error('libCV MatchImages failed')
 					return None,None
-				## REWRITE THIS PART LATER?
-				check = openCVcaller.checkOpenCVResult(self, result)
+					
+				#difftilt = degrees(abs(tilts[int(i)])-abs(tilts[int(i-1)]))
+				#result = self.apTiltShiftMethod(arrayold, arraynew, difftilt)
+
+				check = libCVwrapper.checkLibCVResult(self, result)
 				if check is False:
-					self.logger.warning("openCV failed: redoing tilt %.2f"%(tilt,))
+					self.logger.warning("libCV failed: redoing tilt %.2f"%(tilt,))
 					### redo this tilt; becomes an infinite loop if the image goes black
 					retries += 1
 					if retries <= 2:
+						### reduce minsize and try again
+						self.settings['minsize'] *= 0.95
 						if i == len(tilts)-1:
 							### maybe the tilt angle is too high, reduce max angle by 5 percent
 							tilts[len(tilts)-1] *= 0.95
 						i -= 1
 					else:
 						retries = 0
-						print "Tilt openCV FAILED"
-						self.logger.error("openCV failed: giving up")
+						print "Tilt libCV FAILED"
+						self.logger.error("libCV failed: giving up")
 						return None, None
 					continue
 				else:
 					retries = 0			
+				print '============ Craig stuff done ============'
 
 			self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
-			self.logger.info( "Inter Matrix: "+openCVcaller.affineToText(result) )
+			self.logger.info( "Inter Matrix: "+libCVwrapper.affineToText(result) )
 
 			runningresult = numpy.dot(runningresult, result)
 			# transformTargets for display purposes only
 			self.transformTargets(runningresult, tilt0targets)
-			self.logger.info( "Running Matrix: "+openCVcaller.affineToText(runningresult) )
+			self.logger.info( "Running Matrix: "+libCVwrapper.affineToText(runningresult) )
 			self.logger.info("running result matrix= "+str(numpy.asarray(runningresult*100, dtype=numpy.int8).ravel()))
 			imageold = imagenew
 			arrayold = arraynew
@@ -394,7 +419,7 @@ class RCTAcquisition(acquisition.Acquisition):
 		self.setTargets([], 'Peak')
 		self.publishDisplayWait(imagedata)
 
-		self.logger.info( "FINAL Matrix: "+openCVcaller.affineToText(runningresult) )
+		self.logger.info( "FINAL Matrix: "+libCVwrapper.affineToText(runningresult) )
 		#self.logger.info('Final Matrix: %s' % (runningresult,))
 		return (runningresult, imagedata)
 
@@ -594,26 +619,33 @@ class RCTAcquisition(acquisition.Acquisition):
 		self.setImage(im)
 
 		# find regions
-		self.logger.info('running openCVcaller.FindFeatures')
-		#try:
-		features = openCVcaller.FindFeatures(im)
-		#except:
-		#	self.logger.error('openCVcaller.FindFeatures failed')
-		#	features = []
+		minsize = self.settings['minsize']
+		maxsize = self.settings['maxsize']
+		timeout = 300
+		self.logger.info('running libCV.FindRegions, timeout = %d' % (timeout,))
+		try:
+			regions, image  = libCVwrapper.FindRegions(im, minsize, maxsize)
+			#regions,image = pyami.timedproc.call('leginon.libCVwrapper', 'FindRegions', args=(im,minsize,maxsize), timeout=timeout)
+		except:
+			self.logger.error('libCV.FindRegions failed')
+			regions = []
+			image = None
 
-		n = len(features)
-		self.logger.info('Features found: %s' % (n,))
-		self.displayRegions(features)
+		# this is copied from targetfinder:
+		#regions,image = libCVwrapper.FindRegions(self.mosaicimage, minsize, maxsize)
+		n = len(regions)
+		self.logger.info('Regions found: %s' % (n,))
+		self.displayRegions(regions)
 
 	#====================
-	def displayRegions(self, features):
+	def displayRegions(self, regions):
 		targets = []
 		limit = 1500
-		for i,feature in enumerate(features):
+		for i,region in enumerate(regions):
 			if i > limit:
 				break
-			x,y = feature
-			targets.append((x,y))
+			r,c = region['regionEllipse'][:2]
+			targets.append((c,r))
 		self.setTargets(targets, 'Peak')
 
 	#====================
