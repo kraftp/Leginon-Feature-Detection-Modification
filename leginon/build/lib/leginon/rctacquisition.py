@@ -12,6 +12,7 @@ import libCVwrapper
 import pyami.timedproc
 import numpy
 import time
+import openCVcaller
 import math
 import pyami.quietscipy
 from scipy import ndimage
@@ -176,8 +177,9 @@ class RCTAcquisition(acquisition.Acquisition):
 	def avoidTargetAdjustment(self,target_to_adjust,recent_target):
 		'''
 		RCT should not adjust targets.  StageTracking is doing it.
-		The way transformmanager looks for recent target can give wrong
-		result after change for issue #2526
+		The way imagehandler getLastParentImage looks for last version
+		give wrong results since tilt number is not part of the query
+		and stage tracked image version is reset to 0.
 		The drift after stage tilt and focus will not be adjusted this way.
 		However, since the targets are moved by iterative navigator move,
 		this should be o.k.
@@ -292,6 +294,11 @@ class RCTAcquisition(acquisition.Acquisition):
 		### calculate tilt steps
 		maxstepsize = radians(self.settings['stepsize'])
 		tilts = self.calculateTiltSteps(tilt0, tilt, maxstepsize)
+		if len(tilts)>2:
+			tilts=[tilts[0], tilts[2]]
+			print tilts
+		else:
+			print "SHORT TILTS", tilts            
 		self.logger.info('Tilts: %s' % ([("%.1f"%degrees(t)) for t in tilts],))
 
 		## filter image
@@ -350,9 +357,12 @@ class RCTAcquisition(acquisition.Acquisition):
 				print 'tilt', tilts[i]*180/3.14159
 
 				timeout = 300
-				#result = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
+				resultorig = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
+				result = openCVcaller.MatchImages(arrayold, arraynew)
+				print "RESULT", result
+				print "RESULTORIG", resultorig
 				try:
-					result = pyami.timedproc.call('leginon.libCVwrapper', 'MatchImages', args=(arrayold, arraynew, minsize, maxsize), timeout=timeout)
+					#result = pyami.timedproc.call('leginon.libCVwrapper', 'MatchImages', args=(arrayold, arraynew, minsize, maxsize), timeout=timeout)
 					self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
 				except:
 					self.logger.error('libCV MatchImages failed')
@@ -612,10 +622,10 @@ class RCTAcquisition(acquisition.Acquisition):
 		minsize = self.settings['minsize']
 		maxsize = self.settings['maxsize']
 		timeout = 300
-		#regions, image  = libCVwrapper.FindRegions(im, minsize, maxsize)
 		self.logger.info('running libCV.FindRegions, timeout = %d' % (timeout,))
 		try:
-			regions,image = pyami.timedproc.call('leginon.libCVwrapper', 'FindRegions', args=(im,minsize,maxsize), timeout=timeout)
+			regions, image  = libCVwrapper.FindRegions(im, minsize, maxsize)
+			#regions,image = pyami.timedproc.call('leginon.libCVwrapper', 'FindRegions', args=(im,minsize,maxsize), timeout=timeout)
 		except:
 			self.logger.error('libCV.FindRegions failed')
 			regions = []

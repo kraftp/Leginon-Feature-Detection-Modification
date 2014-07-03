@@ -53,6 +53,17 @@ def MatchImages(image1, image2, blur=3):
         image1=cv2.GaussianBlur(image1, (blur, blur), 0)
         image2=cv2.GaussianBlur(image2, (blur, blur), 0)
 
+    h1, w1 = image1.shape[:2]
+    h2, w2 = image2.shape[:2]
+    print h1, w1, h2, w2
+
+    view = sp.zeros((max(h1, h2), w1 + w2), sp.uint8)
+    view[:h1, :w1] = image1
+    view[:h2, w1:] = image2
+    print view
+    cv2.imwrite('sift_orig.jpg', view)
+
+
     detector = cv2.FeatureDetector_create("SIFT")
     descriptor = cv2.DescriptorExtractor_create("BRIEF")
     matcher = cv2.DescriptorMatcher_create("BruteForce-Hamming")
@@ -81,6 +92,14 @@ def MatchImages(image1, image2, blur=3):
         ys=yshift(k1, k2, sel_matches)
         sel_matches = [m for m in sel_matches if math.fabs(int(k2[m.trainIdx].pt[1])-int(k1[m.queryIdx].pt[1])-ys)<10]
         print "Try:", count, "#selected matches:", len(sel_matches)
+
+
+    for m in sel_matches:
+        color = tuple([sp.random.randint(0, 255) for _ in xrange(3)])
+        cv2.line(view, (int(k1[m.queryIdx].pt[0]), int(k1[m.queryIdx].pt[1])) , (int(k2[m.trainIdx].pt[0] + w1), int(k2[m.trainIdx].pt[1])), color)
+    cv2.imwrite('sift_comparison.jpg', view)
+
+
         
     ## Calculating affine matrix
     src_pts=np.float32([k1[m.queryIdx].pt for m in sel_matches ]).reshape(-1, 1, 2)
@@ -100,15 +119,7 @@ def MatchImages(image1, image2, blur=3):
 
 
 
-    h1, w1 = image1.shape[:2]
-    h2, w2 = image2.shape[:2]
-    print h1, w1, h2, w2
 
-    view = sp.zeros((max(h1, h2), w1 + w2), sp.uint8)
-    view[:h1, :w1] = image1
-    view[:h2, w1:] = image2
-    print view
-    cv2.imwrite('sift_orig.jpg', view)
 
     hview=copy.copy(view)
     for i in xrange(h1):
@@ -120,10 +131,7 @@ def MatchImages(image1, image2, blur=3):
     cv2.imwrite('sift_projection.jpg', hview)
 
 
-    for m in sel_matches:
-        color = tuple([sp.random.randint(0, 255) for _ in xrange(3)])
-        cv2.line(view, (int(k1[m.queryIdx].pt[0]), int(k1[m.queryIdx].pt[1])) , (int(k2[m.trainIdx].pt[0] + w1), int(k2[m.trainIdx].pt[1])), color)
-    cv2.imwrite('sift_comparison.jpg', view)
+
 
 
     if math.fabs(M[0][0]*M[1][1])>1:
@@ -179,6 +187,7 @@ def convertImage(image1):
 def checkOpenCVResult(self, result):
 	"""
 	Tests whether the openCV resulting affine matrix is reasonable for tilting
+    Modified from original from libCV
 	"""
 	if abs(result[0][0]) < 0.5 or abs(result[1][1]) < 0.5:
 		#max tilt angle of 60 degrees
@@ -200,7 +209,8 @@ def checkOpenCVResult(self, result):
 #-----------------------
 def affineToText(matrix):
 	"""
-	Extracts useful paramters from an affine homography matrix
+	Extracts useful parameters from an affine homography matrix
+    Modified from original from libCV
 	"""
 	tiltv = matrix[0,0] * matrix[1,1]
 	rotv = (matrix[0,1] - matrix[1,0]) / 2.0

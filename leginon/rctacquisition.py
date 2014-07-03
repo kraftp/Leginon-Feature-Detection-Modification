@@ -294,11 +294,7 @@ class RCTAcquisition(acquisition.Acquisition):
 		### calculate tilt steps
 		maxstepsize = radians(self.settings['stepsize'])
 		tilts = self.calculateTiltSteps(tilt0, tilt, maxstepsize)
-		if len(tilts)>2:
-			tilts=[tilts[0], tilts[2]]
-			print tilts
-		else:
-			print "SHORT TILTS", tilts            
+		print tilts        
 		self.logger.info('Tilts: %s' % ([("%.1f"%degrees(t)) for t in tilts],))
 
 		## filter image
@@ -347,7 +343,7 @@ class RCTAcquisition(acquisition.Acquisition):
 				result = numpy.array(self.shiftmatrix_maker.register(arrayold, arraynew))
 			else:
 
-				print '============ Craig stuff ============'
+				print '============ openCV stuff ============'
 
 				self.logger.info('Craig\'s libCV stuff')
 				minsize = self.settings['minsize']
@@ -365,7 +361,7 @@ class RCTAcquisition(acquisition.Acquisition):
 					#result = pyami.timedproc.call('leginon.libCVwrapper', 'MatchImages', args=(arrayold, arraynew, minsize, maxsize), timeout=timeout)
 					self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
 				except:
-					self.logger.error('libCV MatchImages failed')
+					self.logger.error('openCV MatchImages failed')
 					return None,None
 					
 				#difftilt = degrees(abs(tilts[int(i)])-abs(tilts[int(i-1)]))
@@ -373,7 +369,7 @@ class RCTAcquisition(acquisition.Acquisition):
 
 				check = libCVwrapper.checkLibCVResult(self, result)
 				if check is False:
-					self.logger.warning("libCV failed: redoing tilt %.2f"%(tilt,))
+					self.logger.warning("openCV failed: redoing tilt %.2f"%(tilt,))
 					### redo this tilt; becomes an infinite loop if the image goes black
 					retries += 1
 					if retries <= 2:
@@ -385,13 +381,13 @@ class RCTAcquisition(acquisition.Acquisition):
 						i -= 1
 					else:
 						retries = 0
-						print "Tilt libCV FAILED"
-						self.logger.error("libCV failed: giving up")
+						print "Tilt openCV FAILED"
+						self.logger.error("openCV failed: giving up")
 						return None, None
 					continue
 				else:
 					retries = 0			
-				print '============ Craig stuff done ============'
+				print '============ openCV stuff done ============'
 
 			self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
 			self.logger.info( "Inter Matrix: "+libCVwrapper.affineToText(result) )
@@ -439,12 +435,13 @@ class RCTAcquisition(acquisition.Acquisition):
 		### set minimum number of steps
 		maxangle = degrees(max(abs(tilt0),abs(tilt)))
 		diffangle = degrees(abs(tilt0 - tilt))
-		if maxangle < 20 or diffangle < 10:
+		##if maxangle < 20 or diffangle < 10:
 			# no intermediate step required
-			nsteps = 0
-		else:
+		##	nsteps = 0
+		##else:
 			# always have at least one intermediate step
-			nsteps = 1
+		##	nsteps = 1
+		nsteps = 0
 		self.logger.info('Minimum number of steps: %d (%.1f, %.1f)' % (nsteps+1, maxangle, diffangle))
 
 		### increase the number of steps until bigstepsize > maxstepsize
