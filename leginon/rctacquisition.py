@@ -609,42 +609,42 @@ class RCTAcquisition(acquisition.Acquisition):
 
         # filter
         im = numpy.asarray(im, dtype=numpy.float32)
-        medfilt = int(self.settings['medfilt'])
-        lowfilt = float(self.settings['lowfilt'])
-        if medfilt > 1:
-            im = ndimage.median_filter(im, size=medfilt)
-        if lowfilt > 0:
-            im = ndimage.gaussian_filter(im, lowfilt)
+        ## medfilt = int(self.settings['medfilt'])
+        ## lowfilt = float(self.settings['lowfilt'])
+        ## if medfilt > 1:
+        ##     im = ndimage.median_filter(im, size=medfilt)
+        ## if lowfilt > 0:
+        ##     im = ndimage.gaussian_filter(im, lowfilt)
         self.setImage(im)
 
         # find regions
-        minsize = self.settings['minsize']
-        maxsize = self.settings['maxsize']
-        timeout = 300
-        self.logger.info('running libCV.FindRegions, timeout = %d' % (timeout,))
+        ## minsize = self.settings['minsize']
+        ## maxsize = self.settings['maxsize']
+        ## timeout = 300
+        self.logger.info('running openCVcaller.FindFeatures')
         try:
-            regions, image  = libCVwrapper.FindRegions(im, minsize, maxsize)
+            features  = openCVcaller.FindFeatures(im)
             #regions,image = pyami.timedproc.call('leginon.libCVwrapper', 'FindRegions', args=(im,minsize,maxsize), timeout=timeout)
         except:
-            self.logger.error('libCV.FindRegions failed')
-            regions = []
-            image = None
+            self.logger.error('openCVcaller.FindFeatures')
+            features = []
+
 
         # this is copied from targetfinder:
         #regions,image = libCVwrapper.FindRegions(self.mosaicimage, minsize, maxsize)
-        n = len(regions)
+        n = len(features)
         self.logger.info('Regions found: %s' % (n,))
-        self.displayRegions(regions)
+        self.displayRegions(features)
 
     #====================
-    def displayRegions(self, regions):
+    def displayRegions(self, features):
         targets = []
         limit = 1500
-        for i,region in enumerate(regions):
+        for i,feature in enumerate(features):
             if i > limit:
                 break
-            r,c = region['regionEllipse'][:2]
-            targets.append((c,r))
+            x, y = feature
+            targets.append((x,y))
         self.setTargets(targets, 'Peak')
 
     #====================
