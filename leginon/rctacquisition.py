@@ -349,19 +349,22 @@ class RCTAcquisition(acquisition.Acquisition):
                 minsize = self.settings['minsize']
                 maxsize = self.settings['maxsize']
                 libCVwrapper.checkArrayMinMax(self, arrayold, arraynew)
-
                 print 'tilt', tilts[i]*180/3.14159
-                timeout = 300
-                resultorig = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
-                result = openCVcaller.MatchImages(arrayold, arraynew)
-                print "RESULT", result
-                print "RESULTORIG", resultorig
                 try:
-                    #result = pyami.timedproc.call('leginon.libCVwrapper', 'MatchImages', args=(arrayold, arraynew, minsize, maxsize), timeout=timeout)
+                    resultorig = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
+                    result = openCVcaller.MatchImages(arrayold, arraynew)
                     self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
+                    print "RESULT", result
+                    print "RESULTORIG", resultorig
                 except:
                     self.logger.error('openCV MatchImages failed')
-                    return None,None
+                    return None, None
+                ## try:
+                ##     #result = pyami.timedproc.call('leginon.libCVwrapper', 'MatchImages', args=(arrayold, arraynew, minsize, maxsize), timeout=timeout)
+                ##     self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
+                ## except:
+                ##     self.logger.error('openCV MatchImages failed')
+                ##     return None,None
                     
                 #difftilt = degrees(abs(tilts[int(i)])-abs(tilts[int(i-1)]))
                 #result = self.apTiltShiftMethod(arrayold, arraynew, difftilt)
@@ -389,12 +392,12 @@ class RCTAcquisition(acquisition.Acquisition):
                 print '============ openCV stuff done ============'
 
             self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
-            self.logger.info( "Inter Matrix: "+libCVwrapper.affineToText(result) )
+            self.logger.info( "Inter Matrix: "+openCVcaller.affineToText(result) )
 
             runningresult = numpy.dot(runningresult, result)
             # transformTargets for display purposes only
             self.transformTargets(runningresult, tilt0targets)
-            self.logger.info( "Running Matrix: "+libCVwrapper.affineToText(runningresult) )
+            self.logger.info( "Running Matrix: "+openCVcaller.affineToText(runningresult) )
             self.logger.info("running result matrix= "+str(numpy.asarray(runningresult*100, dtype=numpy.int8).ravel()))
             imageold = imagenew
             arrayold = arraynew
@@ -414,7 +417,7 @@ class RCTAcquisition(acquisition.Acquisition):
         self.setTargets([], 'Peak')
         self.publishDisplayWait(imagedata)
 
-        self.logger.info( "FINAL Matrix: "+libCVwrapper.affineToText(runningresult) )
+        self.logger.info( "FINAL Matrix: "+openCVcaller.affineToText(runningresult) )
         #self.logger.info('Final Matrix: %s' % (runningresult,))
         return (runningresult, imagedata)
 

@@ -13,6 +13,15 @@ import operator
 import copy
 s_gfilt=[0, 0, 1000, 0, 0]
 
+
+#-----------------------
+def radians(degrees):
+	return float(degrees) * np.pi / 180.0
+
+#-----------------------
+def degrees(radians):
+	return float(radians) * 180.0 / np.pi
+
 #-----------------------
 def yshift(k1, k2, sel_matches):
     """
