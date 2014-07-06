@@ -60,7 +60,6 @@ def MatchImages(image1, image2, blur=3):
     view = sp.zeros((max(h1, h2), w1 + w2), sp.uint8)
     view[:h1, :w1] = image1
     view[:h2, w1:] = image2
-    print view
     cv2.imwrite('sift_orig.jpg', view)
 
 
@@ -98,8 +97,6 @@ def MatchImages(image1, image2, blur=3):
         color = tuple([sp.random.randint(0, 255) for _ in xrange(3)])
         cv2.line(view, (int(k1[m.queryIdx].pt[0]), int(k1[m.queryIdx].pt[1])) , (int(k2[m.trainIdx].pt[0] + w1), int(k2[m.trainIdx].pt[1])), color)
     cv2.imwrite('sift_comparison.jpg', view)
-
-
         
     ## Calculating affine matrix
     src_pts=np.float32([k1[m.queryIdx].pt for m in sel_matches ]).reshape(-1, 1, 2)
@@ -116,11 +113,6 @@ def MatchImages(image1, image2, blur=3):
             M[i][j]=affineM[i][j]
     print M
 
-
-
-
-
-
     hview=copy.copy(view)
     for i in xrange(h1):
         for j in xrange(w1):
@@ -130,10 +122,6 @@ def MatchImages(image1, image2, blur=3):
 
     cv2.imwrite('sift_projection.jpg', hview)
 
-
-
-
-
     if math.fabs(M[0][0]*M[1][1])>1:
         print "affine matrix impossible"
         return np.zeros([3,3], dtype=np.float32)
@@ -142,7 +130,7 @@ def MatchImages(image1, image2, blur=3):
         print "affine matrix highly inaccurate"
         return np.zeros([3,3], dtype=np.float32)"""
 
-    #TESTFORCOMPATIBILITY
+    ## For compatibility
     compat=copy.copy(M)
     M[0][0]=compat[1][1]
     M[2][0]=compat[1][2]
@@ -151,11 +139,6 @@ def MatchImages(image1, image2, blur=3):
     M[0][2]=0.0
     M[1][2]=0.0
     print M
-
-
-
-
-
 
     return M
 
