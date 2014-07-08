@@ -94,7 +94,7 @@ def MatchImages(image1, image2, blur=3):
     print "%d matches" % (len(sel_matches))
     
     count=0
-    while len(sel_matches)<40 and count<5:
+    while len(sel_matches)<40 and count<10:
         count+=1
         sel_matches = [m for m in matches if m.distance < mean_dist*(.6+.05*count)]
         ys=yshift(k1, k2, sel_matches)
@@ -152,7 +152,7 @@ def MatchImages(image1, image2, blur=3):
     return M
 
 #-----------------------
-def convertImage(image1):
+def convertImage(image):
     """
     Inputs:
         numpy image1 array, dtype=float32
@@ -162,18 +162,23 @@ def convertImage(image1):
         numpy image1 array, dtype=uint8
         numpy image2 array, dtype=uint8   
     """
-    max1 = np.amax(image1)
 
-    min1 = np.amin(image1)
+    min1 = np.amin(image)
+
+    if min1 > 0:
+        image -= min1
+    else:
+        image += min1
   
-
-    image1 = image1*256/(max1-min1)
-
-
-    image1 = np.asarray(image1, dtype=np.uint8)
+    max1 = np.amax(image)
+        
+    image = image1*256/max1
 
 
-    return image1
+    image = np.asarray(image, dtype=np.uint8)
+
+
+    return image
 
 #-----------------------
 def checkOpenCVResult(self, result):
