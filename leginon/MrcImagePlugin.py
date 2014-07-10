@@ -32,41 +32,41 @@ class MrcImageFile(ImageFile.ImageFile):
 
         # header
         header = MrcHeader(self.fp)
-	if header == None:
-		raise SyntaxError, "Not MRC file"
-	if header['depth'] > 1:
-		raise SyntaxError, "3D data unsupported in PIL"
+        if header == None:
+                raise SyntaxError, "Not MRC file"
+        if header['depth'] > 1:
+                raise SyntaxError, "3D data unsupported in PIL"
 
-	self.size = (header['width'], header['height'])
+        self.size = (header['width'], header['height'])
 
-	## how to represent data in PIL
-	self.mode = mrcmode_pilmode[header['mode']][0]
+        ## how to represent data in PIL
+        self.mode = mrcmode_pilmode[header['mode']][0]
 
-	## convert MRC mode to "raw" decoder type:
-	rawmode = mrcmode_pilmode[header['mode']][1]
+        ## convert MRC mode to "raw" decoder type:
+        rawmode = mrcmode_pilmode[header['mode']][1]
 
-	#tile = (decoder, region, offset, parameters)
-	self.tile = [("raw", (0,0)+self.size, header.headerlen, (rawmode,0,1) )]
+        #tile = (decoder, region, offset, parameters)
+        self.tile = [("raw", (0,0)+self.size, header.headerlen, (rawmode,0,1) )]
 
 # Write MRC file
 def _save(im, fp, filename, check=0):
 
-	# check if im.mode is compatible with MRC (see Bmp...)
+        # check if im.mode is compatible with MRC (see Bmp...)
 
-	if check:
-		return check
+        if check:
+                return check
 
-	header = MrcHeader()
-	header['width'] = im.size[0]
-	header['height'] = im.size[1]
-	header['depth'] = 1
-	header['mode'] = pilmode_mrcmode[im.mode]
-	header.tofile(fp)
+        header = MrcHeader()
+        header['width'] = im.size[0]
+        header['height'] = im.size[1]
+        header['depth'] = 1
+        header['mode'] = pilmode_mrcmode[im.mode]
+        header.tofile(fp)
 
-	rawmode = mrcmode_rawmode[header['mode']]
-	tile = [("raw", (0,0)+im.size, header.headerlen, (rawmode, 0, 1))]
-	print 'savetile:', tile
-	ImageFile._save(im, fp, tile)
+        rawmode = mrcmode_rawmode[header['mode']]
+        tile = [("raw", (0,0)+im.size, header.headerlen, (rawmode, 0, 1))]
+        print 'savetile:', tile
+        ImageFile._save(im, fp, tile)
 
 # Registry
 Image.register_open("MRC", MrcImageFile)

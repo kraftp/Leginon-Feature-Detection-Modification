@@ -25,64 +25,64 @@ from appionlib import appiondata
 class Test_zz07jul25b(testScript.TestScript):
 
 
-	#=====================.
-	def start(self):
-		
-		self.setRunDir()
-		self.setAppionFlags()
-		
-		if self.params['commit'] is True:
-			self.insertTestRunData()			
+        #=====================.
+        def start(self):
+                
+                self.setRunDir()
+                self.setAppionFlags()
+                
+                if self.params['commit'] is True:
+                        self.insertTestRunData()                        
 
-		if self.params['uploadimages'] is True:
-			self.uploadImages()	
+                if self.params['uploadimages'] is True:
+                        self.uploadImages()     
 
-		### Dog Picker
-		self.dogPicker()
+                ### Dog Picker
+                self.dogPicker()
 
-		### Ace 2
-		self.aceTwo(bin=2, blur=10)
-		self.aceTwo(bin=2, blur=6)
-		self.aceTwo(bin=4)
+                ### Ace 2
+                self.aceTwo(bin=2, blur=10)
+                self.aceTwo(bin=2, blur=6)
+                self.aceTwo(bin=4)
 
-		### Make stack
-		stackname = self.makeStack()
+                ### Make stack
+                stackname = self.makeStack()
 
-		### Filter stack
-		filtstackname = self.filterStack(stackname)
-		
-		### Maximum likelihood
-		maxlikename = self.maxLike(filtstackname)
+                ### Filter stack
+                filtstackname = self.filterStack(stackname)
+                
+                ### Maximum likelihood
+                maxlikename = self.maxLike(filtstackname)
 
-		### Upload max like
-		self.uploadMaxLike(maxlikename)
+                ### Upload max like
+                self.uploadMaxLike(maxlikename)
 
-		### Upload templates
-		self.createTemplates(maxlikename)
-		return
+                ### Upload templates
+                self.createTemplates(maxlikename)
+                return
 
-		### Template pick
-		self.templatePick()
+                ### Template pick
+                self.templatePick()
 
-		### Make stack
-		stackname = self.makeStack()
+                ### Make stack
+                stackname = self.makeStack()
 
-		### Filter stack
-		#filtstackname = self.filterStack(stackname)
+                ### Filter stack
+                #filtstackname = self.filterStack(stackname)
 
-		### create PDB model
-		self.pdbToModel()
+                ### create PDB model
+                self.pdbToModel()
 
-		### Upload model as initial model
-		self.uploadModel()
+                ### Upload model as initial model
+                self.uploadModel()
 
-		### Do reconstruction
-		### Upload recon
-		return
+                ### Do reconstruction
+                ### Upload recon
+                return
 
 #=====================
 if __name__ == "__main__":
-	tester = Test_zz07jul25b()
-	tester.start()
-	tester.close()
+        tester = Test_zz07jul25b()
+        tester.start()
+        tester.close()
 

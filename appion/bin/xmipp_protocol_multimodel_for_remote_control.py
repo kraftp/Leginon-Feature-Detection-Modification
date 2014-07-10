@@ -448,7 +448,7 @@
 #""" See http://xmipp.cnb.uam.es/twiki/bin/view/Xmipp/Fourier and
 #        http://xmipp.cnb.uam.es/twiki/bin/view/Xmipp/Mpi_Fourier and
 #        for details
-#	-thr_width 
+#       -thr_width 
 #"""
 #FourierReconstructionExtraCommand=' '
 #
@@ -799,8 +799,8 @@ class projection_matching_class:
                 _MyMpiJobSize,
                 _MyNumberOfThreads,
                 _SymmetryGroup,
-		_SymmetryGroupNeighbourhood,
-		_OnlyWinner,
+                _SymmetryGroupNeighbourhood,
+                _OnlyWinner,
                 _DoLowPassFilter,
                 _UseFscForFilter,
                 _ConstantToAddToFiltration
@@ -1098,8 +1098,8 @@ class projection_matching_class:
                                          self._MyMpiJobSize,
                                          self._WorkingDir,
                                          self._SymmetryGroup,
-					 self._SymmetryGroupNeighbourhood,
-					 self._OnlyWinner,
+                                         self._SymmetryGroupNeighbourhood,
+                                         self._OnlyWinner,
                                          self._AvailableMemory,
                                          self._DoComputeResolution,
                                          self._DoSplitReferenceImages,
@@ -1144,7 +1144,7 @@ class projection_matching_class:
                                     self._ReconstructedVolume[_iteration_number],
                                     self._DoComputeResolution,
                                     self._DoSplitReferenceImages,
-				    self._PaddingFactor
+                                    self._PaddingFactor
                                     )
           else:
              self._mylog.info("Skipped Reconstruction") 
@@ -1169,11 +1169,11 @@ class projection_matching_class:
                                                   self._ReconstructedVolume[_iteration_number],
                                                   self._ARTLambda,
                                                   self._OuterRadius,
-						  self._DoSplitReferenceImages,
-						  self._PaddingFactor
+                                                  self._DoSplitReferenceImages,
+                                                  self._PaddingFactor
                                                   )
           else:
-	     filter_frequence=0
+             filter_frequence=0
              self._mylog.info("Skipped Resolution calculation") 
           
           self._ConstantToAddToFiltration=arg.getComponentFromVector(\
@@ -1719,7 +1719,7 @@ def execute_reconstruction(_mylog,
                            _ReconstructedandfilteredVolume,
                            _DoComputeResolution,
                            _DoSplitReferenceImages,
-			   _PaddingFactor):
+                           _PaddingFactor):
 
    _mylog.debug("execute_reconstruction")
 
@@ -1882,8 +1882,8 @@ def  execute_resolution(_mylog,
                         _ReconstructedVolume,
                         _ARTLambda,
                         _OuterRadius,
-			_DoSplitReferenceImages,
-			_PaddingFactor):
+                        _DoSplitReferenceImages,
+                        _PaddingFactor):
 
 
     
@@ -1958,27 +1958,27 @@ def  execute_resolution(_mylog,
 #              parameters=' -i '    + Selfiles[i] + \
 #                         ' -o '    + Outputvolumes[i] + \
 #                         ' -sym '  + _SymmetryGroup + \
-#    		     ' -thr '  + str(_MyNumberOfThreads) + \
+#                    ' -thr '  + str(_MyNumberOfThreads) + \
 #                         ' -WLS '
 #              if len(_ARTLambda)>1:
 #                 parameters = parameters + ' -l '   + _ARTLambda + ' '
 #              parameters = parameters + _ARTReconstructionExtraCommand
 #           elif _ReconstructionMethod=='fourier':
 #              if ( _MyNumberOfMpiProcesses ==1):
-#        	      _DoParallel=False
+#                     _DoParallel=False
 #                      program = 'xmipp_reconstruct_fourier'
 #                      parameters=' -i '    +  Selfiles[i] + \
 #                                 ' -o '    +  Outputvolumes[i] + '.vol ' + \
 #                                 ' -sym '  + _SymmetryGroup + \
-#            		     ' -thr '  + str(_MyNumberOfThreads) + \
+#                            ' -thr '  + str(_MyNumberOfThreads) + \
 #                                 ' -weight ' + \
 #                                 ' -max_resolution ' + str(_FourierMaxFrequencyOfInterest) +\
-#            		     ' -pad_proj ' + str(_PaddingFactor) +\
-#            		     ' -pad_vol ' + str(_PaddingFactor)
+#                            ' -pad_proj ' + str(_PaddingFactor) +\
+#                            ' -pad_vol ' + str(_PaddingFactor)
 #              if (_DoParallel):
 #                 parameters = parameters + ' -mpi_job_size ' + str(_MyMpiJobSize)
 #              if ( not _DoSplitReferenceImages):
-#    	             PerformReconstruction=False
+#                    PerformReconstruction=False
 #                     parameters = parameters + _FourierReconstructionExtraCommand
 #           else:
 #              _mylog.error("Reconstruction method unknown. Quiting")
@@ -2015,13 +2015,13 @@ def  execute_resolution(_mylog,
         command = " -ref " + Outputvolumes[0] +\
                   " -i " +Outputvolumes[1]  + ' -sam ' + str(_ResolSam)
         if ReconstructionMethod=='fourier':
-    	       import spider_header
+               import spider_header
                myheader=spider_header.spiderheader(Outputvolumes[i] )
                ncolumns=myheader.nx
-    	#2.5 is the blob radius 
-    	       aux4 = 2.5 * 0.5 / ncolumns
+        #2.5 is the blob radius 
+               aux4 = 2.5 * 0.5 / ncolumns
                command += " -max_sam " + str (_ResolSam/(aux4+_FourierMaxFrequencyOfInterest))
-    	
+        
         launch_job.launch_job("xmipp_resolution_fsc",
                               command,
                               _mylog,

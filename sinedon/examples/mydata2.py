@@ -11,18 +11,18 @@ import sinedon
 import mydata1 
 
 class SomeData(sinedon.Data):
-	def typemap(cls):
-		return sinedon.Data.typemap() + (
-		('name', str),
-		('description', str),
-	)
-	typemap = classmethod(typemap)
+        def typemap(cls):
+                return sinedon.Data.typemap() + (
+                ('name', str),
+                ('description', str),
+        )
+        typemap = classmethod(typemap)
 
 class OtherData(sinedon.Data):
-	def typemap(cls):
-		return sinedon.Data.typemap() + (
-		('name', str),
-		('t', mydata1.TData),
-		('abc', SomeData),
-	)
-	typemap = classmethod(typemap)
+        def typemap(cls):
+                return sinedon.Data.typemap() + (
+                ('name', str),
+                ('t', mydata1.TData),
+                ('abc', SomeData),
+        )
+        typemap = classmethod(typemap)

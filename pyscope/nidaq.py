@@ -71,110 +71,110 @@ pointsToRead = int32(1)
 read = int32()
 
 def CHK(err):
-	'''a simple error checking routine'''
-	if err < 0:
-		buf_size = 100
-		buf = ctypes.create_string_buffer('\000' * buf_size)
-		nidaq.DAQmxGetErrorString(err,ctypes.byref(buf),buf_size)
-		raise RuntimeError('nidaq call failed with error %d: %s'%(err,repr(buf.value)))
+        '''a simple error checking routine'''
+        if err < 0:
+                buf_size = 100
+                buf = ctypes.create_string_buffer('\000' * buf_size)
+                nidaq.DAQmxGetErrorString(err,ctypes.byref(buf),buf_size)
+                raise RuntimeError('nidaq call failed with error %d: %s'%(err,repr(buf.value)))
 
 def _get_analog_input():
-	'''read and return a voltage from chosen analog input'''
-	CHK(nidaq.DAQmxCreateTask("", ctypes.byref(taskHandle)))
-	CHK(nidaq.DAQmxCreateAIVoltageChan(taskHandle, analoginput, "",
-							DAQmx_Val_Cfg_Default,
-							amin, amax,
-							DAQmx_Val_Volts, None))
+        '''read and return a voltage from chosen analog input'''
+        CHK(nidaq.DAQmxCreateTask("", ctypes.byref(taskHandle)))
+        CHK(nidaq.DAQmxCreateAIVoltageChan(taskHandle, analoginput, "",
+                                                        DAQmx_Val_Cfg_Default,
+                                                        amin, amax,
+                                                        DAQmx_Val_Volts, None))
 
-	CHK(nidaq.DAQmxStartTask(taskHandle))
-	CHK(nidaq.DAQmxReadAnalogF64(taskHandle, pointsToRead, timeout,
-							DAQmx_Val_GroupByChannel, ctypes.byref(aval),
-							samplesPerChan, ctypes.byref(read), None))
+        CHK(nidaq.DAQmxStartTask(taskHandle))
+        CHK(nidaq.DAQmxReadAnalogF64(taskHandle, pointsToRead, timeout,
+                                                        DAQmx_Val_GroupByChannel, ctypes.byref(aval),
+                                                        samplesPerChan, ctypes.byref(read), None))
 
-	if taskHandle.value != 0:
-		nidaq.DAQmxStopTask(taskHandle)
-		nidaq.DAQmxClearTask(taskHandle)
+        if taskHandle.value != 0:
+                nidaq.DAQmxStopTask(taskHandle)
+                nidaq.DAQmxClearTask(taskHandle)
 
-	return aval.value
+        return aval.value
 
 def _set_digital_output(val):
-	'''set defined digital output port to val'''
-	CHK(nidaq.DAQmxCreateTask("", ctypes.byref(taskHandle)))
-	CHK(nidaq.DAQmxCreateDOChan(taskHandle,digitalchannel, "", DAQmx_Val_ChanForAllLines))
-	w_data[0] = val
-	CHK(nidaq.DAQmxWriteDigitalU32(taskHandle, 1, 1,timeout, DAQmx_Val_GroupByChannel, w_data.ctypes.data, written, None))
-	if taskHandle.value != 0:
-		nidaq.DAQmxStopTask(taskHandle)
-		nidaq.DAQmxClearTask(taskHandle)
+        '''set defined digital output port to val'''
+        CHK(nidaq.DAQmxCreateTask("", ctypes.byref(taskHandle)))
+        CHK(nidaq.DAQmxCreateDOChan(taskHandle,digitalchannel, "", DAQmx_Val_ChanForAllLines))
+        w_data[0] = val
+        CHK(nidaq.DAQmxWriteDigitalU32(taskHandle, 1, 1,timeout, DAQmx_Val_GroupByChannel, w_data.ctypes.data, written, None))
+        if taskHandle.value != 0:
+                nidaq.DAQmxStopTask(taskHandle)
+                nidaq.DAQmxClearTask(taskHandle)
 
 def _rotate_counterclock_wise(v):
-	'''rotates counterclock wise until analog input reads v'''
-	cur_v = _get_analog_input()
-	try:
-		count = 0
-		while cur_v > v:
-			_set_digital_output(ROTATE_COUNTERCLOCK_WISE)
-			cur_v = _get_analog_input()
-			if cur_v <= MIN_V_MEASURE:
-				break
-			count += 1
-			if count > 1000:
-				print 'no response from %s, try a different nidevice' % (nidevice,)
-				break
-	finally:
-		_set_digital_output(0)
-	
-	return cur_v
+        '''rotates counterclock wise until analog input reads v'''
+        cur_v = _get_analog_input()
+        try:
+                count = 0
+                while cur_v > v:
+                        _set_digital_output(ROTATE_COUNTERCLOCK_WISE)
+                        cur_v = _get_analog_input()
+                        if cur_v <= MIN_V_MEASURE:
+                                break
+                        count += 1
+                        if count > 1000:
+                                print 'no response from %s, try a different nidevice' % (nidevice,)
+                                break
+        finally:
+                _set_digital_output(0)
+        
+        return cur_v
 
 def _rotate_clock_wise(v):
-	'''rotates clock wise until analog input reads v'''
-	cur_v = _get_analog_input()
-	try:
-		count = 0
-		while cur_v < v:
-			_set_digital_output(ROTATE_CLOCK_WISE)
-			cur_v = _get_analog_input()
-			if cur_v >= MAX_V_MEASURE:
-				break
-			count += 1
-			if count > 1000:
-				print 'no response from %s, try a different nidevice' % (nidevice,)
-				break
-	finally:
-		_set_digital_output(0)
-	
-	return cur_v
+        '''rotates clock wise until analog input reads v'''
+        cur_v = _get_analog_input()
+        try:
+                count = 0
+                while cur_v < v:
+                        _set_digital_output(ROTATE_CLOCK_WISE)
+                        cur_v = _get_analog_input()
+                        if cur_v >= MAX_V_MEASURE:
+                                break
+                        count += 1
+                        if count > 1000:
+                                print 'no response from %s, try a different nidevice' % (nidevice,)
+                                break
+        finally:
+                _set_digital_output(0)
+        
+        return cur_v
 
 
 def _set_angle(v):
-	'''choose which way to rotate, based on current position'''
-	cur_v = _get_analog_input()
+        '''choose which way to rotate, based on current position'''
+        cur_v = _get_analog_input()
 
-	if cur_v > v:
-		cur_v = _rotate_counterclock_wise(v)
-	elif cur_v < v:
-		cur_v = _rotate_clock_wise(v)
+        if cur_v > v:
+                cur_v = _rotate_counterclock_wise(v)
+        elif cur_v < v:
+                cur_v = _rotate_clock_wise(v)
 
-	return cur_v
+        return cur_v
 
 
 def setBeta(angle):
-	'''sets Beta angle (deg)'''
-	v = angle2volt(angle)
-	nv = _set_angle(v)
-	return volt2angle(nv)
+        '''sets Beta angle (deg)'''
+        v = angle2volt(angle)
+        nv = _set_angle(v)
+        return volt2angle(nv)
 
 def getBeta():
-	'''get current Beta angle (deg)'''
-	v = _get_analog_input()
-	angle = volt2angle(v)
-	return angle
+        '''get current Beta angle (deg)'''
+        v = _get_analog_input()
+        angle = volt2angle(v)
+        return angle
 
 def volt2angle(v):
-	angle = k_av * v
-	return angle
+        angle = k_av * v
+        return angle
 
 def angle2volt(angle):
-	v = angle / k_av
-	return v
+        v = angle / k_av
+        return v
 

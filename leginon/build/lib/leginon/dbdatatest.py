@@ -56,11 +56,11 @@ mydata2['camera'] = cameradata2
 dbdk = dbdatakeeper.DBDataKeeper(('dbdk',1), 'testsession')
 
 if 1:
-	dbdk.insert(mydata)
-	dbdk.insert(mydata2)
-	print 'INSERTED:'
-	printdata(mydata)
-	printdata(mydata2)
+        dbdk.insert(mydata)
+        dbdk.insert(mydata2)
+        print 'INSERTED:'
+        printdata(mydata)
+        printdata(mydata2)
 
 sys.exit()
 
@@ -80,19 +80,19 @@ mydata3['camera'] = cameradict3
 result = dbdk.query(mydata3)
 
 if 0:
-	print 'RESULT'
-	for d in result:
-		printdata(d)
-		print 'compare mydata'
-		printcompare(d, mydata)
-		print 'compare mydata2'
-		printcompare(d, mydata2)
+        print 'RESULT'
+        for d in result:
+                printdata(d)
+                print 'compare mydata'
+                printcompare(d, mydata)
+                print 'compare mydata2'
+                printcompare(d, mydata2)
 
 sys.exit()
 
 ## WAS LIKE THIS:
 # mynode.research(leginondata.NewPresetData, magnifcation=1900...)
-# 	   mydata4 = dbdk.query(mydata3, )
+#          mydata4 = dbdk.query(mydata3, )
 #        in DBDataKeeper.query():
 #              idata = leginondata.NewPresetData(asdfd)
 
@@ -115,21 +115,21 @@ import random
 ### this is the function is never called directly
 ### It is called inside the replaceData() call below
 def testfunc(mydata):
-	print 'TESTFUNC'
-	print mydata
-	print ''
+        print 'TESTFUNC'
+        print mydata
+        print ''
 
-	mylist.append(mydata)
+        mylist.append(mydata)
 
-	### insert could be done here and retval should be last insert id
-	####### INSERT HERE
-	rnum = random.randrange(100000)
+        ### insert could be done here and retval should be last insert id
+        ####### INSERT HERE
+        rnum = random.randrange(100000)
 
-	retval = leginondata.DataReference()
-	retval['id'] = rnum
-	retval['classname'] = mydata.__class__.__name__
-	#print '    RETURNING',  retval
-	return retval
+        retval = leginondata.DataReference()
+        retval['id'] = rnum
+        retval['classname'] = mydata.__class__.__name__
+        #print '    RETURNING',  retval
+        return retval
 
 # this executes testfunc on children of mydata
 # and then on mydata itself.  Children are replaced with a DataReference

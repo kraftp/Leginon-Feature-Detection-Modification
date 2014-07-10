@@ -29,18 +29,18 @@ exposure = 0.5
 shutterDelay = 0.0
 
 def log(s):
-	t = time.time()
-	f = open('c:\\loop.log', 'a')
-	f.write(str(t) + ': ' + s + '\n')
-	f.close()
+        t = time.time()
+        f = open('c:\\loop.log', 'a')
+        f.write(str(t) + ': ' + s + '\n')
+        f.close()
 
 def loop(n):
-	for i in range(n):
-		log('I: %s' % (i,))
-		if not gs.IsCameraInserted(0):
-			log('   *** INSERTING')
-			gs.InsertCamera(0, True)
-		log('   SetK2Parameters')
-		gs.SetK2Parameters(readMode, scaling, hardwareProc, doseFrac, frameTime, alignFrames, saveFrames, filt='')
-		log('   GetImage')
-		gs.GetImage(processing, binning, top, left, bottom, right, exposure, shutterDelay)
+        for i in range(n):
+                log('I: %s' % (i,))
+                if not gs.IsCameraInserted(0):
+                        log('   *** INSERTING')
+                        gs.InsertCamera(0, True)
+                log('   SetK2Parameters')
+                gs.SetK2Parameters(readMode, scaling, hardwareProc, doseFrac, frameTime, alignFrames, saveFrames, filt='')
+                log('   GetImage')
+                gs.GetImage(processing, binning, top, left, bottom, right, exposure, shutterDelay)

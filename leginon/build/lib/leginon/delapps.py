@@ -8,10 +8,10 @@ import getpass
 import sinedon
 
 try:
-	f = open('delapps')
+        f = open('delapps')
 except:
-	print '''no 'delapps' file'''
-	sys.exit()
+        print '''no 'delapps' file'''
+        sys.exit()
 
 delapps = f.readlines()
 f.close()
@@ -24,13 +24,13 @@ nodids = []
 db = sinedon.getConnection('leginondata')
 
 for delapp in delapps:
-	qapp = leginondata.ApplicationData(name=delapp)
-	apps = db.query(qapp)
-	appids.extend([a.dbid for a in apps])
+        qapp = leginondata.ApplicationData(name=delapp)
+        apps = db.query(qapp)
+        appids.extend([a.dbid for a in apps])
 
 if not appids:
-	print '''No apps listed in 'delapps' file exist in DB'''
-	sys.exit()
+        print '''No apps listed in 'delapps' file exist in DB'''
+        sys.exit()
 
 host = raw_input('DB Host: ')
 dbname = raw_input('DB Name: ')
@@ -41,5 +41,5 @@ db = MySQLdb.connect(host=host, user=user, db=dbname, passwd=passwd)
 db.autocommit(True)
 
 for id in appids:
-	cur = db.cursor()
-	cur.execute('delete from ApplicationData where DEF_id = %d' % (id,))
+        cur = db.cursor()
+        cur.execute('delete from ApplicationData where DEF_id = %d' % (id,))

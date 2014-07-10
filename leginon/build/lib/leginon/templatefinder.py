@@ -35,19 +35,19 @@ latm.setDependency('points', latfilt)
 
 # first a list of steps
 templatefinder = [
-	input,
-	template,
-	tempcor,
-	threshold,
-	blobs,
-	blobsm,
-	latfilt,
-	latm,
+        input,
+        template,
+        tempcor,
+        threshold,
+        blobs,
+        blobsm,
+        latfilt,
+        latm,
 ]
 
 # then an ordered dict
 templatefinder = OrderedDict([(step.name, step) for step in templatefinder])
 
 if __name__ == '__main__':
-	test = workflow.WorkflowCLI(templatefinder)
-	test.loop()
+        test = workflow.WorkflowCLI(templatefinder)
+        test.loop()

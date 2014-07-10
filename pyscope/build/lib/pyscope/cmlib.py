@@ -552,22 +552,22 @@ class CMLIB(object):
 
 
     #Direct operation contains the following functionality with the diroperation:
-    #1	set D mode, Param is the number of camera lengths from the smallest one (0..15) 
-    #2	set Focus step size, Param is the step size (1..9)
-    #3	set HM/SA magnification, Param is the magnification step from the smallest (LM !) one (0..38)
-    #4	set HT step, Param  is the number of steps from the lowest HT setting (0..5)
-    #5	set LAD mode, Param is the number of steps from the smallest LAD camera length (0..20)
-    #6	set LM magnification, Param is the magnification step from the smallest one (0..38)
-    #8	set Spot size, Param is the spot size (1..11)
-    #9	set High Tension to maximum, Param has no function
-    #10	switch beam blanker on, Param has no function
-    #11	switch beam blanker off, Param has no function
-    #12	switch EDX protection on, Param has no function
-    #13	switch EDX protection off, Param has no function
-    #14	switch External XY deflection on, Param has no function
-    #15	switch External XY deflection off, Param has no function
+    #1  set D mode, Param is the number of camera lengths from the smallest one (0..15) 
+    #2  set Focus step size, Param is the step size (1..9)
+    #3  set HM/SA magnification, Param is the magnification step from the smallest (LM !) one (0..38)
+    #4  set HT step, Param  is the number of steps from the lowest HT setting (0..5)
+    #5  set LAD mode, Param is the number of steps from the smallest LAD camera length (0..20)
+    #6  set LM magnification, Param is the magnification step from the smallest one (0..38)
+    #8  set Spot size, Param is the spot size (1..11)
+    #9  set High Tension to maximum, Param has no function
+    #10 switch beam blanker on, Param has no function
+    #11 switch beam blanker off, Param has no function
+    #12 switch EDX protection on, Param has no function
+    #13 switch EDX protection off, Param has no function
+    #14 switch External XY deflection on, Param has no function
+    #15 switch External XY deflection off, Param has no function
     #16 normalise imaging lenses (= pressing TEM Exposure with main screen down but this operation can be performed with screen up)
-    # Note:	Neither setting HM/SA or LM magnifications switches the microscope to
+    # Note:     Neither setting HM/SA or LM magnifications switches the microscope to
     # image mode and this function only operates correctly when it is in image mode.
     # The difference between these two direct operations is that going through the
     # set LM magnification first goes down to the minimum LM magnification and then
@@ -643,26 +643,26 @@ class CMLIB(object):
     # 
     # The turnknob id's are:
 
-    # Ratio	        0	Intensity	     9 
-    # Contrast	    1	ShiftX	        12
-    # Brightness	2	ShiftY	        13
-    # Zoom	        3	MultifunctionX 	14
-    # Magnification	6	MultifunctionY	15
-    # FocusKnob	    7	SpotSize 	    16
-    # FocusStep	    8	Filament	    17
+    # Ratio             0       Intensity            9 
+    # Contrast      1   ShiftX          12
+    # Brightness        2       ShiftY          13
+    # Zoom              3       MultifunctionX  14
+    # Magnification     6       MultifunctionY  15
+    # FocusKnob     7   SpotSize            16
+    # FocusStep     8   Filament            17
     #
     # Turnknob ranges are:
     #
-    # Intensity	Normally 2204 with Intensity Fine on (ranges from 1000 to 100000
+    # Intensity Normally 2204 with Intensity Fine on (ranges from 1000 to 100000
     # in CM variables display value). Note that recent CM software versions may
     # have more sensitive Intensity control on FEGs in Nanoprobe.
-    # Magnification	dependent on image or diffraction, see Direct Operation 
-    # Focus	1048580 with Focus Step size 1
-    # Focus Step	9
-    # Zoom	750
-    # Ratio	1000
-    # Contrast	5000
-    # Brightness	10000
+    # Magnification     dependent on image or diffraction, see Direct Operation 
+    # Focus     1048580 with Focus Step size 1
+    # Focus Step        9
+    # Zoom      750
+    # Ratio     1000
+    # Contrast  5000
+    # Brightness        10000
     def TurnKnob(self,Knob,Count):
         i = 0
         while i < self.trials:
@@ -688,24 +688,24 @@ class CMLIB(object):
     # The push button id's are (* identifies as On,Off,Press; others as Press only):
     # Buttons that cannot be pushed are HT, Vacuum Off and the main panel On, Standby, Off.
     #
-    # Diffraction	   3	SplitScreen	    43
-    # * Autofocus	   4	ExchSignal	    44
-    # * Reset	       6	* Exp1	        45
-    # * Ready	       7	* Exp2	        46
-    # Stigmator	      27	* Exp3	        47
-    # DarkField	      28	* Zmode	        48
-    # Alignment	      29	* YZmode	    49
-    # * VacuumOn      31	Ymode	        50
-    # * FullFrame     32	* StemExposure	51
-    # * SelectedArea  33	SetButton	    52
-    # * Crosshairs	  34	AutoButton	    53
-    # * Line	      35	* InvertSignal 	54
-    # Scanstop	      36	* ExchControl	55
-    # * Slow	      37	* Exposure	    60
-    # * Fast	      38	* IntRST	    61
-    # * TV	          39	IntFine	        62
-    # * DualSignal	  41	Wobbler	        63
-    # DualMag	      42
+    # Diffraction          3    SplitScreen         43
+    # * Autofocus          4    ExchSignal          44
+    # * Reset          6        * Exp1          45
+    # * Ready          7        * Exp2          46
+    # Stigmator       27        * Exp3          47
+    # DarkField       28        * Zmode         48
+    # Alignment       29        * YZmode            49
+    # * VacuumOn      31        Ymode           50
+    # * FullFrame     32        * StemExposure  51
+    # * SelectedArea  33        SetButton           52
+    # * Crosshairs        34    AutoButton          53
+    # * Line          35        * InvertSignal  54
+    # Scanstop        36        * ExchControl   55
+    # * Slow          37        * Exposure          60
+    # * Fast          38        * IntRST            61
+    # * TV                39    IntFine         62
+    # * DualSignal        41    Wobbler         63
+    # DualMag         42
     def PushButton(self,button,presstype):
         i = 0
         while i < self.trials:
@@ -839,14 +839,14 @@ class CMLIB(object):
         a = CMData.ALIGNMENTSTYPE()
         leng  = c_int(0)    # refer to GetCMVar for detail
         err = self.cmremote32.GetAlignment(0,byref(a), byref(leng))
-	myarray = a.a
+        myarray = a.a
 
     def GetCurrents(self):
         c = CMData.CURRENTS()
         leng  = c_int(0)    # refer to GetCMVar for detail
         err = self.cmremote32.CurrentReadout(0,byref(c), byref(leng))
-	myarray = c.c
-	return myarray
+        myarray = c.c
+        return myarray
 
     def __del__(self):
         print 'close connection to SECS2'

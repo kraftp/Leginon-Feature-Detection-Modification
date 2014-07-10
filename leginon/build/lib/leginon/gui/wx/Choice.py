@@ -14,13 +14,13 @@
 import wx
 
 class Choice(wx.Choice):
-	def SetStringSelection(self, string):
-		if string is None or self.FindString(string) == wx.NOT_FOUND:
-			if not self.IsEmpty():
-				first = self.GetString(0)
-				wx.Choice.SetStringSelection(self, first)
-				return True
-			else:
-				return False
-		wx.Choice.SetStringSelection(self, string)
-		return True
+        def SetStringSelection(self, string):
+                if string is None or self.FindString(string) == wx.NOT_FOUND:
+                        if not self.IsEmpty():
+                                first = self.GetString(0)
+                                wx.Choice.SetStringSelection(self, first)
+                                return True
+                        else:
+                                return False
+                wx.Choice.SetStringSelection(self, string)
+                return True

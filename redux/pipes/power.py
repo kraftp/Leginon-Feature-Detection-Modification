@@ -11,13 +11,13 @@ sys.stderr.write('**power thread lock in effect')
 pyami.fft.calculator.stashing_on = False
 
 class Power(Pipe):
-	switch_arg = 'power'
-	def run(self, input):
-		# lock power calculation to one thread at a time
-		powerlock.acquire()
-		try:
-			output = pyami.fft.calculator.power(input, full=True, centered=True)
-		finally:
-			powerlock.release()
-		return output
+        switch_arg = 'power'
+        def run(self, input):
+                # lock power calculation to one thread at a time
+                powerlock.acquire()
+                try:
+                        output = pyami.fft.calculator.power(input, full=True, centered=True)
+                finally:
+                        powerlock.release()
+                return output
 

@@ -2,8 +2,8 @@
 
 registered = {}
 def register(cls):
-	global registered
-	registered[cls.__name__] = cls
+        global registered
+        registered[cls.__name__] = cls
 
 from read import Read
 register(Read)
@@ -28,10 +28,10 @@ register(Histogram)
 from simulate import Simulate
 register(Simulate)
 try:
-	# leginonread is only for testing direct read from leginon database
-	# It is not needed for production usage
-	from leginonread import Leginon
-	register(Leginon)
+        # leginonread is only for testing direct read from leginon database
+        # It is not needed for production usage
+        from leginonread import Leginon
+        register(Leginon)
 except:
-	# Exception print goes to redux.log
-	print "leginonread not available. leginon/sinedon may not be installed on this machine"
+        # Exception print goes to redux.log
+        print "leginonread not available. leginon/sinedon may not be installed on this machine"

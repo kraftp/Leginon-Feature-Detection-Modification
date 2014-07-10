@@ -13,9 +13,9 @@ f_defocus_H_rate = 1.0     # The measured defocus and indicated defocus has a fa
 #f_defocus_H_rate = 1.65     # The measured defocus and indicated defocus has a factor of 1.65,
                             # which was calibrated by Min and Yujun on 12-03-2007.
 f_defocus_H = 0.04 * f_defocus_H_rate  # 0.04 * f_defocus_H_rate micron meter per cliks in stepsize 3.
-		                    # Calibrated by Min Su on Aug.27,2006(Sunday).
+                                    # Calibrated by Min Su on Aug.27,2006(Sunday).
 f_defocus_L = 300.0/1000.0  # 300 micron meter per thousand cliks in stepsize 1.
-		                    # Calibrated by Min Su on Aug.27,2006(Sunday).		                    
+                                    # Calibrated by Min Su on Aug.27,2006(Sunday).                                  
 f_beamshiftx = 87.0/100.0   # 87 unit change in x direction per 100 clicks at 50,000X
 f_beamshifty = 87.0/100.0   # same rate as in x direction. Calibrated on Sept.29,2006.
 f_imageshiftx = 2           # the x and y ratios have been calibrated by Min Su.
@@ -143,61 +143,61 @@ if True:
     screendown_mag = cm300mags.screendown
 
 # ------- The turnknob ID --------
-TK_Ratio          = 0	 
-TK_Contrast       = 1	
-TK_Brightness     = 2	
-TK_Zoom           = 3	
-TK_Magnification  = 6	
-TK_FocusKnob      = 7	
-TK_FocusStep      = 8	
+TK_Ratio          = 0    
+TK_Contrast       = 1   
+TK_Brightness     = 2   
+TK_Zoom           = 3   
+TK_Magnification  = 6   
+TK_FocusKnob      = 7   
+TK_FocusStep      = 8   
 TK_Intensity      = 9
 TK_ShiftX         = 12
-TK_ShiftY	      = 13
+TK_ShiftY             = 13
 TK_MultifunctionX = 14
 TK_MultifunctionY = 15
-TK_SpotSize 	  = 16
-TK_Filament	      = 17
+TK_SpotSize       = 16
+TK_Filament           = 17
 
 
 # ------- The pushbutton ID --------
 PB_ON           = 0
 PB_OFF          = 1
 PB_PRESS        = 2
-PB_Diffraction	= 3	
-PB_Autofocus	= 4	
-PB_Reset	    = 6	
-PB_Ready	    = 7	
-PB_Stigmator	= 27	
-PB_DarkField	= 28	
-PB_Alignment	= 29	
-PB_VacuumOn     = 31	
-PB_FullFrame    = 32	
-PB_SelectedArea = 33	
-PB_Crosshairs   = 34	
-PB_Line	        = 35	
-PB_Scanstop	    = 36	
-PB_Slow	        = 37	
-PB_Fast	        = 38	
-PB_TV	        = 39	
-PB_DualSignal	= 41	
-PB_DualMag	    = 42
-PB_SplitScreen	= 43
-PB_ExchSignal	= 44
-PB_Exp1	        = 45
-PB_Exp2	        = 46
-PB_Exp3	        = 47
-PB_Zmode	    = 48
-PB_YZmode	    = 49
-PB_Ymode	    = 50
+PB_Diffraction  = 3     
+PB_Autofocus    = 4     
+PB_Reset            = 6 
+PB_Ready            = 7 
+PB_Stigmator    = 27    
+PB_DarkField    = 28    
+PB_Alignment    = 29    
+PB_VacuumOn     = 31    
+PB_FullFrame    = 32    
+PB_SelectedArea = 33    
+PB_Crosshairs   = 34    
+PB_Line         = 35    
+PB_Scanstop         = 36        
+PB_Slow         = 37    
+PB_Fast         = 38    
+PB_TV           = 39    
+PB_DualSignal   = 41    
+PB_DualMag          = 42
+PB_SplitScreen  = 43
+PB_ExchSignal   = 44
+PB_Exp1         = 45
+PB_Exp2         = 46
+PB_Exp3         = 47
+PB_Zmode            = 48
+PB_YZmode           = 49
+PB_Ymode            = 50
 PB_StemExposure = 51
-PB_SetButton	= 52
-PB_AutoButton	= 53
+PB_SetButton    = 52
+PB_AutoButton   = 53
 PB_InvertSignal = 54
-PB_ExchControl	= 55
-PB_Exposure	    = 60
-PB_IntRST	    = 61
-PB_IntFine	    = 62
-PB_Wobbler	    = 63
+PB_ExchControl  = 55
+PB_Exposure         = 60
+PB_IntRST           = 61
+PB_IntFine          = 62
+PB_Wobbler          = 63
 
 
 # ------- Direct Operation ID --------

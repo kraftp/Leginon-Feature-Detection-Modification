@@ -16,29 +16,29 @@ import gui.wx.Beeper
 import threading
 
 class Beeper(node.Node):
-	panelclass = gui.wx.Beeper.Panel
-	settingsclass = leginondata.BeeperSettingsData
-	eventinputs = node.Node.eventinputs + [event.TargetListDoneEvent]
-										
-	def __init__(self, id, session, managerlocation, **kwargs):
-		node.Node.__init__(self, id, session, managerlocation, **kwargs)
+        panelclass = gui.wx.Beeper.Panel
+        settingsclass = leginondata.BeeperSettingsData
+        eventinputs = node.Node.eventinputs + [event.TargetListDoneEvent]
+                                                                                
+        def __init__(self, id, session, managerlocation, **kwargs):
+                node.Node.__init__(self, id, session, managerlocation, **kwargs)
 
-		self.addEventInput(event.TargetListDoneEvent, self.handleTargetListDone)
+                self.addEventInput(event.TargetListDoneEvent, self.handleTargetListDone)
 
-		self.stopevent = threading.Event()
-		self.start()
+                self.stopevent = threading.Event()
+                self.start()
 
-	def handleTargetListDone(self, pubevent=None):
-		self.setStatus('user input')
-		while True:
-			self.beep()
-			time.sleep(0.5)
-			if self.stopevent.isSet():
-				break
-		self.setStatus('idle')
+        def handleTargetListDone(self, pubevent=None):
+                self.setStatus('user input')
+                while True:
+                        self.beep()
+                        time.sleep(0.5)
+                        if self.stopevent.isSet():
+                                break
+                self.setStatus('idle')
 
-	def stop(self):
-		self.stopevent.set()
+        def stop(self):
+                self.stopevent.set()
 
-	def test(self):
-		self.handleTargetListDone()
+        def test(self):
+                self.handleTargetListDone()

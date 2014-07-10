@@ -16,11 +16,11 @@ s_gfilt=[0, 0, 1000, 0, 0]
 
 #-----------------------
 def radians(degrees):
-	return float(degrees) * np.pi / 180.0
+        return float(degrees) * np.pi / 180.0
 
 #-----------------------
 def degrees(radians):
-	return float(radians) * 180.0 / np.pi
+        return float(radians) * 180.0 / np.pi
 
 #-----------------------
 def yshift(k1, k2, sel_matches):
@@ -193,48 +193,48 @@ def convertImage(image1):
 
 #-----------------------
 def checkOpenCVResult(self, result):
-	"""
-	Tests whether the openCV resulting affine matrix is reasonable for tilting
+        """
+        Tests whether the openCV resulting affine matrix is reasonable for tilting
     Modified from original from libCV
-	"""
-	if abs(result[0][0]) < 0.5 or abs(result[1][1]) < 0.5:
-		#max tilt angle of 60 degrees
-		self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
-		print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
-		return False
-	elif abs(result[0][0]) > 1.3 or abs(result[1][1]) > 1.3:
-		#restrict maximum allowable expansion
-		self.logger.warning("Bad openCV result: image expansion: "+affineToText(result))
-		print ("Bad openCV result: image expansion: "+affineToText(result))
-		return False
-	elif abs(result[0][1]) > 0.2588 or abs(result[1][0]) > 0.2588:
-		#max rotation angle of 15 degrees
-		self.logger.warning("Bad openCV result: too much rotation: "+affineToText(result))
-		print ("Bad openCV result: too much rotation: "+affineToText(result))
-		return False
-	return True
+        """
+        if abs(result[0][0]) < 0.5 or abs(result[1][1]) < 0.5:
+                #max tilt angle of 60 degrees
+                self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
+                print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
+                return False
+        elif abs(result[0][0]) > 1.3 or abs(result[1][1]) > 1.3:
+                #restrict maximum allowable expansion
+                self.logger.warning("Bad openCV result: image expansion: "+affineToText(result))
+                print ("Bad openCV result: image expansion: "+affineToText(result))
+                return False
+        elif abs(result[0][1]) > 0.2588 or abs(result[1][0]) > 0.2588:
+                #max rotation angle of 15 degrees
+                self.logger.warning("Bad openCV result: too much rotation: "+affineToText(result))
+                print ("Bad openCV result: too much rotation: "+affineToText(result))
+                return False
+        return True
 
 #-----------------------
 def affineToText(matrix):
-	"""
-	Extracts useful parameters from an affine homography matrix
+        """
+        Extracts useful parameters from an affine homography matrix
     Modified from original from libCV
-	"""
-	tiltv = matrix[0,0] * matrix[1,1]
-	rotv = (matrix[0,1] - matrix[1,0]) / 2.0
-	if abs(tiltv) > 1:
-		tilt = degrees(math.acos(1.0/tiltv))
-	else:
-		tilt = degrees(math.acos(tiltv))
-	if tilt > 90.0:
-		tilt = tilt - 180.0
-	if abs(rotv) < 1:
-		rot = degrees(math.asin(rotv))
-	else:
-		rot = 180.0
-	mystr = ( "tiltang = %.2f, rotation = %.2f, shift = %.2f,%.2f" %
-		(tilt, rot, matrix[2,0], matrix[2,1]) )
-	return mystr
+        """
+        tiltv = matrix[0,0] * matrix[1,1]
+        rotv = (matrix[0,1] - matrix[1,0]) / 2.0
+        if abs(tiltv) > 1:
+                tilt = degrees(math.acos(1.0/tiltv))
+        else:
+                tilt = degrees(math.acos(tiltv))
+        if tilt > 90.0:
+                tilt = tilt - 180.0
+        if abs(rotv) < 1:
+                rot = degrees(math.asin(rotv))
+        else:
+                rot = 180.0
+        mystr = ( "tiltang = %.2f, rotation = %.2f, shift = %.2f,%.2f" %
+                (tilt, rot, matrix[2,0], matrix[2,1]) )
+        return mystr
 
 #-----------------------
 def FindFeatures(image, blur=3):

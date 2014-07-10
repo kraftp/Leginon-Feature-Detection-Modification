@@ -4,11 +4,11 @@ import inspect
 import os
 
 def getThisFileDir():
-	this_file = inspect.currentframe().f_code.co_filename
-	fullmod = os.path.abspath(this_file)
-	# just the directory
-	dirname = os.path.dirname(fullmod)
-	return dirname
+        this_file = inspect.currentframe().f_code.co_filename
+        fullmod = os.path.abspath(this_file)
+        # just the directory
+        dirname = os.path.dirname(fullmod)
+        return dirname
 
 # check sinedon.cfg
 from leginon import configcheck

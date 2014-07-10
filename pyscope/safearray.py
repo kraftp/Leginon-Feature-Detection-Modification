@@ -205,7 +205,7 @@ def _make_safearray_type(itemtype):
                 # transpose the result, because it is in VB order
                 #result = [tuple(result[r::rows]) for r in range(rows)]
                 #return tuple(result)
-		return result
+                return result
             else:
                 lowerbounds = [_safearray.SafeArrayGetLBound(self, d) for d in range(1, dim+1)]
                 indexes = (c_long * dim)(*lowerbounds)
@@ -268,7 +268,7 @@ def _make_safearray_type(itemtype):
                         # address we want to use
                         aif["data"] = (cast(ptr, c_void_p).value, False)
                         ptr.__array_interface__ = aif
-			import numpy
+                        import numpy
                         return numpy.array(ptr, copy=True)
                         return ptr[:num_elements]
                     def keep_safearray(v):

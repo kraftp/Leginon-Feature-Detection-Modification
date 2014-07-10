@@ -88,7 +88,7 @@ class Viewer(wx.Panel):
         self.GetEventHandler().AddPendingEvent(evt)
 
     def _setXC(self, xc, shift=None):
-				# change use_extrema to True for old style graph
+                                # change use_extrema to True for old style graph
         self.setImage(2, xc, shift=shift, use_extrema=False)
 
     def setXCShift(self, *args, **kwargs):

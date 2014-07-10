@@ -11,7 +11,7 @@ models = s.query()
 
 labels = newdict.OrderedDict()
 for model in models:
-	label = model['label']
-	labels[label] = None
+        label = model['label']
+        labels[label] = None
 for label in labels.keys():
-	print label
+        print label

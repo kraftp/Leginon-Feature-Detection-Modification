@@ -22,29 +22,29 @@ redux_maxsize2 = 1024
 
 # initial redux read and resize before calculating power and final
 redux_args1 = {
-	'pipes': 'read:Read,shape:Shape',
-	'cache': False,
+        'pipes': 'read:Read,shape:Shape',
+        'cache': False,
 }
 
 # redux to create final image for cache
 redux_args_jpg = {
-	'cache': False,
-	'pipes': 'shape:Shape,scale:Scale,format:Format',
-	'scaletype': 'stdev',
-	'scalemin': -5,
-	'scalemax': 5,
-	'oformat': 'JPEG',
+        'cache': False,
+        'pipes': 'shape:Shape,scale:Scale,format:Format',
+        'scaletype': 'stdev',
+        'scalemin': -5,
+        'scalemax': 5,
+        'oformat': 'JPEG',
 }
 
 # redux to create final power image for cache
 redux_args_pow = {
-	'cache': False,
-	'pipes': 'power:Power,shape:Shape,mask:Mask,scale:Scale,format:Format',
-	'power': True,
-	'maskradius': 10,
-	'scaletype': 'stdev',
-	'scalemin': -5,
-	'scalemax': 5,
-	'oformat': 'JPEG',
+        'cache': False,
+        'pipes': 'power:Power,shape:Shape,mask:Mask,scale:Scale,format:Format',
+        'power': True,
+        'maskradius': 10,
+        'scaletype': 'stdev',
+        'scalemin': -5,
+        'scalemax': 5,
+        'oformat': 'JPEG',
 }
 

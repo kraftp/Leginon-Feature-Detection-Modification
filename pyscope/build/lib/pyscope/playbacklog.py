@@ -15,17 +15,17 @@ inst = cls()
 f = open(logfilename)
 
 for line in f:
-	# parse line of tabbed values
-	timestamp,caller,base,fname,args,kwargs = line.split('\t')
-	if caller != classname:
-		continue
-	if fname == '__init__':
-		continue
-	# recreate args
-	args = eval(args)
-	kwargs = eval(kwargs)
-	# call method
-	f = getattr(inst, fname)
-	print fname, args, kwargs
-	f(*args, **kwargs)
+        # parse line of tabbed values
+        timestamp,caller,base,fname,args,kwargs = line.split('\t')
+        if caller != classname:
+                continue
+        if fname == '__init__':
+                continue
+        # recreate args
+        args = eval(args)
+        kwargs = eval(kwargs)
+        # call method
+        f = getattr(inst, fname)
+        print fname, args, kwargs
+        f(*args, **kwargs)
 raw_input('enter to quit')

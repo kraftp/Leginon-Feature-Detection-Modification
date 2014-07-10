@@ -18,232 +18,232 @@ from appionlib import apDBImage
 from appionlib import apDatabase
 
 try:
-	import mlabraw as pymat
+        import mlabraw as pymat
 except:
-	apDisplay.printWarning("Matlab module did not get imported")
+        apDisplay.printWarning("Matlab module did not get imported")
 
 def runAce(matlab, imgdata, params, showprev=True):
-	imgname = imgdata['filename']
+        imgname = imgdata['filename']
 
-	if showprev is True:
-		bestctfvalue, bestconf = ctfdb.getBestCtfValueForImage(imgdata)
-		if bestctfvalue:
-			print ( "Prev best: '"+bestctfvalue['acerun']['name']+"', conf="+
-				apDisplay.colorProb(bestconf)+", defocus="+str(round(-1.0*abs(bestctfvalue['defocus1']*1.0e6),2))+
-				" microns" )
+        if showprev is True:
+                bestctfvalue, bestconf = ctfdb.getBestCtfValueForImage(imgdata)
+                if bestctfvalue:
+                        print ( "Prev best: '"+bestctfvalue['acerun']['name']+"', conf="+
+                                apDisplay.colorProb(bestconf)+", defocus="+str(round(-1.0*abs(bestctfvalue['defocus1']*1.0e6),2))+
+                                " microns" )
 
-	if params['uncorrected']:
-		tmpname='temporaryCorrectedImage.mrc'
-		imgarray = apDBImage.correctImage(imgdata)
-		imgpath = os.path.join(params['rundir'],tmpname)
-		apImage.arrayToMrc(imgarray, imgpath)
-		print "processing", imgpath
-	else:
-		imgpath = os.path.join(imgdata['session']['image path'], imgname+'.mrc')
+        if params['uncorrected']:
+                tmpname='temporaryCorrectedImage.mrc'
+                imgarray = apDBImage.correctImage(imgdata)
+                imgpath = os.path.join(params['rundir'],tmpname)
+                apImage.arrayToMrc(imgarray, imgpath)
+                print "processing", imgpath
+        else:
+                imgpath = os.path.join(imgdata['session']['image path'], imgname+'.mrc')
 
-	nominal = None
-	if params['nominal'] is not None:
-		nominal=params['nominal']
-	elif params['newnominal'] is True:
-		nominal = ctfdb.getBestDefocusForImage(imgdata, msg=True)
-	if nominal is None:
-		nominal = imgdata['scope']['defocus']
+        nominal = None
+        if params['nominal'] is not None:
+                nominal=params['nominal']
+        elif params['newnominal'] is True:
+                nominal = ctfdb.getBestDefocusForImage(imgdata, msg=True)
+        if nominal is None:
+                nominal = imgdata['scope']['defocus']
 
-	if nominal is None or nominal > 0 or nominal < -15e-6:
-			apDisplay.printWarning("Nominal should be of the form nominal=-1.2e-6"+\
-				" for -1.2 microns NOT:"+str(nominal))
+        if nominal is None or nominal > 0 or nominal < -15e-6:
+                        apDisplay.printWarning("Nominal should be of the form nominal=-1.2e-6"+\
+                                " for -1.2 microns NOT:"+str(nominal))
 
-	#Neil's Hack
-	#if 'autosample' in params and params['autosample']:
-	#	x = abs(nominal*1.0e6)
-	#	val = 1.585 + 0.057587 * x - 0.044106 * x**2 + 0.010877 * x**3
-	#	resamplefr_override = round(val,3)
-	#	print "resamplefr_override=",resamplefr_override
-	#	pymat.eval(matlab, "resamplefr="+str(resamplefr_override)+";")
+        #Neil's Hack
+        #if 'autosample' in params and params['autosample']:
+        #       x = abs(nominal*1.0e6)
+        #       val = 1.585 + 0.057587 * x - 0.044106 * x**2 + 0.010877 * x**3
+        #       resamplefr_override = round(val,3)
+        #       print "resamplefr_override=",resamplefr_override
+        #       pymat.eval(matlab, "resamplefr="+str(resamplefr_override)+";")
 
-	pymat.eval(matlab,("dforig = %e;" % nominal))
+        pymat.eval(matlab,("dforig = %e;" % nominal))
 
-	if params['stig'] == 0:
-		plist = (imgpath, params['outtextfile'], params['display'], params['stig'],\
-			params['medium'], -nominal, params['tempdir']+"/")
-		acecmd = makeMatlabCmd("ctfparams = ace(",");",plist)
-	else:
-		plist = (imgname, imgpath, params['outtextfile'], params['opimagedir'], \
-			params['matdir'], params['display'], params['stig'],\
-			params['medium'], -nominal, params['tempdir']+"/", params['resamplefr'])
-		acecmd = makeMatlabCmd("ctfparams = measureAstigmatism(",");",plist)
+        if params['stig'] == 0:
+                plist = (imgpath, params['outtextfile'], params['display'], params['stig'],\
+                        params['medium'], -nominal, params['tempdir']+"/")
+                acecmd = makeMatlabCmd("ctfparams = ace(",");",plist)
+        else:
+                plist = (imgname, imgpath, params['outtextfile'], params['opimagedir'], \
+                        params['matdir'], params['display'], params['stig'],\
+                        params['medium'], -nominal, params['tempdir']+"/", params['resamplefr'])
+                acecmd = makeMatlabCmd("ctfparams = measureAstigmatism(",");",plist)
 
-	#print acecmd
-	pymat.eval(matlab,acecmd)
+        #print acecmd
+        pymat.eval(matlab,acecmd)
 
-	matfile = os.path.join(params['matdir'], imgname+".mrc.mat")
-	if params['stig']==0:
-		savematcmd = "save('"+matfile+"','ctfparams','scopeparams', 'dforig');"
-		pymat.eval(matlab,savematcmd)
+        matfile = os.path.join(params['matdir'], imgname+".mrc.mat")
+        if params['stig']==0:
+                savematcmd = "save('"+matfile+"','ctfparams','scopeparams', 'dforig');"
+                pymat.eval(matlab,savematcmd)
 
-	ctfvalue = pymat.get(matlab, 'ctfparams')
-	ctfvalue=ctfvalue[0]
+        ctfvalue = pymat.get(matlab, 'ctfparams')
+        ctfvalue=ctfvalue[0]
 
-	ctfdb.printResults(params, nominal, ctfvalue)
+        ctfdb.printResults(params, nominal, ctfvalue)
 
-	return ctfvalue
+        return ctfvalue
 
 
 def runAceDrift(matlab,imgdict,params):
-	imgname = imgdict['filename']
-	imgpath = os.path.join(imgdict['session']['image path'], imgname+'.mrc')
+        imgname = imgdict['filename']
+        imgpath = os.path.join(imgdict['session']['image path'], imgname+'.mrc')
 
-	if params['nominal']:
-		nominal=params['nominal']
-	else:
-		nominal=imgdict['scope']['defocus']
+        if params['nominal']:
+                nominal=params['nominal']
+        else:
+                nominal=imgdict['scope']['defocus']
 
-	#pdb.set_trace()
-	acecommand=("measureAnisotropy('%s','%s',%d,'%s',%e,'%s','%s','%s', '%s');" % \
-		( imgpath, params['outtextfile'], params['display'],\
-		params['medium'], -nominal, params['tempdir']+"/", params['opimagedir'], params['matdir'], imgname))
+        #pdb.set_trace()
+        acecommand=("measureAnisotropy('%s','%s',%d,'%s',%e,'%s','%s','%s', '%s');" % \
+                ( imgpath, params['outtextfile'], params['display'],\
+                params['medium'], -nominal, params['tempdir']+"/", params['opimagedir'], params['matdir'], imgname))
 
-	#~ acecommand=("mnUpCut = measureDrift('%s','%s',%d,%d,'%s',%e,'%s');" % \
-		#~ ( imgpath, params['outtextfile'], params['display'], params['stig'],\
-		#~ params['medium'], -nominal, params['tempdir']))
+        #~ acecommand=("mnUpCut = measureDrift('%s','%s',%d,%d,'%s',%e,'%s');" % \
+                #~ ( imgpath, params['outtextfile'], params['display'], params['stig'],\
+                #~ params['medium'], -nominal, params['tempdir']))
 
-	pymat.eval(matlab,acecommand)
+        pymat.eval(matlab,acecommand)
 
 def runAceCorrect(imgdict,params):
-	imgname = imgdict['filename']
-	imgpath = os.path.join(imgdict['session']['image path'], imgname+'.mrc')
+        imgname = imgdict['filename']
+        imgpath = os.path.join(imgdict['session']['image path'], imgname+'.mrc')
 
-	voltage = (imgdict['scope']['high tension'])
-	apix    = apDatabase.getPixelSize(imgdict)
+        voltage = (imgdict['scope']['high tension'])
+        apix    = apDatabase.getPixelSize(imgdict)
 
-	ctfvalues, conf = ctfdb.getBestCtfValueForImage(imgdict)
+        ctfvalues, conf = ctfdb.getBestCtfValueForImage(imgdict)
 
-	ctdimname = imgname
-	ctdimpath = os.path.join(params['rundir'],ctdimname)
-	print "Corrected Image written to " + ctdimpath
+        ctdimname = imgname
+        ctdimpath = os.path.join(params['rundir'],ctdimname)
+        print "Corrected Image written to " + ctdimpath
 
-	#pdb.set_trace()
-	acecorrectcommand=("ctfcorrect1('%s', '%s', '%.32f', '%.32f', '%f', '%f', '%f');" % \
-		(imgpath, ctdimpath, ctfvalues['defocus1'], ctfvalues['defocus2'], -ctfvalues['angle_astigmatism'], voltage, apix))
-	print acecorrectcommand
-	try:
-		matlab = pymat.open("matlab -nosplash")
-	except:
-		apDisplay.environmentError()
-		raise
-	pymat.eval(matlab, acecorrectcommand)
-	pymat.close(matlab)
+        #pdb.set_trace()
+        acecorrectcommand=("ctfcorrect1('%s', '%s', '%.32f', '%.32f', '%f', '%f', '%f');" % \
+                (imgpath, ctdimpath, ctfvalues['defocus1'], ctfvalues['defocus2'], -ctfvalues['angle_astigmatism'], voltage, apix))
+        print acecorrectcommand
+        try:
+                matlab = pymat.open("matlab -nosplash")
+        except:
+                apDisplay.environmentError()
+                raise
+        pymat.eval(matlab, acecorrectcommand)
+        pymat.close(matlab)
 
-	return
+        return
 
 
 def setScopeParams(matlab,params):
-	tempdir = params['tempdir']+"/"
-	if os.path.isdir(tempdir):
-		plist = (params['kv'],params['cs'],params['apix'],tempdir)
-		acecmd1 = makeMatlabCmd("setscopeparams(",");",plist)
-		pymat.eval(matlab,acecmd1)
+        tempdir = params['tempdir']+"/"
+        if os.path.isdir(tempdir):
+                plist = (params['kv'],params['cs'],params['apix'],tempdir)
+                acecmd1 = makeMatlabCmd("setscopeparams(",");",plist)
+                pymat.eval(matlab,acecmd1)
 
-		plist = (params['kv'],params['cs'],params['apix'])
-		acecmd2 = makeMatlabCmd("scopeparams = [","];",plist)
-		pymat.eval(matlab,acecmd2)
+                plist = (params['kv'],params['cs'],params['apix'])
+                acecmd2 = makeMatlabCmd("scopeparams = [","];",plist)
+                pymat.eval(matlab,acecmd2)
 
-	else:
-		apDisplay.printError("Temp directory, '"+params['tempdir']+"' not present.")
-	return
+        else:
+                apDisplay.printError("Temp directory, '"+params['tempdir']+"' not present.")
+        return
 
 def setAceConfig(matlab,params):
-	tempdir=params['tempdir']+"/"
-	if os.path.isdir(tempdir):
-		pymat.eval(matlab, "edgethcarbon="+str(params['edgethcarbon'])+";")
-		pymat.eval(matlab, "edgethice="+str(params['edgethice'])+";")
-		pymat.eval(matlab, "pfcarbon="+str(params['pfcarbon'])+";")
-		pymat.eval(matlab, "pfice="+str(params['pfice'])+";")
-		pymat.eval(matlab, "overlap="+str(params['overlap'])+";")
-		pymat.eval(matlab, "fieldsize="+str(params['fieldsize'])+";")
-		pymat.eval(matlab, "resamplefr="+str(params['resamplefr'])+";")
-		pymat.eval(matlab, "drange="+str(params['drange'])+";")
+        tempdir=params['tempdir']+"/"
+        if os.path.isdir(tempdir):
+                pymat.eval(matlab, "edgethcarbon="+str(params['edgethcarbon'])+";")
+                pymat.eval(matlab, "edgethice="+str(params['edgethice'])+";")
+                pymat.eval(matlab, "pfcarbon="+str(params['pfcarbon'])+";")
+                pymat.eval(matlab, "pfice="+str(params['pfice'])+";")
+                pymat.eval(matlab, "overlap="+str(params['overlap'])+";")
+                pymat.eval(matlab, "fieldsize="+str(params['fieldsize'])+";")
+                pymat.eval(matlab, "resamplefr="+str(params['resamplefr'])+";")
+                pymat.eval(matlab, "drange="+str(params['drange'])+";")
 
-		aceconfig=os.path.join(tempdir,"aceconfig.mat")
-		acecmd = "save('"+aceconfig+"','edgethcarbon','edgethice','pfcarbon','pfice',"+\
-			"'overlap','fieldsize','resamplefr','drange');"
-		pymat.eval(matlab, acecmd)
-	else:
-		apDisplay.printError("Temp directory, '"+tempdir+"' not present.")
-	return
+                aceconfig=os.path.join(tempdir,"aceconfig.mat")
+                acecmd = "save('"+aceconfig+"','edgethcarbon','edgethice','pfcarbon','pfice',"+\
+                        "'overlap','fieldsize','resamplefr','drange');"
+                pymat.eval(matlab, acecmd)
+        else:
+                apDisplay.printError("Temp directory, '"+tempdir+"' not present.")
+        return
 
 def checkMatlabPath(params=None):
-	'''
-	Return immediately if MATLABPATH environment variable is already set.
-	Searches for ace.m and adds its directory to matlab path.
-	'''
-	if os.environ.get("MATLABPATH") is None:
-		#TRY LOCAL DIRECTORY FIRST
-		matlabpath = os.path.abspath(".")
-		if os.path.isfile(os.path.join(matlabpath,"ace.m")):
-			updateMatlabPath(matlabpath)
-			return
-		#TRY APPIONDIR/ace
-		if params is not None and 'appiondir' in params:
-			matlabpath = os.path.join(params['appiondir'],"ace")
-			if os.path.isdir(matlabpath) and os.path.isfile(os.path.join(matlabpath,"ace.m")):
-				updateMatlabPath(matlabpath)
-				return
-		#TRY sibling dir of this script
-		libdir = os.path.dirname(__file__)
-		libdir = os.path.abspath(libdir)
-		appiondir = os.path.dirname(libdir)
-		acedir = os.path.join(appiondir, 'ace')
-		if os.path.isdir(acedir) and os.path.isfile(os.path.join(acedir,"ace.m")):
-			updateMatlabPath(acedir)
-			return
-		apDisplay.environmentError()
-		raise RuntimeError('Could not find ace.m.  Check MATLABPATH environment variable.')
+        '''
+        Return immediately if MATLABPATH environment variable is already set.
+        Searches for ace.m and adds its directory to matlab path.
+        '''
+        if os.environ.get("MATLABPATH") is None:
+                #TRY LOCAL DIRECTORY FIRST
+                matlabpath = os.path.abspath(".")
+                if os.path.isfile(os.path.join(matlabpath,"ace.m")):
+                        updateMatlabPath(matlabpath)
+                        return
+                #TRY APPIONDIR/ace
+                if params is not None and 'appiondir' in params:
+                        matlabpath = os.path.join(params['appiondir'],"ace")
+                        if os.path.isdir(matlabpath) and os.path.isfile(os.path.join(matlabpath,"ace.m")):
+                                updateMatlabPath(matlabpath)
+                                return
+                #TRY sibling dir of this script
+                libdir = os.path.dirname(__file__)
+                libdir = os.path.abspath(libdir)
+                appiondir = os.path.dirname(libdir)
+                acedir = os.path.join(appiondir, 'ace')
+                if os.path.isdir(acedir) and os.path.isfile(os.path.join(acedir,"ace.m")):
+                        updateMatlabPath(acedir)
+                        return
+                apDisplay.environmentError()
+                raise RuntimeError('Could not find ace.m.  Check MATLABPATH environment variable.')
 
 def updateMatlabPath(matlabpath):
-	data1 = os.environ.copy()
-	data1['MATLABPATH'] =  matlabpath
-	os.environ.update(data1)
-	#os.environ.get('MATLABPATH')
-	return
+        data1 = os.environ.copy()
+        data1['MATLABPATH'] =  matlabpath
+        os.environ.update(data1)
+        #os.environ.get('MATLABPATH')
+        return
 
 def makeMatlabCmd(header,footer,plist):
-	cmd = header
-	for p in plist:
-		if type(p) is str:
-			cmd += "'"+p+"',"
-		else:
-			cmd += str(p)+","
-	#remove extra comma
-	n = len(cmd)
-	cmd = cmd[:(n-1)]
-	cmd += footer
-	return cmd
+        cmd = header
+        for p in plist:
+                if type(p) is str:
+                        cmd += "'"+p+"',"
+                else:
+                        cmd += str(p)+","
+        #remove extra comma
+        n = len(cmd)
+        cmd = cmd[:(n-1)]
+        cmd += footer
+        return cmd
 
 def runMatlabScript(matlabscript,xvfb=True):
-	waited = False
-	t0 = time.time()
-	if xvfb:
-		cmd = "xvfb-run matlab -nodesktop < %s;" % (matlabscript)
-	else:
-		cmd = 'matlab -nodesktop -nosplash -nodisplay -r "run %s;exit"' % (matlabscript)
-	matlabproc = subprocess.Popen(cmd, shell=True)
-	out, err = matlabproc.communicate()
-	### continuous check
-	waittime = 2.0
-	while matlabproc.poll() is None:
-		if waittime > 10:
-			waited = True
-			sys.stderr.write(".")
-			waittime *= 1.1
-			time.sleep(waittime)
-	
-	tdiff = time.time() - t0
-	if tdiff > 20:
-		apDisplay.printMsg("completed in "+apDisplay.timeString(tdiff))
-	elif waited is True:
-		print ""
-	proc_code = matlabproc.returncode
-	if proc_code != 0:
-		apDisplay.printWarning("Matlab failed with subprocess error code %d" % proc_code)
-		
+        waited = False
+        t0 = time.time()
+        if xvfb:
+                cmd = "xvfb-run matlab -nodesktop < %s;" % (matlabscript)
+        else:
+                cmd = 'matlab -nodesktop -nosplash -nodisplay -r "run %s;exit"' % (matlabscript)
+        matlabproc = subprocess.Popen(cmd, shell=True)
+        out, err = matlabproc.communicate()
+        ### continuous check
+        waittime = 2.0
+        while matlabproc.poll() is None:
+                if waittime > 10:
+                        waited = True
+                        sys.stderr.write(".")
+                        waittime *= 1.1
+                        time.sleep(waittime)
+        
+        tdiff = time.time() - t0
+        if tdiff > 20:
+                apDisplay.printMsg("completed in "+apDisplay.timeString(tdiff))
+        elif waited is True:
+                print ""
+        proc_code = matlabproc.returncode
+        if proc_code != 0:
+                apDisplay.printWarning("Matlab failed with subprocess error code %d" % proc_code)
+                

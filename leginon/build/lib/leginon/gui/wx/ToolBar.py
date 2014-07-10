@@ -77,40 +77,40 @@ ID_RESET_Z = 10059
 ID_RESET_ALPHA = 10060
 
 class ToolBar(wx.ToolBar):
-	def __init__(self, parent):
-#		pre = wx.PreToolBar()
-#		pre.Show(False)
-#		pre.Create(parent, -1, style=wx.TB_HORIZONTAL|wx.NO_BORDER)
-#		self.this = pre.this
-#		self._setOORInfo(self)
-		wx.ToolBar.__init__(self, parent, -1, style=wx.TB_HORIZONTAL|wx.NO_BORDER)
-		#self.spacer = wx.StaticText(self, -1, '')
-		self.spacer = wx.Control(self, -1, style=wx.NO_BORDER)
-		self.AddControl(self.spacer)
-		#print self.ToolSize()
-		size = wx.Size(16,16)
-		#self.setSize(size)
+        def __init__(self, parent):
+#               pre = wx.PreToolBar()
+#               pre.Show(False)
+#               pre.Create(parent, -1, style=wx.TB_HORIZONTAL|wx.NO_BORDER)
+#               self.this = pre.this
+#               self._setOORInfo(self)
+                wx.ToolBar.__init__(self, parent, -1, style=wx.TB_HORIZONTAL|wx.NO_BORDER)
+                #self.spacer = wx.StaticText(self, -1, '')
+                self.spacer = wx.Control(self, -1, style=wx.NO_BORDER)
+                self.AddControl(self.spacer)
+                #print self.ToolSize()
+                size = wx.Size(16,16)
+                #self.setSize(size)
 
-	def AddTool(self, id, bitmap, **kwargs):
-		bitmap = '%s.png' % bitmap
-		image = wx.Image(leginon.icons.getPath(bitmap))
-		image.ConvertAlphaToMask(64)
-		bitmap = wx.BitmapFromImage(image)
-		wx.ToolBar.AddTool(self, id, bitmap, **kwargs)
+        def AddTool(self, id, bitmap, **kwargs):
+                bitmap = '%s.png' % bitmap
+                image = wx.Image(leginon.icons.getPath(bitmap))
+                image.ConvertAlphaToMask(64)
+                bitmap = wx.BitmapFromImage(image)
+                wx.ToolBar.AddTool(self, id, bitmap, **kwargs)
 
-	def InsertTool(self, pos, id, bitmap, **kwargs):
-		bitmap = '%s.png' % bitmap
-		bitmap = wx.BitmapFromImage(wx.Image(leginon.icons.getPath(bitmap)))
-		wx.ToolBar.InsertTool(self, pos, id, bitmap, **kwargs)
+        def InsertTool(self, pos, id, bitmap, **kwargs):
+                bitmap = '%s.png' % bitmap
+                bitmap = wx.BitmapFromImage(wx.Image(leginon.icons.getPath(bitmap)))
+                wx.ToolBar.InsertTool(self, pos, id, bitmap, **kwargs)
 
-	def RemoveTool(self, id):
-		# Get around window freeze on this wx function see bug #2229
-		if 'win' in sys.platform[:3]:
-			return
-		return wx.ToolBar.RemoveTool(self,id)
+        def RemoveTool(self, id):
+                # Get around window freeze on this wx function see bug #2229
+                if 'win' in sys.platform[:3]:
+                        return
+                return wx.ToolBar.RemoveTool(self,id)
 
-	def DeleteTool(self, id):
-		# Get around window freeze on this wx function see bug #2229
-		if 'win' in sys.platform[:3]:
-			return
-		wx.ToolBar.DeleteTool(self,id)
+        def DeleteTool(self, id):
+                # Get around window freeze on this wx function see bug #2229
+                if 'win' in sys.platform[:3]:
+                        return
+                wx.ToolBar.DeleteTool(self,id)

@@ -7,7 +7,7 @@ package = "Unknown"
 packageDict = {
                "embfactor64.exe" : (package,""),
                "mpirun" : (package,"For Alignments and Refinements."),
-	}
+        }
 package = "Appion"
 packageDict.update({
                "can64_mp.exe" : (package,""),
@@ -15,15 +15,15 @@ packageDict.update({
                "ace2.exe" : (package,"For CTF estimation"),
                "acetilt.py" : (package,""),
                "findem64.exe" : (package,"Try 'which findem32.exe' at a command prompt."),
-	})
+        })
 package = "EMAN"
 packageDict.update({
-							 "proc2d" : (package,"For Image Manipulation"),
-	})
+                                                         "proc2d" : (package,"For Image Manipulation"),
+        })
 package = "SPIDER"
 packageDict.update({
-							 "spider" : (package,"For Alignments and Refinements."),
-	})
+                                                         "spider" : (package,"For Alignments and Refinements."),
+        })
 package = "XMIPP"
 packageDict.update({
                "xmipp_normalize" : (package,""),
@@ -35,23 +35,23 @@ packageDict.update({
                "xmipp_mpi_reconstruct_wbp" : (package,""),
                "xmipp_mpi_ml_refine3d" : (package,""),
                "xmipp_protocols" : (package,""),
-	})
+        })
 package = "Grigorieff Lab"
 packageDict.update({
                "ctffind64.exe" : (package,""),
                "ctftilt64.exe" : (package,""),
                "rmeasure64.exe" : (package,"Try 'which rmeasure32.exe'(or rmeasure.exe, or rmeasure) at a command promt."),
                "signature64.exe" : (package,"For Signature Particle Picking. Try 'which signature32.exe' at a command prompt."),
-	})
+        })
 package = "IMOD"
 packageDict.update({
                "imod" : (package,"For Tomography Alignment and Reconstruction"),
-	})
+        })
 package = "PROTOMO"
 packageDict.update({
                "tomo-refine.sh" : (package,"For Tomography Alignment"),
                "tomo-fit.sh" : (package,"For Tomography Alignment"),
-	})
+        })
 
 outString = "The following third party processing packages could not be found...\n\n"
 

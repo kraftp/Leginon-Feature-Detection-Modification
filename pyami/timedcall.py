@@ -10,13 +10,13 @@ within the specified timeout period, then an exception will be raised.
 For instance, you have a
 function that runs for 10 seconds:
 
-	def myfunc():
-		time.sleep(10)
+        def myfunc():
+                time.sleep(10)
 
 Now you want to call it, but you only give it 5 seconds to return:
 
-	import timedcall
-	timedcall.call(myfunc, timeout=5)
+        import timedcall
+        timedcall.call(myfunc, timeout=5)
 
 After 5 seconds, an exception will be raised because myfunc ran too long.
 Note: myfunc still runs in another thread for the remaining 5 seconds as
@@ -25,7 +25,7 @@ return value.
 
 If we had given myfunc longer to run, for instance 20 seconds:
 
-	timedcall.call(myfunc, timeout=20)
+        timedcall.call(myfunc, timeout=20)
 
 This would return immediately after myfunc returns, and we could get an
 actual return value instead of an exception being raised.
@@ -36,45 +36,45 @@ import time
 import sys
 
 class ThreadWithReturnValue(threading.Thread):
-	'''A thread that remembers the target function's return value or exception'''
-	def run(self):
-		try:
-			self.returnvalue = self._Thread__target(*self._Thread__args, **self._Thread__kwargs)
-			self.exception = None
-		except:
-			self.returnvalue = None
-			self.exception = sys.exc_info()
+        '''A thread that remembers the target function's return value or exception'''
+        def run(self):
+                try:
+                        self.returnvalue = self._Thread__target(*self._Thread__args, **self._Thread__kwargs)
+                        self.exception = None
+                except:
+                        self.returnvalue = None
+                        self.exception = sys.exc_info()
 
 def call(func, timeout=None, *args, **kwargs):
-	'''Call a function, but only wait 'timeout' seconds for it to return'''
-	if timeout is None:
-		# no timeout specified means call as usual, blocking until return
-		return func(*args, **kwargs)
-	else:
-		# run function in another thread, wait for it to return, or give up
-		# after specified timeout
-		t = ThreadWithReturnValue(target=func, args=args, kwargs=kwargs)
-		t.setDaemon(True)
-		t.start()
-		t.join(timeout)
-		if not t.isAlive():
-			## either returned or raised exception
-			if t.exception is not None:
-				raise t.exception[0], t.exception[1], t.exception[2]
-			else:
-				return t.returnvalue
-		else:
-			raise RuntimeError('%s timed out after %.2f seconds' % (func.__name__, timeout))
+        '''Call a function, but only wait 'timeout' seconds for it to return'''
+        if timeout is None:
+                # no timeout specified means call as usual, blocking until return
+                return func(*args, **kwargs)
+        else:
+                # run function in another thread, wait for it to return, or give up
+                # after specified timeout
+                t = ThreadWithReturnValue(target=func, args=args, kwargs=kwargs)
+                t.setDaemon(True)
+                t.start()
+                t.join(timeout)
+                if not t.isAlive():
+                        ## either returned or raised exception
+                        if t.exception is not None:
+                                raise t.exception[0], t.exception[1], t.exception[2]
+                        else:
+                                return t.returnvalue
+                else:
+                        raise RuntimeError('%s timed out after %.2f seconds' % (func.__name__, timeout))
 
 #### Tests ########
 if __name__ == '__main__':
-	def test_function(t=None):
-		print 'This function returns after  seconds' % (t,)
-		while t is None:
-			print time.time()
-			time.sleep(1)
-		time.sleep(t)
-		return 'DONE'
+        def test_function(t=None):
+                print 'This function returns after  seconds' % (t,)
+                while t is None:
+                        print time.time()
+                        time.sleep(1)
+                time.sleep(t)
+                return 'DONE'
 
-	ret = call(test_function, timeout=2, t=None)
-	print 'RET', ret
+        ret = call(test_function, timeout=2, t=None)
+        print 'RET', ret

@@ -18,76 +18,76 @@ from appionlib import apProject
 
 #==================
 def getTotalNumParticles(reconid, numiter):
-	dbconf = sinedon.getConfig('appiondata')
-	db     = MySQLdb.connect(**dbconf)
-	# create a cursor
-	cursor = db.cursor()
-	query = ( " SELECT stackpart.`particleNumber` AS p "
-		+" FROM `ApRefineParticleData` AS reconpart "
-		+" LEFT JOIN `ApStackParticleData` AS stackpart "
-		+"   ON (reconpart.`REF|ApStackParticleData|particle` = stackpart.`DEF_id`) "
-		+" LEFT JOIN `ApRefineIterData` AS refdat "
-		+"   ON (reconpart.`REF|ApRefineIterData|refineIter` = refdat.`DEF_id`) "
-		+" WHERE refdat.`REF|ApRefineRunData|refineRun` = '"+str(reconid)+"' "
-		+"   AND refdat.`iteration` = '"+str(numiter)+"' " )
-	cursor.execute(query)
-	numpart = int(cursor.rowcount)
-	db.close()
-	return numpart
+        dbconf = sinedon.getConfig('appiondata')
+        db     = MySQLdb.connect(**dbconf)
+        # create a cursor
+        cursor = db.cursor()
+        query = ( " SELECT stackpart.`particleNumber` AS p "
+                +" FROM `ApRefineParticleData` AS reconpart "
+                +" LEFT JOIN `ApStackParticleData` AS stackpart "
+                +"   ON (reconpart.`REF|ApStackParticleData|particle` = stackpart.`DEF_id`) "
+                +" LEFT JOIN `ApRefineIterData` AS refdat "
+                +"   ON (reconpart.`REF|ApRefineIterData|refineIter` = refdat.`DEF_id`) "
+                +" WHERE refdat.`REF|ApRefineRunData|refineRun` = '"+str(reconid)+"' "
+                +"   AND refdat.`iteration` = '"+str(numiter)+"' " )
+        cursor.execute(query)
+        numpart = int(cursor.rowcount)
+        db.close()
+        return numpart
 
 #==================
 def getParticlesForIter(reconid, iternum):
-	dbconf = sinedon.getConfig('appiondata')
-	db     = MySQLdb.connect(**dbconf)
-	# create a cursor
-	cursor = db.cursor()
-	query = ( " SELECT stackpart.`particleNumber` AS p "
-		+" FROM `ApRefineParticleData` AS reconpart "
-		+" LEFT JOIN `ApStackParticleData` AS stackpart "
-		+"   ON (reconpart.`REF|ApStackParticleData|particle` = stackpart.`DEF_id`) "
-		+" LEFT JOIN `ApRefineIterData` AS refdat "
-		+"   ON (reconpart.`REF|ApRefineIterData|refineIter` = refdat.`DEF_id`) "
-		+" WHERE refdat.`REF|ApRefineRunData|refineRun` = '"+str(reconid)+"' "
-		+"   AND reconpart.`coran_keep` = 1 " # for Coran plot
-		#+"   AND reconpart.`thrown_out` IS NULL " # for EMAN plot
-		+"   AND refdat.`iteration` = '"+str(iternum)+"' " )
-	cursor.execute(query)
-	results = cursor.fetchall()
-	db.close()
-	return results
+        dbconf = sinedon.getConfig('appiondata')
+        db     = MySQLdb.connect(**dbconf)
+        # create a cursor
+        cursor = db.cursor()
+        query = ( " SELECT stackpart.`particleNumber` AS p "
+                +" FROM `ApRefineParticleData` AS reconpart "
+                +" LEFT JOIN `ApStackParticleData` AS stackpart "
+                +"   ON (reconpart.`REF|ApStackParticleData|particle` = stackpart.`DEF_id`) "
+                +" LEFT JOIN `ApRefineIterData` AS refdat "
+                +"   ON (reconpart.`REF|ApRefineIterData|refineIter` = refdat.`DEF_id`) "
+                +" WHERE refdat.`REF|ApRefineRunData|refineRun` = '"+str(reconid)+"' "
+                +"   AND reconpart.`coran_keep` = 1 " # for Coran plot
+                #+"   AND reconpart.`thrown_out` IS NULL " # for EMAN plot
+                +"   AND refdat.`iteration` = '"+str(iternum)+"' " )
+        cursor.execute(query)
+        results = cursor.fetchall()
+        db.close()
+        return results
 
 #==================
 def getAllCoranRecons():
-	dbconf = sinedon.getConfig('appiondata')
-	db     = MySQLdb.connect(**dbconf)
-	# create a cursor
-	cursor = db.cursor()
-	query = ( " SELECT DISTINCT refdat.`REF|ApRefineRunData|refineRun` AS reconid "
-		+" FROM `ApRefineIterData` AS refdat "
-		+" WHERE refdat.`SpiCoranGoodClassAvg` IS NOT NULL "
-		+"   AND refdat.`iteration` > '7' " )
-	cursor.execute(query)
-	results = cursor.fetchall()
-	db.close()
-	reconids = []
-	for row in results:
-		reconids.append(int(row[0]))
-	print "found "+str(len(reconids))+" reconids: ", reconids
-	return reconids
+        dbconf = sinedon.getConfig('appiondata')
+        db     = MySQLdb.connect(**dbconf)
+        # create a cursor
+        cursor = db.cursor()
+        query = ( " SELECT DISTINCT refdat.`REF|ApRefineRunData|refineRun` AS reconid "
+                +" FROM `ApRefineIterData` AS refdat "
+                +" WHERE refdat.`SpiCoranGoodClassAvg` IS NOT NULL "
+                +"   AND refdat.`iteration` > '7' " )
+        cursor.execute(query)
+        results = cursor.fetchall()
+        db.close()
+        reconids = []
+        for row in results:
+                reconids.append(int(row[0]))
+        print "found "+str(len(reconids))+" reconids: ", reconids
+        return reconids
 
 #==================
 def writeXmGraceData(counts, numpart):
-	datastr = "@target G0.S0\n@type xy\n"
-	for i in range(8):
-		datastr += ( "%.1f\t%d\n" % (float(i)+0.5, counts[i]))
-	datastr += "&\n@target G0.S1\n@type xy\n"
-	datastr += ( "-0.5\t%d\n0.5\t0\n&\n" % (numpart))
-	cutsize = 10.0**int(math.log10(numpart)-0.3)
-	upperlimit = (round(numpart/cutsize)+1)*cutsize
-	header = re.sub("@    world -0.999999, 1, 8.999999, 110000",
-		 "@    world -0.99999, 1, 8.99999, "+str(upperlimit), xmgraceheader)
-	gracedata = header.strip()+"\n"+datastr
-	return gracedata
+        datastr = "@target G0.S0\n@type xy\n"
+        for i in range(8):
+                datastr += ( "%.1f\t%d\n" % (float(i)+0.5, counts[i]))
+        datastr += "&\n@target G0.S1\n@type xy\n"
+        datastr += ( "-0.5\t%d\n0.5\t0\n&\n" % (numpart))
+        cutsize = 10.0**int(math.log10(numpart)-0.3)
+        upperlimit = (round(numpart/cutsize)+1)*cutsize
+        header = re.sub("@    world -0.999999, 1, 8.999999, 110000",
+                 "@    world -0.99999, 1, 8.99999, "+str(upperlimit), xmgraceheader)
+        gracedata = header.strip()+"\n"+datastr
+        return gracedata
 
 #==================
 xmgraceheader = """
@@ -450,105 +450,105 @@ xmgraceheader = """
 #==================
 #==================
 def makeCoranKeepPlot(reconid):
-	### prelim stuff
-	numiter = apRecon.getNumIterationsFromRefineRunID(reconid)
-	if numiter < 4:
-		apDisplay.printWarning("Cannot create coran keep plot, not enough iterations (%d)"%(numiter))
-		return None
-	else:
-		apDisplay.printMsg("found "+str(numiter)+" iterations")
-	numpart = getTotalNumParticles(reconid, numiter-1)
-	if numpart < 2000:
-		apDisplay.printWarning("Cannot create coran keep plot, not enough particles")
-		return None
-	else:
-		apDisplay.printMsg("found "+str(numpart)+" particles")
+        ### prelim stuff
+        numiter = apRecon.getNumIterationsFromRefineRunID(reconid)
+        if numiter < 4:
+                apDisplay.printWarning("Cannot create coran keep plot, not enough iterations (%d)"%(numiter))
+                return None
+        else:
+                apDisplay.printMsg("found "+str(numiter)+" iterations")
+        numpart = getTotalNumParticles(reconid, numiter-1)
+        if numpart < 2000:
+                apDisplay.printWarning("Cannot create coran keep plot, not enough particles")
+                return None
+        else:
+                apDisplay.printMsg("found "+str(numpart)+" particles")
 
-	### run through last 8 iterations summarizing particles
-	iter1 = numiter-7
-	iter2 = numiter+1
-	maxpart = 0
-	partdict = {}
-	for iternum in range(iter1, iter2):
-		results = getParticlesForIter(reconid, iternum)
-		for row in results:
-			partnum = int(row[0])
-			if partnum > maxpart:
-				maxpart = partnum
-			if partnum in partdict:
-				partdict[partnum] += 1
-			else:
-				partdict[partnum] = 1
+        ### run through last 8 iterations summarizing particles
+        iter1 = numiter-7
+        iter2 = numiter+1
+        maxpart = 0
+        partdict = {}
+        for iternum in range(iter1, iter2):
+                results = getParticlesForIter(reconid, iternum)
+                for row in results:
+                        partnum = int(row[0])
+                        if partnum > maxpart:
+                                maxpart = partnum
+                        if partnum in partdict:
+                                partdict[partnum] += 1
+                        else:
+                                partdict[partnum] = 1
 
-	print "maxpart=", maxpart
-	#print str(partdict)[:80]
-	### summarize results
-	counts = numpy.zeros((8), dtype=numpy.int32)
-	for key in partdict.keys():
-		numtimes = partdict[key]
-		for i in range(numtimes):
-			counts[i] += 1
-	print counts
-	print numpy.around(100.0*numpy.asarray(counts, dtype=numpy.float32)/float(numpart), 4)
+        print "maxpart=", maxpart
+        #print str(partdict)[:80]
+        ### summarize results
+        counts = numpy.zeros((8), dtype=numpy.int32)
+        for key in partdict.keys():
+                numtimes = partdict[key]
+                for i in range(numtimes):
+                        counts[i] += 1
+        print counts
+        print numpy.around(100.0*numpy.asarray(counts, dtype=numpy.float32)/float(numpart), 4)
 
-	gracefile = "corankeepplot-"+str(reconid)+".agr"
-	gracedata = writeXmGraceData(counts, numpart)
-	f = open(gracefile, "w")
-	f.write(gracedata)
-	f.close()
+        gracefile = "corankeepplot-"+str(reconid)+".agr"
+        gracedata = writeXmGraceData(counts, numpart)
+        f = open(gracefile, "w")
+        f.write(gracedata)
+        f.close()
 
-	epsfile = "corankeepplot-"+str(reconid)+".eps"
-	proc = subprocess.Popen("xmgrace "+gracefile+" -printfile "+epsfile+" -hardcopy -hdevice EPS", shell=True)
-	proc.wait()
-	time.sleep(1)
+        epsfile = "corankeepplot-"+str(reconid)+".eps"
+        proc = subprocess.Popen("xmgrace "+gracefile+" -printfile "+epsfile+" -hardcopy -hdevice EPS", shell=True)
+        proc.wait()
+        time.sleep(1)
 
-	if not os.path.isfile(epsfile):
-		apDisplay.printWarning("Grace failed to create EPS file, is grace installed?")
-		return
+        if not os.path.isfile(epsfile):
+                apDisplay.printWarning("Grace failed to create EPS file, is grace installed?")
+                return
 
-	pngfile = "corankeepplot-"+str(reconid)+".png"
-	proc = subprocess.Popen("convert -resize 1024x1024 -trim "+epsfile+" "+pngfile, shell=True)
-	proc.wait()
-	time.sleep(1)
-	os.remove(epsfile)
+        pngfile = "corankeepplot-"+str(reconid)+".png"
+        proc = subprocess.Popen("convert -resize 1024x1024 -trim "+epsfile+" "+pngfile, shell=True)
+        proc.wait()
+        time.sleep(1)
+        os.remove(epsfile)
 
-	if os.path.isfile(pngfile):
-		apDisplay.printColor("Successfully created the Coran Keep Plot: "+pngfile, "green")
+        if os.path.isfile(pngfile):
+                apDisplay.printColor("Successfully created the Coran Keep Plot: "+pngfile, "green")
 
 
 #==================
 #==================
 #==================
 if __name__ == '__main__':
-	print "Usage: apCoranPlot.py <reconid> <projectid>"
+        print "Usage: apCoranPlot.py <reconid> <projectid>"
 
-	### setup correct database after we have read the project id
-	if len(sys.argv) > 2:
-		projectid = int(sys.argv[2])
-	else:
-		projectid = None
-	if projectid is not None:
-		apDisplay.printWarning("Using split database")
-		# use a project database
-		newdbname = apProject.getAppionDBFromProjectId(projectid)
-		sinedon.setConfig('appiondata', db=newdbname)
-		apDisplay.printColor("Connected to database: '"+newdbname+"'", "green")
+        ### setup correct database after we have read the project id
+        if len(sys.argv) > 2:
+                projectid = int(sys.argv[2])
+        else:
+                projectid = None
+        if projectid is not None:
+                apDisplay.printWarning("Using split database")
+                # use a project database
+                newdbname = apProject.getAppionDBFromProjectId(projectid)
+                sinedon.setConfig('appiondata', db=newdbname)
+                apDisplay.printColor("Connected to database: '"+newdbname+"'", "green")
 
-	### run the program
-	if len(sys.argv) > 1:
-		reconid = int(sys.argv[1])
-		makeCoranKeepPlot(reconid)
-	else:
-		reconids = getAllCoranRecons()
-		for reconid in reconids:
-			recondata = apRecon.getRefineRunDataFromID(reconid)
-			reconpath = recondata['path']['path']
-			print reconpath
-			os.chdir(reconpath)
-			try:
-				makeCoranKeepPlot(reconid)
-			except:
-				pass
+        ### run the program
+        if len(sys.argv) > 1:
+                reconid = int(sys.argv[1])
+                makeCoranKeepPlot(reconid)
+        else:
+                reconids = getAllCoranRecons()
+                for reconid in reconids:
+                        recondata = apRecon.getRefineRunDataFromID(reconid)
+                        reconpath = recondata['path']['path']
+                        print reconpath
+                        os.chdir(reconpath)
+                        try:
+                                makeCoranKeepPlot(reconid)
+                        except:
+                                pass
 
 
 

@@ -13,16 +13,16 @@ priority = []
 
 attempted.append('fftw3')
 try:
-	from calc_fftw3 import FFTW3Calculator
-	calculators['fftw3'] = FFTW3Calculator
-	priority.append('fftw3')
+        from calc_fftw3 import FFTW3Calculator
+        calculators['fftw3'] = FFTW3Calculator
+        priority.append('fftw3')
 except:
-	pass
+        pass
 
 attempted.append('fftpack')
 try:
-	from calc_fftpack import FFTPACKCalculator
-	calculators['fftpack'] = FFTPACKCalculator
-	priority.append('fftpack')
+        from calc_fftpack import FFTPACKCalculator
+        calculators['fftpack'] = FFTPACKCalculator
+        priority.append('fftpack')
 except:
-	pass
+        pass

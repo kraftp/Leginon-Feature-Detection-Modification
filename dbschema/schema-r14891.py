@@ -8,17 +8,17 @@ class SchemaUpdate14891(schemabase.SchemaUpdate):
 # Originally default timestamp set to null which cause leginon session not remember
 # last launched application since a query for recent time fails.
 # see issue number 942 in redmine.
-	def upgradeLeginonDB(self):
-		if self.leginon_dbupgrade.tableExists('LaunchedApplicationData'):
-			alterSQL = (" Alter Table LaunchedApplicationData " + 
-					" Modify `DEF_timestamp` timestamp not null " + 
-					" default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+        def upgradeLeginonDB(self):
+                if self.leginon_dbupgrade.tableExists('LaunchedApplicationData'):
+                        alterSQL = (" Alter Table LaunchedApplicationData " + 
+                                        " Modify `DEF_timestamp` timestamp not null " + 
+                                        " default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 
-			result = self.leginon_dbupgrade.executeCustomSQL(alterSQL)
+                        result = self.leginon_dbupgrade.executeCustomSQL(alterSQL)
 
 if __name__ == "__main__":
-	update = SchemaUpdate14891()
-	# update only leginon database
-	update.setRequiredUpgrade('leginon')
-	update.run()
+        update = SchemaUpdate14891()
+        # update only leginon database
+        update.setRequiredUpgrade('leginon')
+        update.run()
 

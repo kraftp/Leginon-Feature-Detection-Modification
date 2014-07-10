@@ -9,25 +9,25 @@ import subprocess
 ## use this function to launch from the web so that
 ## stdout & sterr will be saved to a file
 if __name__ == '__main__':
-	if len(sys.argv) < 3:
-		print "Usage: webcaller.py '<command>' <outfile> (<mode>)"
-		sys.exit(1)
-	cmd = sys.argv[1]
-	outf = sys.argv[2]
-	if len(sys.argv) > 3:
-		mode = sys.argv[3]
-	else:
-		mode = 'w'
+        if len(sys.argv) < 3:
+                print "Usage: webcaller.py '<command>' <outfile> (<mode>)"
+                sys.exit(1)
+        cmd = sys.argv[1]
+        outf = sys.argv[2]
+        if len(sys.argv) > 3:
+                mode = sys.argv[3]
+        else:
+                mode = 'w'
 
-	## check if directory exists
-	time.sleep(0.5)
-	dirname = os.path.dirname(outf)
-	if not os.path.isdir(dirname):
-		os.makedirs(dirname)
+        ## check if directory exists
+        time.sleep(0.5)
+        dirname = os.path.dirname(outf)
+        if not os.path.isdir(dirname):
+                os.makedirs(dirname)
 
-	## run command and write to log file
-	f = open(outf, mode)
-	proc = subprocess.Popen(cmd, shell=True, stdout=f, stderr=subprocess.STDOUT)
-	proc.wait()
+        ## run command and write to log file
+        f = open(outf, mode)
+        proc = subprocess.Popen(cmd, shell=True, stdout=f, stderr=subprocess.STDOUT)
+        proc.wait()
 
-	f.close()
+        f.close()

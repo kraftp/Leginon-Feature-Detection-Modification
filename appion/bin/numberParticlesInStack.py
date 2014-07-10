@@ -6,22 +6,22 @@
 
 import sys
 try:
-	import EMAN
+        import EMAN
 except ImportError:
-	print "EMAN module did not get imported"
+        print "EMAN module did not get imported"
 
 if __name__ == "__main__":
 
-	if len(sys.argv) < 2:
-		print "usage: renumber.py [filename]"
-		sys.exit()
+        if len(sys.argv) < 2:
+                print "usage: renumber.py [filename]"
+                sys.exit()
 
-	filename=sys.argv[1]
+        filename=sys.argv[1]
 
-	n=EMAN.fileCount(filename)[0]
-	im=EMAN.EMData()
-	for i in range(n):
-		im.readImage(filename,i)
-		im.setNImg(i)
-		im.writeImage(filename,i)
-		print i
+        n=EMAN.fileCount(filename)[0]
+        im=EMAN.EMData()
+        for i in range(n):
+                im.readImage(filename,i)
+                im.setNImg(i)
+                im.writeImage(filename,i)
+                print i

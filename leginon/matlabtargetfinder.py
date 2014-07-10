@@ -21,122 +21,122 @@ import gui.wx.MatlabTargetFinder
 import calibrationclient
 
 try:
-	import mlabraw as pymat
+        import mlabraw as pymat
 except:
-	pymat = None
+        pymat = None
 
 class MatlabTargetFinder(targetfinder.TargetFinder):
-	panelclass = gui.wx.MatlabTargetFinder.Panel
-	settingsclass = leginondata.MatlabTargetFinderSettingsData
-	defaultsettings = dict(targetfinder.TargetFinder.defaultsettings)
-	defaultsettings.update({
-		'module': '',
-		'test image': '',
-		'parametergui': '',
-	})
-	def __init__(self, *args, **kwargs):
-		self.userpause = threading.Event()
-		targetfinder.TargetFinder.__init__(self, *args, **kwargs)
-		if pymat is None:
-			self.logger.error('Loading Python Matlab interface (pymat) failed')
-			return
-		self.handle = None
-		self.start()
+        panelclass = gui.wx.MatlabTargetFinder.Panel
+        settingsclass = leginondata.MatlabTargetFinderSettingsData
+        defaultsettings = dict(targetfinder.TargetFinder.defaultsettings)
+        defaultsettings.update({
+                'module': '',
+                'test image': '',
+                'parametergui': '',
+        })
+        def __init__(self, *args, **kwargs):
+                self.userpause = threading.Event()
+                targetfinder.TargetFinder.__init__(self, *args, **kwargs)
+                if pymat is None:
+                        self.logger.error('Loading Python Matlab interface (pymat) failed')
+                        return
+                self.handle = None
+                self.start()
 
-	def readImage(self, filename):
-		# convert to float
-		image2 = mrc.read(filename)
-		image = numpy.asarray(image2,dtype=numpy.float)
-		
-		if image.any():
-			self.setImage(image, 'Image')
-		else:
-			self.logger.error('Can not load image')
+        def readImage(self, filename):
+                # convert to float
+                image2 = mrc.read(filename)
+                image = numpy.asarray(image2,dtype=numpy.float)
+                
+                if image.any():
+                        self.setImage(image, 'Image')
+                else:
+                        self.logger.error('Can not load image')
 
-	def matlabFindTargets(self):
-		pymat.put(self.handle, 'focus', [])
-		pymat.put(self.handle, 'acquisition', [])
+        def matlabFindTargets(self):
+                pymat.put(self.handle, 'focus', [])
+                pymat.put(self.handle, 'acquisition', [])
 
-		d, f = os.path.split(self.settings['module path'])
+                d, f = os.path.split(self.settings['module path'])
 
-		if d:
-			pymat.eval(self.handle, 'path(path, \'%s\')' % d)
+                if d:
+                        pymat.eval(self.handle, 'path(path, \'%s\')' % d)
 
-		if not f[:-2]:
-			raise RuntimeError
+                if not f[:-2]:
+                        raise RuntimeError
 
-		pymat.eval(self.handle, '[acquisition, focus] = %s(image,image_id)' % f[:-2])
+                pymat.eval(self.handle, '[acquisition, focus] = %s(image,image_id)' % f[:-2])
 
-		focus = pymat.get(self.handle, 'focus')
-		acquisition = pymat.get(self.handle, 'acquisition')
+                focus = pymat.get(self.handle, 'focus')
+                acquisition = pymat.get(self.handle, 'acquisition')
 
-		self.setTargets(acquisition, 'acquisition')
-		self.setTargets(focus, 'focus')
-		import time
-		time.sleep(1)
+                self.setTargets(acquisition, 'acquisition')
+                self.setTargets(focus, 'focus')
+                import time
+                time.sleep(1)
 
-		if self.settings['user check']:
-			self.panel.foundTargets()
+                if self.settings['user check']:
+                        self.panel.foundTargets()
 
-	def findTargets(self, imdata, targetlist):
-		imdata_id = imdata.dbid
-		self.logger.info(imdata_id)
+        def findTargets(self, imdata, targetlist):
+                imdata_id = imdata.dbid
+                self.logger.info(imdata_id)
 
-		# convert to float
-		image2 = imdata['image']
-		image = numpy.asarray(image2,dtype=numpy.float)
-		
-		self.setImage(image, 'Image')
+                # convert to float
+                image2 = imdata['image']
+                image = numpy.asarray(image2,dtype=numpy.float)
+                
+                self.setImage(image, 'Image')
 
-		if self.handle is None:
-			self.handle = pymat.open()
+                if self.handle is None:
+                        self.handle = pymat.open()
 
-		pymat.put(self.handle, 'image', image)
-		pymat.put(self.handle, 'image_id',imdata_id)
+                pymat.put(self.handle, 'image', image)
+                pymat.put(self.handle, 'image_id',imdata_id)
 
-		self.matlabFindTargets()
+                self.matlabFindTargets()
 
-		if self.settings['user check']:
-			# user now clicks on targets
-			self.notifyUserSubmit()
-			self.userpause.clear()
-			self.setStatus('user input')
-			self.userpause.wait()
+                if self.settings['user check']:
+                        # user now clicks on targets
+                        self.notifyUserSubmit()
+                        self.userpause.clear()
+                        self.setStatus('user input')
+                        self.userpause.wait()
 
-		self.setStatus('processing')
+                self.setStatus('processing')
 
-		pymat.put(self.handle, 'image', [])
-		pymat.put(self.handle, 'focus', [])
-		pymat.put(self.handle, 'acquisition', [])
+                pymat.put(self.handle, 'image', [])
+                pymat.put(self.handle, 'focus', [])
+                pymat.put(self.handle, 'acquisition', [])
 
-		self.publishTargets(imdata, 'focus', targetlist)
-		self.publishTargets(imdata, 'acquisition', targetlist)
+                self.publishTargets(imdata, 'focus', targetlist)
+                self.publishTargets(imdata, 'acquisition', targetlist)
 
-		self.logger.info('Targets have been submitted')
+                self.logger.info('Targets have been submitted')
 
-	def targetTestImage(self):
-		usercheck = self.settings['user check']
-		self.settings['user check'] = False
-		filename = self.settings['test image']
-		
-		try:
-			image2 = mrc.read(filename)		
-			image = numpy.asarray(image2,dtype=numpy.float)
-			
-		except:
-			self.logger.error('Failed to load test image')
-			raise
-			return
-		self.setImage(image, 'Image')
+        def targetTestImage(self):
+                usercheck = self.settings['user check']
+                self.settings['user check'] = False
+                filename = self.settings['test image']
+                
+                try:
+                        image2 = mrc.read(filename)             
+                        image = numpy.asarray(image2,dtype=numpy.float)
+                        
+                except:
+                        self.logger.error('Failed to load test image')
+                        raise
+                        return
+                self.setImage(image, 'Image')
 
-		if self.handle is None:
-			self.handle = pymat.open()
-		pymat.put(self.handle, 'image', image)
+                if self.handle is None:
+                        self.handle = pymat.open()
+                pymat.put(self.handle, 'image', image)
 
-		imdata_id = 0
+                imdata_id = 0
 
-		pymat.put(self.handle, 'image_id',imdata_id)
-	
-		self.matlabFindTargets()
+                pymat.put(self.handle, 'image_id',imdata_id)
+        
+                self.matlabFindTargets()
 
-		self.settings['user check'] = usercheck
+                self.settings['user check'] = usercheck

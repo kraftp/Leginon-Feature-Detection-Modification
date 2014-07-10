@@ -384,6 +384,7 @@ class RCTAcquisition(acquisition.Acquisition):
                     ##     i -= 1
                     if retries:
                         i -= 1
+                        retries -= 1
                         if retries < retriesmax / 2:
                             blur = 0
                     else:

@@ -4,13 +4,13 @@ from pyami import fftfun
 import time
 
 def getTEM():
-	classes = registry.getClasses()
-	for i in classes:
-		name, c = i
-		if issubclass(c, tem.TEM):
-			t = c()
-			break
-	return t
+        classes = registry.getClasses()
+        for i in classes:
+                name, c = i
+                if issubclass(c, tem.TEM):
+                        t = c()
+                        break
+        return t
 
 t = getTEM()
 print 'Load gold grating replica into the scope and set it to eucentric height and focus'
@@ -38,18 +38,18 @@ beamtilt0 = t.getBeamTilt()
 scale_factor = 1.0
 best_scale_factor = 1.0
 while scale_factor > 0.001:
-	print '---------------------------------------------------------------'
-	new_beamtilt = {'x':beamtilt0['x']+beamtilt['x']*scale_factor}
-	t.setBeamTilt(new_beamtilt)
-	print 'current rotation_center_scale = %.1f' % (scale_factor,)
-	best_scale_factor = scale_factor
-	print 'Refine scale until the inner-most, i.e., <111>, gold diffraction ring'
-	print ' is shifted to the center of the screen'
-	scale_factor_string = raw_input('Enter new value such as 6.0. Enter 0 to exit--')
-	try:
-		scale_factor = float(scale_factor_string)
-	except:
-		print 'Invalid scale factor entered. Try again'
+        print '---------------------------------------------------------------'
+        new_beamtilt = {'x':beamtilt0['x']+beamtilt['x']*scale_factor}
+        t.setBeamTilt(new_beamtilt)
+        print 'current rotation_center_scale = %.1f' % (scale_factor,)
+        best_scale_factor = scale_factor
+        print 'Refine scale until the inner-most, i.e., <111>, gold diffraction ring'
+        print ' is shifted to the center of the screen'
+        scale_factor_string = raw_input('Enter new value such as 6.0. Enter 0 to exit--')
+        try:
+                scale_factor = float(scale_factor_string)
+        except:
+                print 'Invalid scale factor entered. Try again'
 
 print '---------------------------------------------------------------'
 t.setBeamTilt(beamtilt0)

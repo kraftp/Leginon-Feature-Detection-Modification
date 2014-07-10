@@ -15,43 +15,43 @@ Setup of the database
 import sinedon
 
 class User(sinedon.Data):
-	def typemap(cls):
-		return sinedon.Data.typemap() + (
-		('user name', str),
-		('group', Group),
-	)
-	typemap = classmethod(typemap)
+        def typemap(cls):
+                return sinedon.Data.typemap() + (
+                ('user name', str),
+                ('group', Group),
+        )
+        typemap = classmethod(typemap)
 
 class Group(sinedon.Data):
-	def typemap(cls):
-		return sinedon.Data.typemap() + (
-		('group name', str),
-	)
-	typemap = classmethod(typemap)
+        def typemap(cls):
+                return sinedon.Data.typemap() + (
+                ('group name', str),
+        )
+        typemap = classmethod(typemap)
 
 """
 Usage of the database
 """
 if __name__ == "__main__":
-	""" case 1: new instance exists """
-	groupq = Group()
-	groupq['group name'] = "ami"
-	groupq.insert()
+        """ case 1: new instance exists """
+        groupq = Group()
+        groupq['group name'] = "ami"
+        groupq.insert()
 
-	userq = User()
-	userq['user name'] = "Arne"
-	userq['group'] = groupq
-	userq.insert()
+        userq = User()
+        userq['user name'] = "Arne"
+        userq['group'] = groupq
+        userq.insert()
 
-	""" case 2: group exists """
-	groupq = Group()
-	groupq['group name'] = "ami"
-	groupdatas = groupq.query(results=1)
-	if not groupdatas:
-		apDisplay.printError("group not found")
-	if len(groupdatas) > 1:
-		print "too many ami groups"
-	groupdata = groupdatas[0]
+        """ case 2: group exists """
+        groupq = Group()
+        groupq['group name'] = "ami"
+        groupdatas = groupq.query(results=1)
+        if not groupdatas:
+                apDisplay.printError("group not found")
+        if len(groupdatas) > 1:
+                print "too many ami groups"
+        groupdata = groupdatas[0]
 
 
 

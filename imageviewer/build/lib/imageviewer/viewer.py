@@ -89,9 +89,9 @@ class Viewer(wx.Panel):
             imagemin = mean - 3 * std
             imagemax = mean + 3 * std
             if use_extrema:
-						    contrastlimit = extrema
+                                                    contrastlimit = extrema
             else:
-						    contrastlimit = (imagemin,imagemax)
+                                                    contrastlimit = (imagemin,imagemax)
         self.numarrayplugin.setValueRange(contrastlimit)
         self.numarrayplugin.setNumpy(array)
         self.tools.infotool.setStatistics(array)

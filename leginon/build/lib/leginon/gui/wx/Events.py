@@ -14,48 +14,48 @@
 import wx
 
 class FactoryEvent(wx.PyEvent):
-	_eventtype = None
-	def __init__(self, **kwargs):
-		wx.PyEvent.__init__(self)
-		self.SetEventType(self._eventtype)
-		for name in self._attributes:
-			if name in kwargs:
-				value = kwargs[name]
-			else:
-				value = None
-			setattr(self, name, value)
+        _eventtype = None
+        def __init__(self, **kwargs):
+                wx.PyEvent.__init__(self)
+                self.SetEventType(self._eventtype)
+                for name in self._attributes:
+                        if name in kwargs:
+                                value = kwargs[name]
+                        else:
+                                value = None
+                        setattr(self, name, value)
 
 class FactoryCommandEvent(wx.PyCommandEvent):
-	_eventtype = None
-	def __init__(self, source, **kwargs):
-		wx.PyCommandEvent.__init__(self, self._eventtype, source.GetId())
-		self.SetEventObject(source)
-		for name in self._attributes:
-			if name in kwargs:
-				value = kwargs[name]
-			else:
-				value = None
-			setattr(self, name, value)
+        _eventtype = None
+        def __init__(self, source, **kwargs):
+                wx.PyCommandEvent.__init__(self, self._eventtype, source.GetId())
+                self.SetEventObject(source)
+                for name in self._attributes:
+                        if name in kwargs:
+                                value = kwargs[name]
+                        else:
+                                value = None
+                        setattr(self, name, value)
 
 def eventFactory(name, attributes=[], command=False):
-	toks = name.split()
-	basename = ''
-	bindername = ''
-	for tok in toks:
-		basename += tok
-		bindername += tok.upper() + '_'
-	eventname = basename + 'Event'
-	if command:
-		bases = (FactoryCommandEvent,)
-	else:
-		bases = (FactoryEvent,)
-	typename = eventname + 'Type'
-	bindername = 'EVT_' + bindername[:-1]
-	g = globals()
-	g[typename] = wx.NewEventType()
-	g[bindername] = wx.PyEventBinder(g[typename])
-	g[eventname] = type(eventname, bases, {'_eventtype': g[typename],
-																					'_attributes': attributes})
+        toks = name.split()
+        basename = ''
+        bindername = ''
+        for tok in toks:
+                basename += tok
+                bindername += tok.upper() + '_'
+        eventname = basename + 'Event'
+        if command:
+                bases = (FactoryCommandEvent,)
+        else:
+                bases = (FactoryEvent,)
+        typename = eventname + 'Type'
+        bindername = 'EVT_' + bindername[:-1]
+        g = globals()
+        g[typename] = wx.NewEventType()
+        g[bindername] = wx.PyEventBinder(g[typename])
+        g[eventname] = type(eventname, bases, {'_eventtype': g[typename],
+                                                                                                                                                                        '_attributes': attributes})
 
 eventFactory('Acquisition Done')
 eventFactory('Atlas Calculated')
@@ -83,15 +83,15 @@ eventFactory('Grid Inserted')
 eventFactory('Extracting Grid')
 eventFactory('Edit Matrix', attributes=['calibrationdata'])
 eventFactory('Edit Focus Calibration', attributes=[
-	'tem',
-	'ccd_camera',
-	'high_tension',
-	'magnification',
-	'probe',
-	'parameter',
-	'matrix',
-	'rotation_center',
-	'eucentric_focus',
+        'tem',
+        'ccd_camera',
+        'high_tension',
+        'magnification',
+        'probe',
+        'parameter',
+        'matrix',
+        'rotation_center',
+        'eucentric_focus',
 ])
 eventFactory('Add TEM', attributes=['name'], command=True)
 eventFactory('Remove TEM', attributes=['name'], command=True)
@@ -115,30 +115,30 @@ EVT_SET_TARGETS = wx.PyEventBinder(SetTargetsEventType)
 EVT_STATUS_UPDATED = wx.PyEventBinder(StatusUpdatedEventType)
 
 class PlayerEvent(wx.PyEvent):
-	def __init__(self, state):
-		wx.PyEvent.__init__(self)
-		self.SetEventType(PlayerEventType)
-		self.state = state
+        def __init__(self, state):
+                wx.PyEvent.__init__(self)
+                self.SetEventType(PlayerEventType)
+                self.state = state
 
 class SetImageEvent(wx.PyEvent):
-	def __init__(self, image, typename=None, stats={}):
-		wx.PyEvent.__init__(self)
-		self.SetEventType(SetImageEventType)
-		self.image = image
-		self.typename = typename
-		self.stats = stats
+        def __init__(self, image, typename=None, stats={}):
+                wx.PyEvent.__init__(self)
+                self.SetEventType(SetImageEventType)
+                self.image = image
+                self.typename = typename
+                self.stats = stats
 
 class SetTargetsEvent(wx.PyEvent):
-	def __init__(self, targets, typename):
-		wx.PyEvent.__init__(self)
-		self.SetEventType(SetTargetsEventType)
-		self.targets = targets
-		self.typename = typename
+        def __init__(self, targets, typename):
+                wx.PyEvent.__init__(self)
+                self.SetEventType(SetTargetsEventType)
+                self.targets = targets
+                self.typename = typename
 
 class StatusUpdatedEvent(wx.PyCommandEvent):
-	def __init__(self, source, level, status=None):
-		wx.PyCommandEvent.__init__(self, StatusUpdatedEventType, source.GetId())
-		self.SetEventObject(source)
-		self.level = level
-		self.status = status
+        def __init__(self, source, level, status=None):
+                wx.PyCommandEvent.__init__(self, StatusUpdatedEventType, source.GetId())
+                self.SetEventObject(source)
+                self.level = level
+                self.status = status
 
