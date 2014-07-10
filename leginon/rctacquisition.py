@@ -279,6 +279,8 @@ class RCTAcquisition(acquisition.Acquisition):
         #print "SETTINGS:"
         #pprint.pprint(self.settings)
         self.logger.info('Running trackStage')
+        retriesmax = 10
+        retries = retriesmax
         blur = 3
         self.logger.info('Returning to state of image0')
         presetname = image0['preset']['name']
@@ -310,7 +312,6 @@ class RCTAcquisition(acquisition.Acquisition):
         runningresult = numpy.identity(3, numpy.float32)
         # transformTargets for display purposes only
         self.transformTargets(runningresult, tilt0targets)
-        ## retries = 0
 
         #for tilt in tilts:
         ### use while loop so we can backtrack
@@ -369,7 +370,7 @@ class RCTAcquisition(acquisition.Acquisition):
                 #difftilt = degrees(abs(tilts[int(i)])-abs(tilts[int(i-1)]))
                 #result = self.apTiltShiftMethod(arrayold, arraynew, difftilt)
 
-                check = libCVwrapper.checkLibCVResult(self, result)
+                check = openCVwrapper.checkOpenCVResult(self, result)
                 if check is False:
                     self.logger.warning("openCV failed: redoing tilt %.2f"%(tilt,))
                     ## ### redo this tilt; becomes an infinite loop if the image goes black
@@ -381,9 +382,11 @@ class RCTAcquisition(acquisition.Acquisition):
                     ##         ### maybe the tilt angle is too high, reduce max angle by 5 percent
                     ##         tilts[len(tilts)-1] *= 0.95
                     ##     i -= 1
-                    if not blur == 0:
-                        blur = 0
+                    if retries:
                         i -= 1
+                        retries -= 1
+                        if retries < retriesmax / 2:
+                            blur = 0
                     else:
                         ## retries = 0
                         print "Tilt openCV FAILED"
