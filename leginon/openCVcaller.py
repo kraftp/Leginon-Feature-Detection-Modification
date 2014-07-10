@@ -38,8 +38,11 @@ def yshift(k1, k2, sel_matches):
                 ysd[ys+i-(len(filt)/2)]+=filt[i]
             else:
                 ysd[ys+i-(len(filt)/2)]=filt[i]
-    print "y-shift:", max(ysd, key=ysd.get),"pixels with",  max(ysd.values()), "votes"
-    return max(ysd, key=ysd.get)
+    if ysd:            
+        print "y-shift:", max(ysd, key=ysd.get),"pixels with",  max(ysd.values()), "votes"
+        return max(ysd, key=ysd.get)
+    else:
+        return None
 
 #-----------------------
 def MatchImages(image1, image2, blur=3):
@@ -90,15 +93,17 @@ def MatchImages(image1, image2, blur=3):
     mean_dist = (sum(distances)/len(distances))
     sel_matches = [m for m in matches if m.distance < mean_dist*0.6]
     ys = yshift(k1, k2, sel_matches)
-    sel_matches = [m for m in sel_matches if math.fabs(int(k2[m.trainIdx].pt[1])-int(k1[m.queryIdx].pt[1])-ys)<10]
+    if ys is not None:
+        sel_matches = [m for m in sel_matches if math.fabs(int(k2[m.trainIdx].pt[1])-int(k1[m.queryIdx].pt[1])-ys)<10]
     print "%d matches" % (len(sel_matches))
     
     count=0
-    while len(sel_matches)<40 and count<10:
+    while len(sel_matches)<40 and count<20:
         count+=1
         sel_matches = [m for m in matches if m.distance < mean_dist*(.6+.05*count)]
         ys=yshift(k1, k2, sel_matches)
-        sel_matches = [m for m in sel_matches if math.fabs(int(k2[m.trainIdx].pt[1])-int(k1[m.queryIdx].pt[1])-ys)<10]
+        if ys is not None:
+            sel_matches = [m for m in sel_matches if math.fabs(int(k2[m.trainIdx].pt[1])-int(k1[m.queryIdx].pt[1])-ys)<10]
         print "Try:", count, "#selected matches:", len(sel_matches)
 
 
@@ -143,8 +148,10 @@ def MatchImages(image1, image2, blur=3):
     compat=copy.copy(M)
     M[0][0]=compat[1][1]
     M[2][0]=compat[1][2]
+    #M[2][0]=0
     M[1][1]=compat[0][0]
     M[2][1]=compat[0][2]
+    #M[2][1]=0
     M[0][2]=0.0
     M[1][2]=0.0
     print M
@@ -243,13 +250,15 @@ def FindFeatures(image, blur=3):
     """
     image = convertImage(image)
     if blur > 0:
-        image1=cv2.GaussianBlur(image, (blur, blur), 0)
+        image=cv2.GaussianBlur(image, (blur, blur), 0)
 
     detector = cv2.FeatureDetector_create("SIFT")
     descriptor = cv2.DescriptorExtractor_create("BRIEF")
 
     kp1=detector.detect(image)
     k1, d1 = descriptor.compute(image, kp1)
+
+    print '%d keypoints in image' % (len(d1))
 
     feature_pts = [ feature.pt for feature in k1]
     return feature_pts 

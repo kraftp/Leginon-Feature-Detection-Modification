@@ -279,7 +279,7 @@ class RCTAcquisition(acquisition.Acquisition):
         #print "SETTINGS:"
         #pprint.pprint(self.settings)
         self.logger.info('Running trackStage')
-
+        blur = 3
         self.logger.info('Returning to state of image0')
         presetname = image0['preset']['name']
         emtarget = image0['emtarget']
@@ -310,7 +310,7 @@ class RCTAcquisition(acquisition.Acquisition):
         runningresult = numpy.identity(3, numpy.float32)
         # transformTargets for display purposes only
         self.transformTargets(runningresult, tilt0targets)
-        retries = 0
+        ## retries = 0
 
         #for tilt in tilts:
         ### use while loop so we can backtrack
@@ -350,15 +350,15 @@ class RCTAcquisition(acquisition.Acquisition):
                 maxsize = self.settings['maxsize']
                 libCVwrapper.checkArrayMinMax(self, arrayold, arraynew)
                 print 'tilt', tilts[i]*180/3.14159
-                try:
-                    resultorig = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
-                    result = openCVcaller.MatchImages(arrayold, arraynew)
-                    self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
-                    print "RESULT", result
-                    print "RESULTORIG", resultorig
-                except:
-                    self.logger.error('openCV MatchImages failed')
-                    return None, None
+               # try:
+                resultorig = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
+                result = openCVcaller.MatchImages(arrayold, arraynew, blur)
+                self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
+                print "RESULT", result
+                print "RESULTORIG", resultorig
+               # except:
+                 #   self.logger.error('openCV MatchImages failed')
+                 #   return None, None
                 ## try:
                 ##     #result = pyami.timedproc.call('leginon.libCVwrapper', 'MatchImages', args=(arrayold, arraynew, minsize, maxsize), timeout=timeout)
                 ##     self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
@@ -372,19 +372,23 @@ class RCTAcquisition(acquisition.Acquisition):
                 check = libCVwrapper.checkLibCVResult(self, result)
                 if check is False:
                     self.logger.warning("openCV failed: redoing tilt %.2f"%(tilt,))
-                    ### redo this tilt; becomes an infinite loop if the image goes black
-                    retries += 1
-                    if retries <= 2:
-                        ### reduce minsize and try again
-                        self.settings['minsize'] *= 0.95
-                        if i == len(tilts)-1:
-                            ### maybe the tilt angle is too high, reduce max angle by 5 percent
-                            tilts[len(tilts)-1] *= 0.95
+                    ## ### redo this tilt; becomes an infinite loop if the image goes black
+                    ## retries += 1
+                    ## if retries <= 2:
+                    ##     ### reduce minsize and try again
+                    ##     self.settings['minsize'] *= 0.95
+                    ##     if i == len(tilts)-1:
+                    ##         ### maybe the tilt angle is too high, reduce max angle by 5 percent
+                    ##         tilts[len(tilts)-1] *= 0.95
+                    ##     i -= 1
+                    if not blur == 0:
+                        blur = 0
                         i -= 1
                     else:
-                        retries = 0
+                        ## retries = 0
                         print "Tilt openCV FAILED"
                         self.logger.error("openCV failed: giving up")
+                        self.instrument.tem.StagePosition = {'a': tilt0}
                         return None, None
                     continue
                 else:
