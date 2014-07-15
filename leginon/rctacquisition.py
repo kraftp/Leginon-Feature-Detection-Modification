@@ -279,7 +279,7 @@ class RCTAcquisition(acquisition.Acquisition):
         #print "SETTINGS:"
         #pprint.pprint(self.settings)
         self.logger.info('Running trackStage')
-        retriesmax = 10
+        retriesmax = 15
         retries = retriesmax
         blur = 3
         self.logger.info('Returning to state of image0')
@@ -391,8 +391,10 @@ class RCTAcquisition(acquisition.Acquisition):
                     if retries:
                         i -= 1
                         retries -= 1
-                        if retries < retriesmax / 2:
-                            blur = 0
+                        if retries < retriesmax * ( 2 / 3):
+                            blur = 5
+                        if retries < retriesmax * ( 1 / 3):
+                            blur = 0                            
                     else:
                         ## retries = 0
                         print "Tilt openCV FAILED"

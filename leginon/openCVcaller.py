@@ -202,13 +202,13 @@ def checkOpenCVResult(self, result):
                 self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
                 print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
                 return False
-        elif abs(result[0][0]) > 1.3 or abs(result[1][1]) > 1.3:
+        elif abs(result[0][0]) > 1.2 or abs(result[1][1]) > 1.2:
                 #restrict maximum allowable expansion
                 self.logger.warning("Bad openCV result: image expansion: "+affineToText(result))
                 print ("Bad openCV result: image expansion: "+affineToText(result))
                 return False
-        elif abs(result[0][1]) > 0.2588 or abs(result[1][0]) > 0.2588:
-                #max rotation angle of 15 degrees
+        elif abs(result[0][1]) > 0.1736 or abs(result[1][0]) > 0.1736:
+                #max rotation angle of 10 degrees
                 self.logger.warning("Bad openCV result: too much rotation: "+affineToText(result))
                 print ("Bad openCV result: too much rotation: "+affineToText(result))
                 return False
