@@ -318,6 +318,12 @@ class RCTAcquisition(acquisition.Acquisition):
         i = 0
         while i < len(tilts)-1:
             i+=1
+            if i>0:
+                tiltb = float("%.3f"%tilts[i-1])
+                self.instrument.tem.StagePosition = {'a': tiltb}
+                imageold = self.acquireCorrectedCameraImageData()
+                arrayold = numpy.asarray(imageold['image'], dtype=numpy.float32)
+                self.setImage(arrayold, 'Image')
             tilt = float("%.3f"%tilts[i])
             self.logger.info('Going to tilt angle: %.2f' % (degrees(tilt),))
             self.instrument.tem.StagePosition = {'a': tilt}
