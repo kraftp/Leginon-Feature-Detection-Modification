@@ -60,7 +60,8 @@ def MatchImages(image1, image2, blur=3):
     Output:
         3x3 Affine Matrix
     """
-    image1, image2 = convertImage(image1, 1), convertImage(image2, 1)
+    shorten = checkDark(image1) or checkDark(image2)
+    image1, image2 = convertImage(image1, shorten), convertImage(image2, shorten)
     if blur > 0:
         image1=cv2.GaussianBlur(image1, (blur, blur), 0)
         image2=cv2.GaussianBlur(image2, (blur, blur), 0)
@@ -82,8 +83,18 @@ def MatchImages(image1, image2, blur=3):
     kp1=detector.detect(image1)
     kp2=detector.detect(image2)
 
+    if kp1 is None or kp2 is None:
+        print "No features detected"
+        return np.zeros([3,3], dtype=np.float32)
+    
     k1, d1 = descriptor.compute(image1, kp1)
     k2, d2 = descriptor.compute(image2, kp2)
+
+    if d1 is None or d2 is None:
+        print "No features detected"
+        return np.zeros([3,3], dtype=np.float32)
+
+    
     print '%d keypoints in image1, %d keypoints in image2' % (len(d1), len(d2))
 
     matches = matcher.match(d1, d2)
@@ -159,7 +170,7 @@ def MatchImages(image1, image2, blur=3):
     return M
 
 #-----------------------
-def convertImage(image1, shorten=0):
+def convertImage(image1, shortenh=0, shortenw=0):
     """
     Inputs:
         numpy image1 array, dtype=float32
@@ -187,13 +198,20 @@ def convertImage(image1, shorten=0):
 
     image1 = np.asarray(image1, dtype=np.uint8)
 
-    if shorten:
+    if shortenh:
         h1, w1 = image1.shape[:2]
-        avg = np.average(image1)
-        dark = min(np.average(image1[:int(.1*h1)][:]), np.average(image1[int(.9*h1):][:]), np.average(image1[:][:int(.1*w1)]), np.average(image1[:][int(.9*w1):]))
-        if dark < 0.7 * avg:
-            image1=image1[int(.1*h1):int(.9*h1)][int(.1*w1):int(.9*w1)]
+        print "Old shape:", image1.shape[:2]
+        image1=image1[int(.1*h1):int(.9*h1), :]
+        print "New shape:", image1.shape[:2]
 
+    if shortenw:
+        h1, w1 = image1.shape[:2]
+        print "Old shape:", image1.shape[:2]
+        image1=image1[:, int(.1*h1):int(.9*h1)]
+        print "New shape:", image1.shape[:2]
+
+    image1 = cv2.equalizeHist(image1)
+        
     #print image1
     
     return image1
@@ -204,11 +222,16 @@ def checkOpenCVResult(self, result):
         Tests whether the openCV resulting affine matrix is reasonable for tilting
     Modified from original from libCV
         """
-        if abs(result[0][0]) < 0.5 or abs(result[1][1]) < 0.5:
+        if result[0][0] < 0.5 or result[1][1] < 0.5:
                 #max tilt angle of 60 degrees
                 self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
                 print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
                 return False
+        elif abs(result[0][0]) * abs(result[1][1]) > .9781:
+                #min tilt angle of 12 degrees
+                self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
+                print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
+                return False    
         elif abs(result[0][0]) > 1.1 or abs(result[1][1]) > 1.1:
                 #restrict maximum allowable expansion
                 self.logger.warning("Bad openCV result: image expansion: "+affineToText(result))
@@ -220,6 +243,15 @@ def checkOpenCVResult(self, result):
                 print ("Bad openCV result: too much rotation: "+affineToText(result))
                 return False
         return True
+
+#-----------------------
+def checkDark(image1):
+        h1, w1 = image1.shape[:2]
+        avg = np.average(image1)
+        darkh = min(np.average(image1[:int(.1*h1), :]), np.average(image1[int(.9*h1):, :]))
+        darkw = min(np.average(image1[:, :int(.1*w1)]), np.average(image1[:, int(.9*w1):]))
+        print "DARKH, DARKW, AVERAGE:", darkh, darkw , avg
+        return darkh < 0.7 * avg, darkw < 0.7 * avg
 
 #-----------------------
 def affineToText(matrix):
