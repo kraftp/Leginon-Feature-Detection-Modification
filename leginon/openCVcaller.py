@@ -60,7 +60,7 @@ def MatchImages(image1, image2, blur=3):
     Output:
         3x3 Affine Matrix
     """
-    image1, image2 = convertImage(image1), convertImage(image2)
+    image1, image2 = convertImage(image1, 1), convertImage(image2, 1)
     if blur > 0:
         image1=cv2.GaussianBlur(image1, (blur, blur), 0)
         image2=cv2.GaussianBlur(image2, (blur, blur), 0)
@@ -159,7 +159,7 @@ def MatchImages(image1, image2, blur=3):
     return M
 
 #-----------------------
-def convertImage(image1):
+def convertImage(image1, shorten=0):
     """
     Inputs:
         numpy image1 array, dtype=float32
@@ -187,6 +187,13 @@ def convertImage(image1):
 
     image1 = np.asarray(image1, dtype=np.uint8)
 
+    if shorten:
+        h1, w1 = image1.shape[:2]
+        avg = np.average(image1)
+        dark = min(np.average(image1[:int(.1*h1)][:]), np.average(image1[int(.9*h1):][:]), np.average(image1[:][:int(.1*w1)]), np.average(image1[:][int(.9*w1):]))
+        if dark < 0.7 * avg:
+            image1=image1[int(.1*h1):int(.9*h1)][int(.1*w1):int(.9*w1)]
+
     #print image1
     
     return image1
@@ -202,13 +209,13 @@ def checkOpenCVResult(self, result):
                 self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
                 print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
                 return False
-        elif abs(result[0][0]) > 1.2 or abs(result[1][1]) > 1.2:
+        elif abs(result[0][0]) > 1.3 or abs(result[1][1]) > 1.3:
                 #restrict maximum allowable expansion
                 self.logger.warning("Bad openCV result: image expansion: "+affineToText(result))
                 print ("Bad openCV result: image expansion: "+affineToText(result))
                 return False
-        elif abs(result[0][1]) > 0.1736 or abs(result[1][0]) > 0.1736:
-                #max rotation angle of 10 degrees
+        elif abs(result[0][1]) > 0.2588 or abs(result[1][0]) > 0.2588:
+                #max rotation angle of 15 degrees
                 self.logger.warning("Bad openCV result: too much rotation: "+affineToText(result))
                 print ("Bad openCV result: too much rotation: "+affineToText(result))
                 return False
