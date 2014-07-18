@@ -147,13 +147,13 @@ def MatchImages(image1, image2, blur=3):
 
     cv2.imwrite('sift_projection.jpg', hview)
 
-    if math.fabs(M[0][0]*M[1][1])>1:
-        print "affine matrix impossible"
-        return np.zeros([3,3], dtype=np.float32)
+    ## if math.fabs(M[0][0]*M[1][1])>1:
+    ##     print "affine matrix impossible"
+    ##     return np.zeros([3,3], dtype=np.float32)
     
-    """if math.fabs(math.degrees(math.acos(M[0][0]*M[1][1]))-50.)>4:
-        print "affine matrix highly inaccurate"
-        return np.zeros([3,3], dtype=np.float32)"""
+    ## if math.fabs(math.degrees(math.acos(M[0][0]*M[1][1]))-50.)>4:
+    ##     print "affine matrix highly inaccurate"
+    ##     return np.zeros([3,3], dtype=np.float32)
 
     ## For compatibility
     compat=copy.copy(M)
@@ -227,11 +227,11 @@ def checkOpenCVResult(self, result):
                 self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
                 print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
                 return False
-        elif abs(result[0][0]) * abs(result[1][1]) > .9781:
-                #min tilt angle of 12 degrees
-                self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
-                print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
-                return False    
+        ## elif abs(result[0][0]) * abs(result[1][1]) > .9781:
+        ##         #min tilt angle of 12 degrees
+        ##         self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
+        ##         print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
+        ##         return False    
         elif abs(result[0][0]) > 1.1 or abs(result[1][1]) > 1.1:
                 #restrict maximum allowable expansion
                 self.logger.warning("Bad openCV result: image expansion: "+affineToText(result))
