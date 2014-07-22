@@ -279,9 +279,10 @@ class RCTAcquisition(acquisition.Acquisition):
         #print "SETTINGS:"
         #pprint.pprint(self.settings)
         self.logger.info('Running trackStage')
-        retriesmax = 10
+        retriesmax = 15
         retries = retriesmax
         blur = 3
+        thresh = 0
         self.logger.info('Returning to state of image0')
         presetname = image0['preset']['name']
         emtarget = image0['emtarget']
@@ -318,6 +319,12 @@ class RCTAcquisition(acquisition.Acquisition):
         i = 0
         while i < len(tilts)-1:
             i+=1
+            if i>0:
+                tiltb = float("%.3f"%tilts[i-1])
+                self.instrument.tem.StagePosition = {'a': tiltb}
+                imageold = self.acquireCorrectedCameraImageData()
+                arrayold = numpy.asarray(imageold['image'], dtype=numpy.float32)
+                self.setImage(arrayold, 'Image')
             tilt = float("%.3f"%tilts[i])
             self.logger.info('Going to tilt angle: %.2f' % (degrees(tilt),))
             self.instrument.tem.StagePosition = {'a': tilt}
@@ -353,7 +360,7 @@ class RCTAcquisition(acquisition.Acquisition):
                 print 'tilt', tilts[i]*180/3.14159
                # try:
                 resultorig = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
-                result = openCVcaller.MatchImages(arrayold, arraynew, blur)
+                result = openCVcaller.MatchImages(arrayold, arraynew, blur, thresh)
                 self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
                 print "RESULT", result
                 print "RESULTORIG", resultorig
@@ -370,7 +377,7 @@ class RCTAcquisition(acquisition.Acquisition):
                 #difftilt = degrees(abs(tilts[int(i)])-abs(tilts[int(i-1)]))
                 #result = self.apTiltShiftMethod(arrayold, arraynew, difftilt)
 
-                check = openCVwrapper.checkOpenCVResult(self, result)
+                check = openCVcaller.checkOpenCVResult(self, result)
                 if check is False:
                     self.logger.warning("openCV failed: redoing tilt %.2f"%(tilt,))
                     ## ### redo this tilt; becomes an infinite loop if the image goes black
@@ -385,8 +392,14 @@ class RCTAcquisition(acquisition.Acquisition):
                     if retries:
                         i -= 1
                         retries -= 1
-                        if retries < retriesmax / 2:
-                            blur = 0
+                        ## if retries < retriesmax / 3 * 2:
+                        ##     blur = 5
+                        ## if retries < retriesmax / 3 * 2:
+                        ##     blur = 0
+                        if retries <= retriesmax/2:
+                            thresh = 1
+                            print "THRESH = 1"                         
+                        print "retries =", retries, "out of", retriesmax
                     else:
                         ## retries = 0
                         print "Tilt openCV FAILED"

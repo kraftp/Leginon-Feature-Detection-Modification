@@ -282,6 +282,7 @@ class RCTAcquisition(acquisition.Acquisition):
         retriesmax = 15
         retries = retriesmax
         blur = 3
+        thresh = 0
         self.logger.info('Returning to state of image0')
         presetname = image0['preset']['name']
         emtarget = image0['emtarget']
@@ -359,7 +360,7 @@ class RCTAcquisition(acquisition.Acquisition):
                 print 'tilt', tilts[i]*180/3.14159
                # try:
                 resultorig = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
-                result = openCVcaller.MatchImages(arrayold, arraynew, blur)
+                result = openCVcaller.MatchImages(arrayold, arraynew, blur, thresh)
                 self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
                 print "RESULT", result
                 print "RESULTORIG", resultorig
@@ -391,10 +392,14 @@ class RCTAcquisition(acquisition.Acquisition):
                     if retries:
                         i -= 1
                         retries -= 1
-                        if retries < retriesmax / 3 * 2:
-                            blur = 5
-                        if retries < retriesmax / 3 * 2:
-                            blur = 0                            
+                        ## if retries < retriesmax / 3 * 2:
+                        ##     blur = 5
+                        ## if retries < retriesmax / 3 * 2:
+                        ##     blur = 0
+                        if retries <= retriesmax/2:
+                            thresh = 1
+                            print "THRESH = 1"                         
+                        print "retries =", retries, "out of", retriesmax
                     else:
                         ## retries = 0
                         print "Tilt openCV FAILED"

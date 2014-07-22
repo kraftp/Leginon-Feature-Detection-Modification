@@ -31,7 +31,7 @@ def yshift(k1, k2, sel_matches):
     for m in sel_matches:
         ys=(int(k2[m.trainIdx].pt[1])-int(k1[m.queryIdx].pt[1]))
         myfilt=copy.copy(s_gfilt)
-        myfilt[len(myfilt)/2]*=(1/m.distance)
+        myfilt[len(myfilt)/2]*=(1/(m.distance+.01))
         filt=sp.ndimage.filters.gaussian_filter1d(myfilt, 1)
         for i in range(len(filt)):
             if (ys+i-(len(filt)/2)) in ysd:
@@ -45,7 +45,7 @@ def yshift(k1, k2, sel_matches):
         return None
 
 #-----------------------
-def MatchImages(image1, image2, blur=3):
+def MatchImages(image1, image2, blur=3, thresh=0):
     """
     Given two images:
     (1) Find regions
@@ -60,8 +60,9 @@ def MatchImages(image1, image2, blur=3):
     Output:
         3x3 Affine Matrix
     """
-    shorten = checkDark(image1) or checkDark(image2)
-    image1, image2 = convertImage(image1, shorten), convertImage(image2, shorten)
+    ## shorten = checkDark(image1) or checkDark(image2)
+    ## image1, image2 = convertImage(image1, shorten, thresh), convertImage(image2, shorten, thresh)
+    image1, image2 = convertImage(image1, 0, 0, thresh), convertImage(image2, 0, 0, thresh)
     if blur > 0:
         image1=cv2.GaussianBlur(image1, (blur, blur), 0)
         image2=cv2.GaussianBlur(image2, (blur, blur), 0)
@@ -170,7 +171,7 @@ def MatchImages(image1, image2, blur=3):
     return M
 
 #-----------------------
-def convertImage(image1, shortenh=0, shortenw=0):
+def convertImage(image1, shortenh=0, shortenw=0, thresh=0):
     """
     Inputs:
         numpy image1 array, dtype=float32
@@ -198,20 +199,21 @@ def convertImage(image1, shortenh=0, shortenw=0):
 
     image1 = np.asarray(image1, dtype=np.uint8)
 
-    if shortenh:
-        h1, w1 = image1.shape[:2]
-        print "Old shape:", image1.shape[:2]
-        image1=image1[int(.1*h1):int(.9*h1), :]
-        print "New shape:", image1.shape[:2]
+    ## if shortenh:
+    ##     h1, w1 = image1.shape[:2]
+    ##     print "Old shape:", image1.shape[:2]
+    ##     image1=image1[int(.1*h1):int(.9*h1), :]
+    ##     print "New shape:", image1.shape[:2]
 
-    if shortenw:
-        h1, w1 = image1.shape[:2]
-        print "Old shape:", image1.shape[:2]
-        image1=image1[:, int(.1*h1):int(.9*h1)]
-        print "New shape:", image1.shape[:2]
+    ## if shortenw:
+    ##     h1, w1 = image1.shape[:2]
+    ##     print "Old shape:", image1.shape[:2]
+    ##     image1=image1[:, int(.1*h1):int(.9*h1)]
+    ##     print "New shape:", image1.shape[:2]
 
     image1 = cv2.equalizeHist(image1)
-        
+    if thresh:  
+        ret2,image1 = cv2.threshold(image1,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
     #print image1
     
     return image1
@@ -237,8 +239,8 @@ def checkOpenCVResult(self, result):
                 self.logger.warning("Bad openCV result: image expansion: "+affineToText(result))
                 print ("Bad openCV result: image expansion: "+affineToText(result))
                 return False
-        elif abs(result[0][1]) > 0.1736 or abs(result[1][0]) > 0.1736:
-                #max rotation angle of 10 degrees
+        elif abs(result[0][1]) > 0.1 or abs(result[1][0]) > 0.1:
+                #max rotation angle of 5.7 degrees
                 self.logger.warning("Bad openCV result: too much rotation: "+affineToText(result))
                 print ("Bad openCV result: too much rotation: "+affineToText(result))
                 return False
