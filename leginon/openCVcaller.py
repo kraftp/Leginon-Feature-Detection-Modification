@@ -139,14 +139,14 @@ def MatchImages(image1, image2, blur=3, thresh=0):
             M[i][j]=affineM[i][j]
     print M
 
-    hview=copy.copy(view)
-    for i in xrange(h1):
-        for j in xrange(w1):
-            vec=np.dot(M, [j, i, 1])
-            if 0<int(round(vec[0]))<w2 and 0<int(round(vec[1]))<h2:
-                hview[int(round(vec[1]))][int(round(vec[0]))+w1]/=2
+    ## hview=copy.copy(view)
+    ## for i in xrange(h1):
+    ##     for j in xrange(w1):
+    ##         vec=np.dot(M, [j, i, 1])
+    ##         if 0<int(round(vec[0]))<w2 and 0<int(round(vec[1]))<h2:
+    ##             hview[int(round(vec[1]))][int(round(vec[0]))+w1]/=2
 
-    cv2.imwrite('sift_projection.jpg', hview)
+    ## cv2.imwrite('sift_projection.jpg', hview)
 
     ## if math.fabs(M[0][0]*M[1][1])>1:
     ##     print "affine matrix impossible"
@@ -160,10 +160,8 @@ def MatchImages(image1, image2, blur=3, thresh=0):
     compat=copy.copy(M)
     M[0][0]=compat[1][1]
     M[2][0]=compat[1][2]
-    #M[2][0]=0
     M[1][1]=compat[0][0]
     M[2][1]=compat[0][2]
-    #M[2][1]=0
     M[0][2]=0.0
     M[1][2]=0.0
     print M
@@ -219,7 +217,7 @@ def convertImage(image1, shortenh=0, shortenw=0, thresh=0):
     return image1
 
 #-----------------------
-def checkOpenCVResult(self, result):
+def checkOpenCVResult(self, result, is_small_tilt_difference):
         """
         Tests whether the openCV resulting affine matrix is reasonable for tilting
     Modified from original from libCV
@@ -229,11 +227,11 @@ def checkOpenCVResult(self, result):
                 self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
                 print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
                 return False
-        ## elif abs(result[0][0]) * abs(result[1][1]) > .9781:
-        ##         #min tilt angle of 12 degrees
-        ##         self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
-        ##         print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
-        ##         return False    
+        elif abs(result[0][0]) * abs(result[1][1]) > .9781 and not is_small_tilt_difference:
+                #min tilt angle of 12 degrees
+                self.logger.warning("Bad openCV result: bad tilt in matrix: "+affineToText(result))
+                print ("Bad openCV result: bad tilt in matrix: "+affineToText(result))
+                return False    
         elif abs(result[0][0]) > 1.1 or abs(result[1][1]) > 1.1:
                 #restrict maximum allowable expansion
                 self.logger.warning("Bad openCV result: image expansion: "+affineToText(result))
