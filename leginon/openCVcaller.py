@@ -11,13 +11,10 @@
 #      pkraft@college.harvard.edu
 #
 
-import threading
 import numpy as np
 import scipy as sp
-import math
-import pyami.quietscipy
 from scipy import ndimage
-from numpy import linalg
+import math
 import cv2
 import sys
 import operator
@@ -49,6 +46,7 @@ def yshift(k1, k2, sel_matches):
                 ysd[ys+i-(len(filt)/2)]+=filt[i]
             else:
                 ysd[ys+i-(len(filt)/2)]=filt[i]
+                
     if ysd:            
         print "y-shift:", max(ysd, key=ysd.get),"pixels with",  max(ysd.values()), "votes"
         return max(ysd, key=ysd.get)
@@ -78,13 +76,11 @@ def MatchImages(image1, image2, blur=3, thresh=0):
 
     h1, w1 = image1.shape[:2]
     h2, w2 = image2.shape[:2]
-    print h1, w1, h2, w2
 
     view = sp.zeros((max(h1, h2), w1 + w2), sp.uint8)
     view[:h1, :w1] = image1
     view[:h2, w1:] = image2
     cv2.imwrite('sift_orig.jpg', view)
-
 
     detector = cv2.FeatureDetector_create("SIFT")
     descriptor = cv2.DescriptorExtractor_create("BRIEF")
@@ -103,13 +99,12 @@ def MatchImages(image1, image2, blur=3, thresh=0):
     if d1 is None or d2 is None:
         print "No features detected"
         return np.zeros([3,3], dtype=np.float32)
-
     
     print '%d keypoints in image1, %d keypoints in image2' % (len(d1), len(d2))
 
     matches = matcher.match(d1, d2)
     distances = [m.distance for m in matches]
-    print "%d matches" % (len(distances))
+    print "%d preliminary matches" % (len(distances))
 
     mean_dist = (sum(distances)/len(distances))
     sel_matches = [m for m in matches if m.distance < mean_dist*0.6]
@@ -145,7 +140,6 @@ def MatchImages(image1, image2, blur=3, thresh=0):
     for i in range(2):
         for j in range(3):
             M[i][j]=affineM[i][j]
-    print M
 
     ## hview=copy.copy(view)
     ## for i in xrange(h1):
@@ -181,15 +175,11 @@ def convertImage(image1, thresh=0):
     """
         
     max1 = np.amax(image1)
-
     min1 = np.amin(image1)
   
     image1 = image1 - min1
-    
     max1 = np.amax(image1)
-    
     image1 = image1/max1 * 256
-
     image1 = np.asarray(image1, dtype=np.uint8)
 
     image1 = cv2.equalizeHist(image1)
@@ -284,12 +274,15 @@ def checkArrayMinMax(self, a1, a2):
         a1b = ndimage.median_filter(a1, size=3)
         min1 = ndimage.minimum(a1b)
         max1 = ndimage.maximum(a1b)
+        
         if max1 - min1 < 10:
                 self.logger.error("Old Image Range Error %d" % int(max1 - min1))
                 return False
+            
         a2b = ndimage.median_filter(a2, size=3)
         min2 = ndimage.minimum(a2b)
         max2 = ndimage.maximum(a2b)
+        
         if max2 - min2 < 10:
                 self.logger.error("New Image Range Error %d" % int(max2 - min2))
                 return False

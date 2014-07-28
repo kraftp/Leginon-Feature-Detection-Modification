@@ -297,7 +297,6 @@ class RCTAcquisition(acquisition.Acquisition):
         ### calculate tilt steps
         maxstepsize = radians(self.settings['stepsize'])
         tilts = self.calculateTiltSteps(tilt0, tilt, maxstepsize)
-        print tilts        
         self.logger.info('Tilts: %s' % ([("%.1f"%degrees(t)) for t in tilts],))
 
         imageold = image0
