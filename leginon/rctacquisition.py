@@ -5,10 +5,13 @@
 #      For terms of the license agreement
 #      see  http://ami.scripps.edu/software/leginon-license
 #
+#      FILE MODIFIED BY PETER KRAFT
+#      HARVARD UNIVERSITY
+#      pkraft@college.harvard.edu
+#
 from leginon import leginondata
 import acquisition
 import gui.wx.RCTAcquisition
-import libCVwrapper
 import pyami.timedproc
 import numpy
 import time
@@ -275,9 +278,6 @@ class RCTAcquisition(acquisition.Acquisition):
 
     #====================
     def trackStage(self, image0, tilt0, tilt, tilt0targets):
-        #import pprint
-        #print "SETTINGS:"
-        #pprint.pprint(self.settings)
         self.logger.info('Running trackStage')
         retriesmax = 15
         retries = retriesmax
@@ -300,17 +300,11 @@ class RCTAcquisition(acquisition.Acquisition):
         print tilts        
         self.logger.info('Tilts: %s' % ([("%.1f"%degrees(t)) for t in tilts],))
 
-        ## filter image (or actually, don't)
-        ## medfilt = int(self.settings['medfilt'])
-        ## lowfilt = float(self.settings['lowfilt'])
         imageold = image0
         arrayold = numpy.asarray(imageold['image'], dtype=numpy.float32)
-        ## if medfilt > 1:
-        ##  arrayold = ndimage.median_filter(arrayold, size=medfilt)
-        ## if lowfilt > 0:
-        ##  arrayold = ndimage.gaussian_filter(arrayold, lowfilt)
         self.setImage(arrayold, 'Image')
         runningresult = numpy.identity(3, numpy.float32)
+
         # transformTargets for display purposes only
         self.transformTargets(runningresult, tilt0targets)
 
@@ -319,12 +313,6 @@ class RCTAcquisition(acquisition.Acquisition):
         i = 0
         while i < len(tilts)-1:
             i+=1
-            if i>0:
-                tiltb = float("%.3f"%tilts[i-1])
-                self.instrument.tem.StagePosition = {'a': tiltb}
-                imageold = self.acquireCorrectedCameraImageData()
-                arrayold = numpy.asarray(imageold['image'], dtype=numpy.float32)
-                self.setImage(arrayold, 'Image')
             tilt = float("%.3f"%tilts[i])
             self.logger.info('Going to tilt angle: %.2f' % (degrees(tilt),))
             self.instrument.tem.StagePosition = {'a': tilt}
@@ -333,17 +321,8 @@ class RCTAcquisition(acquisition.Acquisition):
                 self.logger.info('Pausing %.1f seconds' %(pausetime,))
                 time.sleep(pausetime)
             self.logger.info('Acquire intermediate tilted parent image')
-            #print 'acquire intertilt'
             imagenew = self.acquireCorrectedCameraImageData()
             arraynew = numpy.asarray(imagenew['image'], dtype=numpy.float32)
-            ## if is_small_tilt_diff:
-            ##  # Don't filter if phase correlation will be used
-            ##  medfilt = 0
-            ##  lowfilt = 0
-            ## if medfilt > 1:
-            ##  arraynew = ndimage.median_filter(arraynew, size=medfilt)
-            ## if lowfilt > 0:
-            ##  arraynew = ndimage.gaussian_filter(arraynew, lowfilt)
             self.setImage(arraynew, 'Image')
 
             if is_small_tilt_diff:
@@ -356,46 +335,18 @@ class RCTAcquisition(acquisition.Acquisition):
                 self.logger.info('openCV stuff')
                 minsize = self.settings['minsize']
                 maxsize = self.settings['maxsize']
-                libCVwrapper.checkArrayMinMax(self, arrayold, arraynew)
+                openCVcaller.checkArrayMinMax(self, arrayold, arraynew)
                 print 'tilt', tilts[i]*180/3.14159
-               # try:
-                resultorig = libCVwrapper.MatchImages(arrayold, arraynew, minsize, maxsize)
                 result = openCVcaller.MatchImages(arrayold, arraynew, blur, thresh)
                 self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
                 print "RESULT", result
-                print "RESULTORIG", resultorig
-               # except:
-                 #   self.logger.error('openCV MatchImages failed')
-                 #   return None, None
-                ## try:
-                ##     #result = pyami.timedproc.call('leginon.libCVwrapper', 'MatchImages', args=(arrayold, arraynew, minsize, maxsize), timeout=timeout)
-                ##     self.logger.info("result matrix= "+str(numpy.asarray(result*100, dtype=numpy.int8).ravel()))
-                ## except:
-                ##     self.logger.error('openCV MatchImages failed')
-                ##     return None,None
-                    
-                #difftilt = degrees(abs(tilts[int(i)])-abs(tilts[int(i-1)]))
-                #result = self.apTiltShiftMethod(arrayold, arraynew, difftilt)
 
                 check = openCVcaller.checkOpenCVResult(self, result, is_small_tilt_diff)
                 if check is False:
                     self.logger.warning("openCV failed: redoing tilt %.2f"%(tilt,))
-                    ## ### redo this tilt; becomes an infinite loop if the image goes black
-                    ## retries += 1
-                    ## if retries <= 2:
-                    ##     ### reduce minsize and try again
-                    ##     self.settings['minsize'] *= 0.95
-                    ##     if i == len(tilts)-1:
-                    ##         ### maybe the tilt angle is too high, reduce max angle by 5 percent
-                    ##         tilts[len(tilts)-1] *= 0.95
-                    ##     i -= 1
                     if retries:
                         i -= 1
                         retries -= 1
-                        ## if retries < retriesmax / 3 * 2:
-                        ##     blur = 5
-                        ## if retries < retriesmax / 3 * 2:
-                        ##     blur = 0
                         if retries <= retriesmax/2:
                             thresh = 1
                             print "THRESH = 1"                         
@@ -627,31 +578,19 @@ class RCTAcquisition(acquisition.Acquisition):
         if im is None:
             return
 
-        # filter
         im = numpy.asarray(im, dtype=numpy.float32)
-        ## medfilt = int(self.settings['medfilt'])
-        ## lowfilt = float(self.settings['lowfilt'])
-        ## if medfilt > 1:
-        ##     im = ndimage.median_filter(im, size=medfilt)
-        ## if lowfilt > 0:
-        ##     im = ndimage.gaussian_filter(im, lowfilt)
         self.setImage(im)
 
         # find regions
-        ## minsize = self.settings['minsize']
-        ## maxsize = self.settings['maxsize']
-        ## timeout = 300
         self.logger.info('running openCVcaller.FindFeatures')
         try:
             features  = openCVcaller.FindFeatures(im)
-            #regions,image = pyami.timedproc.call('leginon.libCVwrapper', 'FindRegions', args=(im,minsize,maxsize), timeout=timeout)
         except:
             self.logger.error('openCVcaller.FindFeatures')
             features = []
 
 
         # this is copied from targetfinder:
-        #regions,image = libCVwrapper.FindRegions(self.mosaicimage, minsize, maxsize)
         n = len(features)
         self.logger.info('Regions found: %s' % (n,))
         self.displayRegions(features)

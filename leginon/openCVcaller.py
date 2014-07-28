@@ -1,4 +1,15 @@
 #!/usr/bin/env python
+#
+# COPYRIGHT:
+#      The Leginon software is Copyright 2003
+#      The Scripps Research Institute, La Jolla, CA
+#      For terms of the license agreement
+#      see  http://ami.scripps.edu/software/leginon-license
+#
+#      FILE WRITTEN BY PETER KRAFT
+#      HARVARD UNIVERSITY
+#      pkraft@college.harvard.edu
+#
 
 import threading
 import numpy as np
@@ -257,7 +268,7 @@ def checkDark(image1):
 def affineToText(matrix):
         """
         Extracts useful parameters from an affine homography matrix
-    Modified from original from libCV
+        Modified from original from libCV
         """
         tiltv = matrix[0,0] * matrix[1,1]
         rotv = (matrix[0,1] - matrix[1,0]) / 2.0
@@ -300,14 +311,26 @@ def FindFeatures(image, blur=3):
     print '%d keypoints in image' % (len(d1))
 
     feature_pts = [ feature.pt for feature in k1]
-    return feature_pts 
+    return feature_pts
+
+#-----------------------
+def checkArrayMinMax(self, a1, a2):
+        """
+        Tests whether an image has a valid range
+        Modified from original from libCV
+        """
+        a1b = ndimage.median_filter(a1, size=3)
+        min1 = ndimage.minimum(a1b)
+        max1 = ndimage.maximum(a1b)
+        if max1 - min1 < 10:
+                self.logger.error("Old Image Range Error %d" % int(max1 - min1))
+                return False
+        a2b = ndimage.median_filter(a2, size=3)
+        min2 = ndimage.minimum(a2b)
+        max2 = ndimage.maximum(a2b)
+        if max2 - min2 < 10:
+                self.logger.error("New Image Range Error %d" % int(max2 - min2))
+                return False
+        return True
 
 
-
-
-## image1=cv2.imread('sim_images/test1.jpg')
-## image2=cv2.imread('sim_images/test2.jpg')
-
-## M = MatchImages(image1, image2)
-
-## print M
