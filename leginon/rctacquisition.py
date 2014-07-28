@@ -352,7 +352,6 @@ class RCTAcquisition(acquisition.Acquisition):
                             print "THRESH = 1"                         
                         print "retries =", retries, "out of", retriesmax
                     else:
-                        ## retries = 0
                         print "Tilt openCV FAILED"
                         self.logger.error("openCV failed: giving up")
                         self.instrument.tem.StagePosition = {'a': tilt0}
@@ -389,7 +388,6 @@ class RCTAcquisition(acquisition.Acquisition):
         self.publishDisplayWait(imagedata)
 
         self.logger.info( "FINAL Matrix: "+openCVcaller.affineToText(runningresult) )
-        #self.logger.info('Final Matrix: %s' % (runningresult,))
         return (runningresult, imagedata)
 
     #====================

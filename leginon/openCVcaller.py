@@ -71,9 +71,7 @@ def MatchImages(image1, image2, blur=3, thresh=0):
     Output:
         3x3 Affine Matrix
     """
-    ## shorten = checkDark(image1) or checkDark(image2)
-    ## image1, image2 = convertImage(image1, shorten, thresh), convertImage(image2, shorten, thresh)
-    image1, image2 = convertImage(image1, 0, 0, thresh), convertImage(image2, 0, 0, thresh)
+    image1, image2 = convertImage(image1, thresh), convertImage(image2, thresh)
     if blur > 0:
         image1=cv2.GaussianBlur(image1, (blur, blur), 0)
         image2=cv2.GaussianBlur(image2, (blur, blur), 0)
@@ -129,7 +127,6 @@ def MatchImages(image1, image2, blur=3, thresh=0):
             sel_matches = [m for m in sel_matches if math.fabs(int(k2[m.trainIdx].pt[1])-int(k1[m.queryIdx].pt[1])-ys)<10]
         print "Try:", count, "#selected matches:", len(sel_matches)
 
-
     for m in sel_matches:
         color = tuple([sp.random.randint(0, 255) for _ in xrange(3)])
         cv2.line(view, (int(k1[m.queryIdx].pt[0]), int(k1[m.queryIdx].pt[1])) , (int(k2[m.trainIdx].pt[0] + w1), int(k2[m.trainIdx].pt[1])), color)
@@ -159,14 +156,6 @@ def MatchImages(image1, image2, blur=3, thresh=0):
 
     ## cv2.imwrite('sift_projection.jpg', hview)
 
-    ## if math.fabs(M[0][0]*M[1][1])>1:
-    ##     print "affine matrix impossible"
-    ##     return np.zeros([3,3], dtype=np.float32)
-    
-    ## if math.fabs(math.degrees(math.acos(M[0][0]*M[1][1]))-50.)>4:
-    ##     print "affine matrix highly inaccurate"
-    ##     return np.zeros([3,3], dtype=np.float32)
-
     ## For compatibility
     compat=copy.copy(M)
     M[0][0]=compat[1][1]
@@ -180,7 +169,7 @@ def MatchImages(image1, image2, blur=3, thresh=0):
     return M
 
 #-----------------------
-def convertImage(image1, shortenh=0, shortenw=0, thresh=0):
+def convertImage(image1, thresh=0):
     """
     Inputs:
         numpy image1 array, dtype=float32
@@ -190,40 +179,22 @@ def convertImage(image1, shortenh=0, shortenw=0, thresh=0):
         numpy image1 array, dtype=uint8
         numpy image2 array, dtype=uint8   
     """
-    #print image1
-    
+        
     max1 = np.amax(image1)
 
     min1 = np.amin(image1)
   
-    #print min1, max1
-
     image1 = image1 - min1
     
     max1 = np.amax(image1)
-
-   # print max1
     
     image1 = image1/max1 * 256
 
     image1 = np.asarray(image1, dtype=np.uint8)
 
-    ## if shortenh:
-    ##     h1, w1 = image1.shape[:2]
-    ##     print "Old shape:", image1.shape[:2]
-    ##     image1=image1[int(.1*h1):int(.9*h1), :]
-    ##     print "New shape:", image1.shape[:2]
-
-    ## if shortenw:
-    ##     h1, w1 = image1.shape[:2]
-    ##     print "Old shape:", image1.shape[:2]
-    ##     image1=image1[:, int(.1*h1):int(.9*h1)]
-    ##     print "New shape:", image1.shape[:2]
-
     image1 = cv2.equalizeHist(image1)
     if thresh:  
         ret2,image1 = cv2.threshold(image1,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-    #print image1
     
     return image1
 
@@ -254,15 +225,6 @@ def checkOpenCVResult(self, result, is_small_tilt_difference):
                 print ("Bad openCV result: too much rotation: "+affineToText(result))
                 return False
         return True
-
-#-----------------------
-def checkDark(image1):
-        h1, w1 = image1.shape[:2]
-        avg = np.average(image1)
-        darkh = min(np.average(image1[:int(.1*h1), :]), np.average(image1[int(.9*h1):, :]))
-        darkw = min(np.average(image1[:, :int(.1*w1)]), np.average(image1[:, int(.9*w1):]))
-        print "DARKH, DARKW, AVERAGE:", darkh, darkw , avg
-        return darkh < 0.7 * avg, darkw < 0.7 * avg
 
 #-----------------------
 def affineToText(matrix):
